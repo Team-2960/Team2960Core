@@ -49,6 +49,28 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
     public class SwerveCmd extends Command {
         protected ChassisSpeeds speeds;
+        protected Distance xOffset;
+        protected Distance yOffset;
+        protected Angle rOffset;
+
+        public SwerveCmd() {
+            this(Meters.zero(), Meters.zero(), Radians.zero());
+        }
+
+        public SwerveCmd(Distance xOffset, Distance yOffset) {
+            this(xOffset, yOffset, Radians.zero());
+        }
+
+        public SwerveCmd(Angle rOffset) {
+            this(Meters.zero(), Meters.zero(), rOffset);
+        }
+
+        public SwerveCmd(Distance xOffset, Distance yOffset, Angle rOffset) {
+            speeds = new ChassisSpeeds();
+            this.xOffset = xOffset;
+            this.yOffset = yOffset;
+            this.rOffset = rOffset;
+        }
 
         @Override
         public void end(boolean interrupted) {
@@ -74,19 +96,45 @@ public abstract class SwerveDriveBase extends SubsystemBase {
          * @param yVel Supplier for y velocity
          * @param rVel Supplier for angular velocity
          */
-        public RateControlCmd(Supplier<LinearVelocity> xVel, Supplier<LinearVelocity> yVel,
+        public RateControlCmd(
+                Supplier<LinearVelocity> xVel,
+                Supplier<LinearVelocity> yVel,
                 Supplier<AngularVelocity> rVel) {
             this.xVel = xVel;
             this.yVel = yVel;
             this.rVel = rVel;
         }
 
+        /**
+         * Constructor
+         * 
+         * @param xVel    Supplier for x velocity
+         * @param yVel    Supplier for y velocity
+         * @param rVel    Supplier for angular velocity
+         * @param xOffset x offset for the center of rotation
+         * @param yOffset y offset for the center of rotation
+         */
+        public RateControlCmd(
+                Supplier<LinearVelocity> xVel,
+                Supplier<LinearVelocity> yVel,
+                Supplier<AngularVelocity> rVel,
+                Distance xOffset,
+                Distance yOffset) {
+            super(xOffset, yOffset);
+            this.xVel = xVel;
+            this.yVel = yVel;
+            this.rVel = rVel;
+        }
+
+        /**
+         * Updates chassis speeds
+         */
         @Override
         public void execute() {
             speeds.vxMetersPerSecond = xVel.get().in(MetersPerSecond);
             speeds.vyMetersPerSecond = yVel.get().in(MetersPerSecond);
             speeds.omegaRadiansPerSecond = rVel.get().in(RadiansPerSecond);
-            setChassisSpeeds(speeds);
+            setChassisSpeeds(speeds, xOffset, yOffset);
         }
     }
 
@@ -94,6 +142,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         private final Supplier<LinearVelocity> xVel;
         private final Supplier<LinearVelocity> yVel;
         private final Angle target;
+        private MutAngle angle = Radians.mutable(0);
         private Optional<Angle> tolerance = Optional.empty();
 
         public TurnToAngleCmd(
@@ -116,16 +165,50 @@ public abstract class SwerveDriveBase extends SubsystemBase {
             this.tolerance = Optional.of(tolerance);
         }
 
+        public TurnToAngleCmd(
+                Supplier<LinearVelocity> xVel,
+                Supplier<LinearVelocity> yVel,
+                Angle target,
+                Distance xOffset,
+                Distance yOffset,
+                Angle rOffset) {
+
+            super(xOffset, yOffset, rOffset);
+            this.xVel = xVel;
+            this.yVel = yVel;
+            this.target = target;
+        }
+
+        public TurnToAngleCmd(
+                Supplier<LinearVelocity> xVel,
+                Supplier<LinearVelocity> yVel,
+                Angle target,
+                Angle tolerance,
+                Distance xOffset,
+                Distance yOffset,
+                Angle rOffset) {
+
+            this(xVel, yVel, target, xOffset, yOffset, rOffset);
+            this.tolerance = Optional.of(tolerance);
+        }
+
         @Override
         public void execute() {
             speeds.vxMetersPerSecond = xVel.get().in(MetersPerSecond);
             speeds.vyMetersPerSecond = yVel.get().in(MetersPerSecond);
-            speeds.omegaRadiansPerSecond = calcRateToAngle(target).in(RadiansPerSecond);
+            speeds.omegaRadiansPerSecond = calcRateToAngle(calcAngleOffset()).in(RadiansPerSecond);
+            setChassisSpeeds(speeds, xOffset, yOffset);
         }
 
         @Override
         public boolean isFinished() {
-            return tolerance.isPresent() && atTarget(target, tolerance.get());
+            return tolerance.isPresent() && atTarget(calcAngleOffset(), tolerance.get());
+        }
+
+        private Angle calcAngleOffset() {
+            angle.mut_replace(target);
+            angle.mut_plus(rOffset);
+            return angle;
         }
     }
 
@@ -136,6 +219,32 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         private Optional<Angle> tolerance = Optional.empty();
 
         private MutAngle angle = Radians.mutable(0);
+
+        public TurnToPointCmd(
+                Supplier<LinearVelocity> xVel,
+                Supplier<LinearVelocity> yVel,
+                Translation2d target,
+                Distance xOffset,
+                Distance yOffset,
+                Angle rOffset) {
+            super(xOffset, yOffset, rOffset);
+            this.xVel = xVel;
+            this.yVel = yVel;
+            this.target = target;
+        }
+
+        public TurnToPointCmd(
+                Supplier<LinearVelocity> xVel,
+                Supplier<LinearVelocity> yVel,
+                Translation2d target,
+                Angle tolerance,
+                Distance xOffset,
+                Distance yOffset,
+                Angle rOffset) {
+
+            this(xVel, yVel, target, xOffset, yOffset, rOffset);
+            this.tolerance = Optional.of(tolerance);
+        }
 
         public TurnToPointCmd(
                 Supplier<LinearVelocity> xVel,
@@ -159,18 +268,24 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
         @Override
         public void execute() {
-            var cur_pos = getPostEst().getTranslation();
-
-            angle.mut_replace(cur_pos.minus(target).getAngle().getRadians(), Radians);
-
             speeds.vxMetersPerSecond = xVel.get().in(MetersPerSecond);
             speeds.vyMetersPerSecond = yVel.get().in(MetersPerSecond);
-            speeds.omegaRadiansPerSecond = calcRateToAngle(angle).in(RadiansPerSecond);
+            speeds.omegaRadiansPerSecond = calcRateToAngle(calcAngleOffset()).in(RadiansPerSecond);
+            setChassisSpeeds(speeds, xOffset, yOffset);
         }
 
         @Override
         public boolean isFinished() {
-            return tolerance.isPresent() && atTarget(target, tolerance.get());
+            return tolerance.isPresent() && atTarget(calcAngleOffset(), tolerance.get());
+        }
+
+        private Angle calcAngleOffset() {
+            var cur_pos = getPostEst().getTranslation();
+
+            angle.mut_replace(cur_pos.minus(target).getAngle().getRadians(), Radians);
+            angle.mut_plus(rOffset);
+
+            return angle;
         }
     }
 
@@ -180,13 +295,38 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
         private Optional<Distance> tolerance = Optional.empty();
 
-        public GotoPointCmd(Translation2d target, Supplier<AngularVelocity> rVel) {
+        public GotoPointCmd(
+                Translation2d target,
+                Supplier<AngularVelocity> rVel) {
             this.target = target;
             this.rVel = rVel;
         }
 
-        public GotoPointCmd(Translation2d target, Supplier<AngularVelocity> rVel, Distance tolerance) {
+        public GotoPointCmd(
+                Translation2d target,
+                Supplier<AngularVelocity> rVel,
+                Distance tolerance) {
             this(target, rVel);
+            this.tolerance = Optional.of(tolerance);
+        }
+
+        public GotoPointCmd(
+                Translation2d target,
+                Supplier<AngularVelocity> rVel,
+                Distance xOffset,
+                Distance yOffset) {
+            super(xOffset, yOffset);
+            this.target = target;
+            this.rVel = rVel;
+        }
+
+        public GotoPointCmd(
+                Translation2d target,
+                Supplier<AngularVelocity> rVel,
+                Distance tolerance,
+                Distance xOffset,
+                Distance yOffset) {
+            this(target, rVel, xOffset, yOffset);
             this.tolerance = Optional.of(tolerance);
         }
 
@@ -196,6 +336,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
             speeds.vxMetersPerSecond = velVector.xVel.in(MetersPerSecond);
             speeds.vyMetersPerSecond = velVector.yVel.in(MetersPerSecond);
             speeds.omegaRadiansPerSecond = rVel.get().in(RadiansPerSecond);
+            setChassisSpeeds(speeds, xOffset, yOffset);
         }
 
         @Override
@@ -210,15 +351,39 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         private Optional<Distance> linearTol = Optional.empty();
         private Optional<Angle> angleTol = Optional.empty();
 
-        private Angle angle;
+        private MutAngle angle = Radians.mutable(0);
 
-        public GotoPoseCmd(Pose2d target) {
+        public GotoPoseCmd(
+                Pose2d target) {
             this.target = target;
-            this.angle = Radians.of(target.getRotation().getRadians());
         }
 
-        public GotoPoseCmd(Pose2d target, Distance linearTol, Angle angleTol) {
+        public GotoPoseCmd(
+                Pose2d target,
+                Distance linearTol,
+                Angle angleTol) {
             this(target);
+            this.linearTol = Optional.of(linearTol);
+            this.angleTol = Optional.of(angleTol);
+        }
+
+        public GotoPoseCmd(
+                Pose2d target,
+                Distance xOffset,
+                Distance yOffset,
+                Angle rOffset) {
+            super(xOffset, yOffset, rOffset);
+            this.target = target;
+        }
+
+        public GotoPoseCmd(
+                Pose2d target,
+                Distance linearTol,
+                Angle angleTol,
+                Distance xOffset,
+                Distance yOffset,
+                Angle rOffset) {
+            this(target, xOffset, yOffset, rOffset);
             this.linearTol = Optional.of(linearTol);
             this.angleTol = Optional.of(angleTol);
         }
@@ -229,14 +394,22 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
             speeds.vxMetersPerSecond = velVector.xVel.in(MetersPerSecond);
             speeds.vyMetersPerSecond = velVector.yVel.in(MetersPerSecond);
-            speeds.omegaRadiansPerSecond = calcRateToAngle(angle).in(RadiansPerSecond);
+            speeds.omegaRadiansPerSecond = calcRateToAngle(calcAngleOffset()).in(RadiansPerSecond);
+
+            setChassisSpeeds(speeds, xOffset, yOffset);
         }
 
         @Override
         public boolean isFinished() {
-            return linearTol.isPresent() && atTarget(target.getTranslation(), linearTol.get()) && 
-                angleTol.isPresent() && atTarget(angle, angleTol.get());
+            return linearTol.isPresent() && atTarget(target.getTranslation(), linearTol.get()) &&
+                    angleTol.isPresent() && atTarget(calcAngleOffset(), angleTol.get());
 
+        }
+
+        private Angle calcAngleOffset() {
+            angle.mut_replace(target.getRotation().getRadians(), Radians);
+            angle.mut_plus(rOffset);
+            return angle;
         }
     }
 
@@ -249,7 +422,6 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     /****************/
     public SwerveDriveBase(SwerveDriveBaseSettings settings) {
         this.settings = settings;
-
     }
 
     /*******************/
@@ -261,10 +433,19 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     }
 
     public void setChassisSpeeds(ChassisSpeeds speeds) {
-        setChassisSpeeds(speeds, isFieldRelative);
+        setChassisSpeeds(speeds, this.isFieldRelative);
     }
 
-    public abstract void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative);
+    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative) {
+        setChassisSpeeds(speeds, isFieldRelative, Meters.zero(), Meters.zero());
+    }
+
+    public void setChassisSpeeds(ChassisSpeeds speeds, Distance xOffset, Distance yOffset) {
+        setChassisSpeeds(speeds, this.isFieldRelative, xOffset, yOffset);
+    }
+
+    public abstract void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset,
+            Distance yOffset);
 
     public LinearVelocityVector2d calcVelToPosition(Translation2d target) {
         // TODO calculate the x and y linear velocities to reach a target position
@@ -286,6 +467,8 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     public abstract Pose2d getPostEst();
 
     public abstract ChassisSpeeds getChassisSpeeds();
+
+    public abstract void resetPose(Pose2d pose);
 
     /********************/
     /* Settings Methods */
