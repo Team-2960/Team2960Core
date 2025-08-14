@@ -1,12 +1,8 @@
 package frc.lib2960.subsystems;
 
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Radian;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Volts;
-
-import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -19,7 +15,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.settings.SwerveModuleBaseSettings;
 import frc.lib2960.settings.SwerveModuleCommonSettings;
@@ -45,46 +40,18 @@ public abstract class SwerveModuleBase extends SubsystemBase{
     /****************************/
     /* Driver Station Variables */
     /****************************/
-    
-    /********************/
-    /* Control Commands */
-    /********************/
-    public class SwerveModuleCmd extends Command {
-        @Override
-        public void end(boolean interrupted) {
-            setDriveVolt(Volts.zero());
-            setAngleVolt(Volts.zero());
-        }
-    }
-
-    public class RunSwerve extends SwerveModuleCmd {
-        private final Supplier<LinearVelocity> velocity;
-        private final Supplier<Angle> angle;
-
-        private final SwerveModuleState state = new SwerveModuleState(); 
-
-        public RunSwerve(Supplier<LinearVelocity> velocity, Supplier<Angle> angle) {
-            this.velocity = velocity;
-            this.angle = angle;
-        }
-
-        @Override
-        public void execute() {
-            state.speedMetersPerSecond = velocity.get().in(MetersPerSecond);
-            state.angle = Rotation2d.fromRadians(angle.get().in(Radians));
-        }
-
-        
-    }
 
     /****************/
     /* Constructors */
     /****************/
-    public SwerveModuleBase(ServeModuleCommonSettings commonSettings, ServeModuleBaseSettings settings) {
+    public SwerveModuleBase(SwerveModuleCommonSettings commonSettings, SwerveModuleBaseSettings settings) {
         this.commonSettings = commonSettings;
         this.settings = settings;
 
-        this.drivePID = settings.drivePID.getPIDController();
+        this.drivePID = commonSettings.drivePID.getPIDController();
+        this.driveFF = commonSettings.driveFF.getSimpleMotorFF();
+        this.anglePID = commonSettings.anglePID.getPIDController();
+        this.angleFF = commonSettings.angleFF.getSimpleMotorFF();
     }
 
 
