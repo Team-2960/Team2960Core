@@ -1,13 +1,11 @@
 package frc.lib2960.subsystems;
 
-
-import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import java.util.Optional;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -15,14 +13,18 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.MutAngle;
+import edu.wpi.first.units.measure.MutAngularVelocity;
+import edu.wpi.first.units.measure.MutDistance;
+import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib2960.controllers.AngularController;
+import frc.lib2960.controllers.LinearController;
 import frc.lib2960.settings.SwerveModuleBaseSettings;
 import frc.lib2960.settings.SwerveModuleCommonSettings;
-import frc.robot.Constants;
 
-public abstract class SwerveModuleBase extends SubsystemBase{
+public abstract class SwerveModuleBase {
     /**********************/
     /* Settings Variables */
     /**********************/
@@ -32,16 +34,19 @@ public abstract class SwerveModuleBase extends SubsystemBase{
     /*************************/
     /* Calculation Variables */
     /*************************/
+    private final MutLinearVelocity driveCurVel = MetersPerSecond.mutable(0);
+    private final MutLinearVelocity driveTarget = MetersPerSecond.mutable(0);
     private final MutVoltage driveVoltCalc = Volts.mutable(0);
+
+    private final MutAngle angleCurPos = Degrees.mutable(0);
+    private final MutAngularVelocity angleCurVel = DegreesPerSecond.mutable(0);
+    private final MutAngle angleTarget = Degrees.mutable(0);
+    private final MutAngularVelocity angleVelCalc = DegreesPerSecond.mutable(0);
     private final MutVoltage angleVoltCalc = Volts.mutable(0);
 
-    private final PIDController drivePID;
-    private final SimpleMotorFeedforward driveFF;
-    private final PIDController anglePID;
-    private final SimpleMotorFeedforward angleFF;
+    private final LinearController driveCtrl;
+    private final AngularController angleCtrl;
 
-    private final AngularVelocity maxAngleVelDelta;
-    
     /****************************/
     /* Driver Station Variables */
     /****************************/
@@ -49,50 +54,158 @@ public abstract class SwerveModuleBase extends SubsystemBase{
     /****************/
     /* Constructors */
     /****************/
+    /**
+     * Constructor
+     * 
+     * @param commonSettings settings common to all modules
+     * @param settings       module specific settings
+     */
     public SwerveModuleBase(SwerveModuleCommonSettings commonSettings, SwerveModuleBaseSettings settings) {
         this.commonSettings = commonSettings;
         this.settings = settings;
 
-        this.drivePID = commonSettings.drivePID.getPIDController();
-        this.driveFF = commonSettings.driveFF.getSimpleMotorFF();
-        this.anglePID = commonSettings.anglePID.getPIDController();
-        this.angleFF = commonSettings.angleFF.getSimpleMotorFF();
-
-        maxAngleVelDelta = commonSettings.maxAngleAccel.times(Constants.commonSettings.updatePeriod);
+        this.driveCtrl = commonSettings.driveCtrlSettings.getController();
+        this.angleCtrl = commonSettings.angleCtrlSettings.getController();
     }
-
 
     /*******************/
     /* Control Methods */
     /*******************/
+    /**
+     * Sets the target state of the module
+     * 
+     * @param state target state of the module
+     */
     public void setState(SwerveModuleState state) {
-        // TODO implement
+        // Calculate angle voltage
+        getAnglePosition(angleCurPos);
+        getAngleVelocity(angleCurVel);
+        angleTarget.mut_replace(state.angle.getDegrees(), Degrees);
+
+        angleCtrl.updateVelocity(angleCurPos, angleCurVel, angleTarget, angleVelCalc);
+        angleCtrl.updateVoltage(angleCurPos, angleCurVel, angleVelCalc, angleVoltCalc);
+
+        setAngleVolt(angleVoltCalc);
+
+        // Calculate drive voltage
+        // TODO Include couple ratio into drive speed calculation
+
+        getDriveVelocity(driveCurVel);
+        driveTarget.mut_replace(state.speedMetersPerSecond, MetersPerSecond);
+
+        driveCtrl.updateVoltage(getDriveVelocity(), driveTarget, driveVoltCalc);
+
+        setDriveVolt(driveVoltCalc);
     }
 
+    /**
+     * Sets the voltage of the drive motor
+     * 
+     * @param volts voltage to set to the drive motor
+     */
     public abstract void setDriveVolt(Voltage volts);
 
+    /**
+     * Sets the voltage of the angle motor
+     * 
+     * @param volts voltage to set to the angle motor
+     */
     public abstract void setAngleVolt(Voltage volts);
-
 
     /******************/
     /* Access Methods */
     /******************/
+    /**
+     * Gets the current state of the swerve module
+     * 
+     * @return current state of the swerve module
+     */
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-            getDriveVelocity(), 
-            Rotation2d.fromRadians(getAnglePosition().in(Radians))
-        );
+                getDriveVelocity(),
+                Rotation2d.fromDegrees(getAnglePosition().in(Degrees)));
     }
 
+    /**
+     * Gets the current position of the swerve module
+     * 
+     * @return current position of the swerve module
+     */
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-            getDrivePosition(), 
-            Rotation2d.fromRadians(getAnglePosition().in(Radians))
-        );
+                getDrivePosition(),
+                Rotation2d.fromDegrees(getAnglePosition().in(Degrees)));
     }
 
-    public abstract Distance getDrivePosition();
-    public abstract LinearVelocity getDriveVelocity();
-    public abstract Angle getAnglePosition();
-    public abstract AngularVelocity getAngleVelocity();
+    /**
+     * Gets the current drive position
+     * 
+     * @return current drive position
+     */
+    public Distance getDrivePosition() {
+        var result = Meters.mutable(0);
+        getDrivePosition(result);
+        return result;
+    }
+
+    /**
+     * Gets the current drive velocity
+     * 
+     * @return current drive velocity
+     */
+    public LinearVelocity getDriveVelocity() {
+        var result = MetersPerSecond.mutable(0);
+        getDriveVelocity(result);
+        return result;
+    }
+
+    /**
+     * Gets the current angle position
+     * 
+     * @return current angle position
+     */
+    public Angle getAnglePosition() {
+        var result = Degrees.mutable(0);
+        getAnglePosition(result);
+        return result;
+    }
+
+    /**
+     * Gets the current angle velocity
+     * 
+     * @return current angle velocity
+     */
+    public AngularVelocity getAngleVelocity() {
+        var result = DegreesPerSecond.mutable(0);
+        getAngleVelocity(result);
+        return result;
+    }
+
+    /**
+     * Gets the current drive position
+     * 
+     * @param result mutable object to store the result
+     */
+    public abstract void getDrivePosition(MutDistance result);
+
+    /**
+     * Gets the current drive velocity
+     * 
+     * @param result mutable object to store the result
+     */
+    public abstract void getDriveVelocity(MutLinearVelocity result);
+
+    /**
+     * Gets the current angle position
+     * 
+     * @param result mutable object to store the result
+     */
+    public abstract void getAnglePosition(MutAngle result);
+
+    /**
+     * Gets the current angle velocity
+     * 
+     * @param result mutable object to store the result
+     */
+    public abstract void getAngleVelocity(MutAngularVelocity result);
 }

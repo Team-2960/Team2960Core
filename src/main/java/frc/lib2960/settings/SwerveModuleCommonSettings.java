@@ -1,7 +1,5 @@
 package frc.lib2960.settings;
 
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Dimensionless;
 import edu.wpi.first.units.measure.Distance;
 
@@ -11,38 +9,22 @@ public class SwerveModuleCommonSettings {
     public final Dimensionless angleRatio;
     public final Dimensionless coupleRatio;
 
-    public final PIDSettings drivePID;
-    public final FFSettings driveFF;
-
-    public final PIDSettings anglePID;
-    public final FFSettings angleFF;
-
-    public final AngularVelocity maxAngleVel;
-    public final AngularAcceleration maxAngleAccel;
+    public final LinearControllerSettings driveCtrlSettings;
+    public final AngularControllerSettings angleCtrlSettings;
 
     public SwerveModuleCommonSettings(
             Distance wheelDiameter,
             Dimensionless driveRatio,
             Dimensionless angleRatio,
             Dimensionless coupleRatio,
-            PIDSettings drivePID,
-            FFSettings driveFF,
-            PIDSettings anglePID,
-            FFSettings angleFF, 
-            AngularVelocity maxAngleVel, 
-            AngularAcceleration maxAngleAccel
-            ) {
-        
+            LinearControllerSettings driveCtrlSettings,
+            AngularControllerSettings angleCtrlSettings) {
+
         this.wheelDiameter = wheelDiameter;
         this.driveRatio = driveRatio;
         this.angleRatio = angleRatio;
         this.coupleRatio = coupleRatio;
-        this.drivePID = drivePID;
-        this.driveFF = driveFF;
-        this.anglePID = anglePID;
-        this.angleFF = angleFF;
-        this.maxAngleVel = maxAngleVel;
-        this.maxAngleAccel = maxAngleAccel;
-
+        this.driveCtrlSettings = driveCtrlSettings;
+        this.angleCtrlSettings = angleCtrlSettings;
     }
 }
