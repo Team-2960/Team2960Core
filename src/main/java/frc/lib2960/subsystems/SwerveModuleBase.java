@@ -23,6 +23,7 @@ import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
 import frc.lib2960.settings.SwerveModuleBaseSettings;
 import frc.lib2960.settings.SwerveModuleCommonSettings;
+import frc.lib2960.util.AngleUtil;
 
 public abstract class SwerveModuleBase {
     /**********************/
@@ -80,7 +81,11 @@ public abstract class SwerveModuleBase {
         // Calculate angle voltage
         getAnglePosition(angleCurPos);
         getAngleVelocity(angleCurVel);
-        angleTarget.mut_replace(state.angle.getDegrees(), Degrees);
+        angleTarget.mut_replace(
+                AngleUtil.nearestRotationDegrees(
+                        angleCurPos.in(Degrees),
+                        state.angle.getDegrees()),
+                Degrees);
 
         angleCtrl.updateVelocity(angleCurPos, angleCurVel, angleTarget, angleVelCalc);
         angleCtrl.updateVoltage(angleCurPos, angleCurVel, angleVelCalc, angleVoltCalc);
