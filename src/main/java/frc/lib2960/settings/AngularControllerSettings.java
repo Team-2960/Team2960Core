@@ -6,6 +6,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
+import frc.lib2960.controllers.AngularController;
 
 public class AngularControllerSettings {
     public final PIDSettings pidSettings;
@@ -57,5 +58,9 @@ public class AngularControllerSettings {
         this.maxDecel = maxDecel;
         this.minimum = Optional.of(minimum);
         this.maximum = Optional.of(maximum);
+    }
+    
+    public AngularController getController() {
+        return new AngularController(this);
     }
 }

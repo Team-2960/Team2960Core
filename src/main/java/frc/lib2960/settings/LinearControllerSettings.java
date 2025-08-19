@@ -6,6 +6,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearAcceleration;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
+import frc.lib2960.controllers.LinearController;
 
 public class LinearControllerSettings {
     public final PIDSettings pidSettings;
@@ -56,5 +57,9 @@ public class LinearControllerSettings {
         this.maxDecel = maxDecel;
         this.minimum = Optional.of(minimum);
         this.maximum = Optional.of(maximum);
+    }
+
+    public LinearController getController() {
+        return new LinearController(this);
     }
 }
