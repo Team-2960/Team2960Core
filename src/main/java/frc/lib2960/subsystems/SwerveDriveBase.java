@@ -17,10 +17,11 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
+import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.settings.SwerveDriveBaseSettings;
-import frc.lib2960.util.LinearVelocityVector2d;
+import frc.lib2960.util.MutVector2d;
 
 /**
  * Defines core capabilities of a swerve drive
@@ -36,7 +37,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     /*************************/
     /* Calculation Variables */
     /*************************/
-    private LinearVelocityVector2d velVector = new LinearVelocityVector2d();
+    private MutVector2d<LinearVelocityUnit> velVector = new MutVector2d<LinearVelocityUnit>(MetersPerSecond.zero(), MetersPerSecond.zero());
     private MutAngularVelocity rVelMut = RadiansPerSecond.mutable(0);
 
     /****************************/
@@ -333,8 +334,8 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         @Override
         public void execute() {
             velVector = calcVelToPosition(target);
-            speeds.vxMetersPerSecond = velVector.xVel.in(MetersPerSecond);
-            speeds.vyMetersPerSecond = velVector.yVel.in(MetersPerSecond);
+            speeds.vxMetersPerSecond = velVector.x.in(MetersPerSecond);
+            speeds.vyMetersPerSecond = velVector.y.in(MetersPerSecond);
             speeds.omegaRadiansPerSecond = rVel.get().in(RadiansPerSecond);
             setChassisSpeeds(speeds, xOffset, yOffset);
         }
@@ -392,8 +393,8 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         public void execute() {
             velVector = calcVelToPosition(target.getTranslation());
 
-            speeds.vxMetersPerSecond = velVector.xVel.in(MetersPerSecond);
-            speeds.vyMetersPerSecond = velVector.yVel.in(MetersPerSecond);
+            speeds.vxMetersPerSecond = velVector.x.in(MetersPerSecond);
+            speeds.vyMetersPerSecond = velVector.y.in(MetersPerSecond);
             speeds.omegaRadiansPerSecond = calcRateToAngle(calcAngleOffset()).in(RadiansPerSecond);
 
             setChassisSpeeds(speeds, xOffset, yOffset);
@@ -447,11 +448,11 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     public abstract void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset,
             Distance yOffset);
 
-    public LinearVelocityVector2d calcVelToPosition(Translation2d target) {
+    public MutVector2d<LinearVelocityUnit> calcVelToPosition(Translation2d target) {
         // TODO calculate the x and y linear velocities to reach a target position
 
-        velVector.xVel.mut_replace(0, MetersPerSecond);
-        velVector.yVel.mut_replace(0, MetersPerSecond);
+        velVector.x.mut_replace(0, MetersPerSecond);
+        velVector.y.mut_replace(0, MetersPerSecond);
 
         return velVector;
     }
