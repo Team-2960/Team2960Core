@@ -2,11 +2,7 @@ package frc.lib2960.settings;
 
 import static edu.wpi.first.units.Units.Rotations;
 
-import java.util.Optional;
-
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 
 public class SwerveModuleBaseSettings {
@@ -24,9 +20,6 @@ public class SwerveModuleBaseSettings {
     public boolean invertAngleEncoder = false;
 
     public Angle encoderOffset = Rotations.zero();
-
-    public Optional<AngularVelocity> maxAngleVel = Optional.empty();
-    public Optional<AngularAcceleration> maxAngleAccel = Optional.empty();
 
     public SwerveModuleBaseSettings(
             String name,

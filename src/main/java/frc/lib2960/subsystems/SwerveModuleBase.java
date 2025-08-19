@@ -4,6 +4,8 @@ package frc.lib2960.subsystems;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.Optional;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,6 +20,7 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.settings.SwerveModuleBaseSettings;
 import frc.lib2960.settings.SwerveModuleCommonSettings;
+import frc.robot.Constants;
 
 public abstract class SwerveModuleBase extends SubsystemBase{
     /**********************/
@@ -36,6 +39,8 @@ public abstract class SwerveModuleBase extends SubsystemBase{
     private final SimpleMotorFeedforward driveFF;
     private final PIDController anglePID;
     private final SimpleMotorFeedforward angleFF;
+
+    private final AngularVelocity maxAngleVelDelta;
     
     /****************************/
     /* Driver Station Variables */
@@ -52,6 +57,8 @@ public abstract class SwerveModuleBase extends SubsystemBase{
         this.driveFF = commonSettings.driveFF.getSimpleMotorFF();
         this.anglePID = commonSettings.anglePID.getPIDController();
         this.angleFF = commonSettings.angleFF.getSimpleMotorFF();
+
+        maxAngleVelDelta = commonSettings.maxAngleAccel.times(Constants.commonSettings.updatePeriod);
     }
 
 
