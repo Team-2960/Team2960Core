@@ -7,6 +7,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Angle;
@@ -213,4 +214,53 @@ public abstract class SwerveModuleBase {
      * @param result mutable object to store the result
      */
     public abstract void getAngleVelocity(MutAngularVelocity result);
+
+    /*************************/
+    /* Static Helper Methods */
+    /*************************/
+
+    /**
+     * Gets a list of translations from a list of modules
+     * 
+     * @param modules list of modules
+     * @return list of translations
+     */
+    public static Translation2d[] getTranslations(SwerveModuleBase[] modules) {
+        Translation2d[] translations = new Translation2d[modules.length];
+
+        for (int i = 0; i < modules.length; i++)
+            translations[i] = modules[i].settings.getTranslation();
+
+        return translations;
+    }
+
+    /**
+     * Gets a list of module positions from a list of modules
+     * @param modules   list of modules
+     * @return  list of positions
+     */
+    public static SwerveModulePosition[] getPositions(SwerveModuleBase[] modules) {
+        SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
+
+        for (int i = 0; i < modules.length; i++)
+            positions[i] = modules[i].getPosition();
+
+        return positions;
+    }
+
+    /**
+     * Gets a list of module states from a list of modules
+     * @param modules   list of modules
+     * @return  list of states
+     */
+    public static SwerveModuleState[] getStates(SwerveModuleBase[] modules) {
+        SwerveModuleState[] states = new SwerveModuleState[modules.length];
+
+        for (int i = 0; i < modules.length; i++)
+            states[i] = modules[i].getState();
+
+        return states;
+    }
+
+
 }
