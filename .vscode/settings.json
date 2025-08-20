@@ -58,7 +58,10 @@
     "edu.wpi.first.math.**.struct.*",
   ],
   "cSpell.words": [
+    "CANID",
+    "CTRE",
     "Decel",
-    "Feedforward"
+    "Feedforward",
+    "odometry"
   ]
 }

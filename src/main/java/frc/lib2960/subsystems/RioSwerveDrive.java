@@ -90,12 +90,12 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         poseEst.resetPosition(getRotation(), SwerveModuleBase.getPositions(modules), pose);
     }
 
-    public void addVisionMeasurment(Pose2d pose, Time timestamp) {
-        addVisionMeasurment(pose, timestamp, settings.visionStd);
+    public void addVisionMeasurement(Pose2d pose, Time timestamp) {
+        addVisionMeasurement(pose, timestamp, settings.visionStd);
     }
 
     @Override
-    public void addVisionMeasurment(Pose2d pose, Time timestamp, Vector<N3> std) {
+    public void addVisionMeasurement(Pose2d pose, Time timestamp, Vector<N3> std) {
         poseEst.addVisionMeasurement(pose, timestamp.in(Seconds));
     }
 

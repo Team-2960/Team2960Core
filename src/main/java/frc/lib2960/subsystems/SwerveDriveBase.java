@@ -505,7 +505,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
     public abstract void resetPose(Pose2d pose);
 
-    public abstract void addVisionMeasurment(Pose2d pose, Time timestamp, Vector<N3> std);
+    public abstract void addVisionMeasurement(Pose2d pose, Time timestamp, Vector<N3> std);
 
     /********************/
     /* Settings Methods */
