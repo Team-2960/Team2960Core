@@ -1,7 +1,9 @@
 package frc.lib2960.settings;
 
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Rotations;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 
@@ -25,7 +27,7 @@ public class SwerveModuleBaseSettings {
             String name,
             int driveMotorID,
             int angleMotorID,
-            int angleEncoderID, 
+            int angleEncoderID,
             Distance xPos,
             Distance yPos) {
 
@@ -35,5 +37,9 @@ public class SwerveModuleBaseSettings {
         this.angleEncoderID = angleEncoderID;
         this.xPos = xPos;
         this.yPos = yPos;
+    }
+
+    public Translation2d getTranslation() {
+        return new Translation2d(xPos.in(Meters), yPos.in(Meters));
     }
 }
