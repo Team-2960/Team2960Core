@@ -1,39 +1,43 @@
 package frc.lib2960.settings;
 
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.LinearAcceleration;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.MutAngularAcceleration;
-import edu.wpi.first.units.measure.MutAngularVelocity;
-import edu.wpi.first.units.measure.MutLinearAcceleration;
-import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Time;
 
 public class SwerveDriveBaseSettings {
-    public final MutLinearVelocity maxLinearVel;
-    public final MutLinearAcceleration maxLinearAccel;
-    public final MutAngularVelocity maxAngularVel;
-    public final MutAngularAcceleration maxAngularAccel;
-
-    public final SwerveModuleCommonSettings commonModuleSettings;
-
-    public final SwerveModuleBaseSettings[] moduleSettings;
+    public final LinearControllerSettings linearCtrlSettings;
+    public final AngularControllerSettings angleCtrlSettings;
+    public final Time period;
+    public final Vector<N3> stateStd;
+    public final Vector<N3> visionStd;
 
     public SwerveDriveBaseSettings(
-            LinearVelocity maxLinearVel,
-            LinearAcceleration maxLinearAccel,
-            AngularVelocity maxAngularVel,
-            AngularAcceleration maxAngularAccel,
-            SwerveModuleCommonSettings commonModuleSettings,
-            SwerveModuleBaseSettings... moduleSettings) {
+            LinearControllerSettings linearCtrlSettings,
+            AngularControllerSettings angleCtrlSettings,
+            Time period) {
 
-        this.maxLinearVel = maxLinearVel.mutableCopy();
-        this.maxLinearAccel = maxLinearAccel.mutableCopy();
-        this.maxAngularVel = maxAngularVel.mutableCopy();
-        this.maxAngularAccel = maxAngularAccel.mutableCopy();
+        this(
+                linearCtrlSettings,
+                angleCtrlSettings,
+                period,
+                VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+                VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
 
-        this.commonModuleSettings = commonModuleSettings;
+    }
 
-        this.moduleSettings = moduleSettings;
+    public SwerveDriveBaseSettings(
+            LinearControllerSettings linearCtrlSettings,
+            AngularControllerSettings angleCtrlSettings,
+            Time period,
+            Vector<N3> stateStd,
+            Vector<N3> visionStd) {
+
+        this.linearCtrlSettings = linearCtrlSettings;
+        this.angleCtrlSettings = angleCtrlSettings;
+        this.period = period;
+        this.stateStd = stateStd;
+        this.visionStd = visionStd;
     }
 }
