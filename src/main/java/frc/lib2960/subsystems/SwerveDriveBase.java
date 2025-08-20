@@ -8,18 +8,25 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
+import edu.wpi.first.units.measure.MutDistance;
+import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib2960.controllers.AngularController;
+import frc.lib2960.controllers.LinearController;
 import frc.lib2960.settings.SwerveDriveBaseSettings;
 import frc.lib2960.util.MutVector2d;
 
@@ -34,11 +41,20 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     protected final SwerveDriveBaseSettings settings;
     private boolean isFieldRelative;
 
+    private final LinearController linearCtrl;
+    private final AngularController angleCtrl;
+
     /*************************/
     /* Calculation Variables */
     /*************************/
-    private MutVector2d<LinearVelocityUnit> velVector = new MutVector2d<LinearVelocityUnit>(MetersPerSecond.zero(), MetersPerSecond.zero());
-    private MutAngularVelocity rVelMut = RadiansPerSecond.mutable(0);
+    private final MutDistance posErrorCalc = Meters.mutable(0);
+    private final MutLinearVelocity velMagCalc = MetersPerSecond.mutable(0);
+    private final MutVector2d<LinearVelocityUnit> velVector = new MutVector2d<LinearVelocityUnit>(
+            MetersPerSecond.zero(), MetersPerSecond.zero());
+
+    private final MutAngle angleCalc = Radians.mutable(0);
+    private final MutAngularVelocity angleVelCalc = RadiansPerSecond.mutable(0);
+    private final MutAngularVelocity rVelMut = RadiansPerSecond.mutable(0);
 
     /****************************/
     /* Driver Station Variables */
@@ -197,7 +213,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         public void execute() {
             speeds.vxMetersPerSecond = xVel.get().in(MetersPerSecond);
             speeds.vyMetersPerSecond = yVel.get().in(MetersPerSecond);
-            speeds.omegaRadiansPerSecond = calcRateToAngle(calcAngleOffset()).in(RadiansPerSecond);
+            speeds.omegaRadiansPerSecond = calcVelToAngle(calcAngleOffset()).in(RadiansPerSecond);
             setChassisSpeeds(speeds, xOffset, yOffset);
         }
 
@@ -271,7 +287,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         public void execute() {
             speeds.vxMetersPerSecond = xVel.get().in(MetersPerSecond);
             speeds.vyMetersPerSecond = yVel.get().in(MetersPerSecond);
-            speeds.omegaRadiansPerSecond = calcRateToAngle(calcAngleOffset()).in(RadiansPerSecond);
+            speeds.omegaRadiansPerSecond = calcVelToAngle(calcAngleOffset()).in(RadiansPerSecond);
             setChassisSpeeds(speeds, xOffset, yOffset);
         }
 
@@ -281,7 +297,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         }
 
         private Angle calcAngleOffset() {
-            var cur_pos = getPostEst().getTranslation();
+            var cur_pos = getPoseEst().getTranslation();
 
             angle.mut_replace(cur_pos.minus(target).getAngle().getRadians(), Radians);
             angle.mut_plus(rOffset);
@@ -333,7 +349,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
         @Override
         public void execute() {
-            velVector = calcVelToPosition(target);
+            var velVector = calcVelToPosition(target);
             speeds.vxMetersPerSecond = velVector.x.in(MetersPerSecond);
             speeds.vyMetersPerSecond = velVector.y.in(MetersPerSecond);
             speeds.omegaRadiansPerSecond = rVel.get().in(RadiansPerSecond);
@@ -391,11 +407,11 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
         @Override
         public void execute() {
-            velVector = calcVelToPosition(target.getTranslation());
+            var velVector = calcVelToPosition(target.getTranslation());
 
             speeds.vxMetersPerSecond = velVector.x.in(MetersPerSecond);
             speeds.vyMetersPerSecond = velVector.y.in(MetersPerSecond);
-            speeds.omegaRadiansPerSecond = calcRateToAngle(calcAngleOffset()).in(RadiansPerSecond);
+            speeds.omegaRadiansPerSecond = calcVelToAngle(calcAngleOffset()).in(RadiansPerSecond);
 
             setChassisSpeeds(speeds, xOffset, yOffset);
         }
@@ -423,6 +439,8 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     /****************/
     public SwerveDriveBase(SwerveDriveBaseSettings settings) {
         this.settings = settings;
+        this.linearCtrl = new LinearController(settings.linearCtrlSettings);
+        this.angleCtrl = new AngularController(settings.angleCtrlSettings);
     }
 
     /*******************/
@@ -449,27 +467,45 @@ public abstract class SwerveDriveBase extends SubsystemBase {
             Distance yOffset);
 
     public MutVector2d<LinearVelocityUnit> calcVelToPosition(Translation2d target) {
-        // TODO calculate the x and y linear velocities to reach a target position
+        Pose2d curPose = getPoseEst();
+        ChassisSpeeds speeds = getChassisSpeeds();
+        Translation2d error = target.minus(curPose.getTranslation());
 
-        velVector.x.mut_replace(0, MetersPerSecond);
-        velVector.y.mut_replace(0, MetersPerSecond);
+        posErrorCalc.mut_replace(target.getDistance(curPose.getTranslation()), Meters);
+        double velAng = error.getAngle().getRadians();
+
+        double velMag = Math.sqrt(Math.pow(speeds.vxMetersPerSecond, 2) + Math.pow(speeds.vyMetersPerSecond, 2));
+        velMagCalc.mut_replace(velMag, MetersPerSecond);
+
+        linearCtrl.updateVelocity(Meters.zero(), velMagCalc, posErrorCalc, velMagCalc);
+
+        velMag = velMagCalc.in(MetersPerSecond);
+
+        velVector.x.mut_replace(velMag * Math.cos(velAng), MetersPerSecond);
+        velVector.y.mut_replace(velMag * Math.sin(velAng), MetersPerSecond);
 
         return velVector;
     }
 
-    public AngularVelocity calcRateToAngle(Angle target) {
-        // TODO calculate the angular rate to get to a target angle
-        return rVelMut.mut_replace(0, RadiansPerSecond);
+    public AngularVelocity calcVelToAngle(Angle target) {
+        angleCalc.mut_replace(getPoseEst().getRotation().getRadians(), Radians);
+        angleVelCalc.mut_replace(getChassisSpeeds().omegaRadiansPerSecond, RadiansPerSecond);
+
+        angleCtrl.updateVelocity(angleCalc, angleVelCalc, target, rVelMut);
+
+        return rVelMut;
     }
 
     /******************/
     /* Access Methods */
     /******************/
-    public abstract Pose2d getPostEst();
+    public abstract Pose2d getPoseEst();
 
     public abstract ChassisSpeeds getChassisSpeeds();
 
     public abstract void resetPose(Pose2d pose);
+
+    public abstract void addVisionMeasurment(Pose2d pose, Time timestamp, Vector<N3> std);
 
     /********************/
     /* Settings Methods */
@@ -485,7 +521,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
 
         boolean result = false;
 
-        double cur_angle = getPostEst().getRotation().getRadians();
+        double cur_angle = getPoseEst().getRotation().getRadians();
         double target_dbl = target.in(Radians);
         double tolerance_dbl = tolerance.in(Radians);
 
@@ -501,7 +537,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     public boolean atTarget(Translation2d target, Angle tolerance) {
 
         boolean result = false;
-        Pose2d cur_pose = getPostEst();
+        Pose2d cur_pose = getPoseEst();
 
         double cur_angle = cur_pose.getRotation().getRadians();
         double target_dbl = target.minus(cur_pose.getTranslation()).getAngle().getRadians();
@@ -517,7 +553,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     }
 
     public boolean atTarget(Translation2d target, Distance tolerance) {
-        var cur_pos = getPostEst().getTranslation();
+        var cur_pos = getPoseEst().getTranslation();
 
         double distance = cur_pos.getDistance(target);
 
