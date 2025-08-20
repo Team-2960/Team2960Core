@@ -1,10 +1,10 @@
-package frc.lib2960.settings;
+package frc.lib2960.config;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
-public class FFSettings {
+public class FFConfig {
 
     // TODO Implement using Units library
     public double kS;
@@ -20,7 +20,7 @@ public class FFSettings {
      * @param kV Voltage per angular velocity of the system
      * @param kA Voltage per angular acceleration of the system
      */
-    public FFSettings(double kS, double kG, double kV, double kA) {
+    public FFConfig(double kS, double kG, double kV, double kA) {
         this.kS = kS;
         this.kG = kG;
         this.kV = kV;
@@ -34,7 +34,7 @@ public class FFSettings {
      * @param kG Voltage to overcome gravity
      * @param kV Voltage per angular velocity of the system
      */
-    public FFSettings(double kS, double kG, double kV) {
+    public FFConfig(double kS, double kG, double kV) {
         this(kS, kG, kV, 0);
     }
 
@@ -44,7 +44,7 @@ public class FFSettings {
      * @param kS Voltage to overcome static friction
      * @param kV Voltage per angular velocity of the system
      */
-    public FFSettings(double kS, double kV) {
+    public FFConfig(double kS, double kV) {
         this(kS, 0, kV, 0);
     }
 

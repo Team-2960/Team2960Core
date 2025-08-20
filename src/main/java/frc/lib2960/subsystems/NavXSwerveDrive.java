@@ -4,16 +4,16 @@ import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.lib2960.settings.NavXSwerveDriveSettings;
+import frc.lib2960.config.NavXSwerveDriveConfig;
 
 public class NavXSwerveDrive extends RioSwerveDrive{
 
-    public final NavXSwerveDriveSettings settings;
+    public final NavXSwerveDriveConfig config;
     private final AHRS navx;
 
-    public NavXSwerveDrive(NavXSwerveDriveSettings settings, SwerveModuleBase... modules) {
-        super(settings, modules);
-        this.settings = settings;
+    public NavXSwerveDrive(NavXSwerveDriveConfig config, SwerveModuleBase... modules) {
+        super(config, modules);
+        this.config = config;
 
         navx = new AHRS(NavXComType.kMXP_SPI);
         navx.reset();

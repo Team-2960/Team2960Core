@@ -12,14 +12,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
-import frc.lib2960.settings.SwerveDriveBaseSettings;
+import frc.lib2960.config.SwerveDriveBaseConfig;
 
 /**
  * Defines a swerve drive that is managed on the main robot controller
  */
 public abstract class RioSwerveDrive extends SwerveDriveBase {
 
-    private final SwerveDriveBaseSettings settings;
+    private final SwerveDriveBaseConfig config;
 
     private final SwerveModuleBase[] modules;
 
@@ -30,14 +30,14 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
     /**
      * Constructor
      * 
-     * @param settings swerve drive settings
+     * @param config swerve drive config
      * @param modules  list of swerve modules
      */
     public RioSwerveDrive(
-            SwerveDriveBaseSettings settings,
+            SwerveDriveBaseConfig config,
             SwerveModuleBase... modules) {
-        super(settings);
-        this.settings = settings;
+        super(config);
+        this.config = config;
         this.modules = modules;
 
         // Initialize Kinematics
@@ -50,8 +50,8 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
                 getRotation(),
                 SwerveModuleBase.getPositions(modules),
                 new Pose2d(),
-                settings.stateStd,
-                settings.visionStd);
+                config.stateStd,
+                config.visionStd);
     }
     
     @Override
@@ -65,7 +65,7 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         }
 
         // Discretize speeds for the update period
-        speeds = ChassisSpeeds.discretize(speeds, settings.period.in(Seconds));
+        speeds = ChassisSpeeds.discretize(speeds, config.period.in(Seconds));
 
         // Calculate target module states
         var states = kinematics.toSwerveModuleStates(speeds, offset);
@@ -91,7 +91,7 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
     }
 
     public void addVisionMeasurement(Pose2d pose, Time timestamp) {
-        addVisionMeasurement(pose, timestamp, settings.visionStd);
+        addVisionMeasurement(pose, timestamp, config.visionStd);
     }
 
     @Override

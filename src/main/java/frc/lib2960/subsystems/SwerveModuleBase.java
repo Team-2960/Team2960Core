@@ -22,16 +22,16 @@ import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
-import frc.lib2960.settings.SwerveModuleBaseSettings;
-import frc.lib2960.settings.SwerveModuleCommonSettings;
+import frc.lib2960.config.SwerveModuleBaseConfig;
+import frc.lib2960.config.SwerveModuleCommonConfig;
 import frc.lib2960.util.AngleUtil;
 
 public abstract class SwerveModuleBase {
     /**********************/
-    /* Settings Variables */
+    /* Config Variables */
     /**********************/
-    protected final SwerveModuleCommonSettings commonSettings;
-    protected final SwerveModuleBaseSettings settings;
+    protected final SwerveModuleCommonConfig commonConfig;
+    protected final SwerveModuleBaseConfig config;
 
     /*************************/
     /* Calculation Variables */
@@ -59,15 +59,15 @@ public abstract class SwerveModuleBase {
     /**
      * Constructor
      * 
-     * @param commonSettings settings common to all modules
-     * @param settings       module specific settings
+     * @param commonConfig config common to all modules
+     * @param config       module specific config
      */
-    public SwerveModuleBase(SwerveModuleCommonSettings commonSettings, SwerveModuleBaseSettings settings) {
-        this.commonSettings = commonSettings;
-        this.settings = settings;
+    public SwerveModuleBase(SwerveModuleCommonConfig commonConfig, SwerveModuleBaseConfig config) {
+        this.commonConfig = commonConfig;
+        this.config = config;
 
-        this.driveCtrl = commonSettings.driveCtrlSettings.getController();
-        this.angleCtrl = commonSettings.angleCtrlSettings.getController();
+        this.driveCtrl = commonConfig.driveCtrlConfig.getController();
+        this.angleCtrl = commonConfig.angleCtrlConfig.getController();
     }
 
     /*******************/
@@ -229,7 +229,7 @@ public abstract class SwerveModuleBase {
         Translation2d[] translations = new Translation2d[modules.length];
 
         for (int i = 0; i < modules.length; i++)
-            translations[i] = modules[i].settings.getTranslation();
+            translations[i] = modules[i].config.getTranslation();
 
         return translations;
     }

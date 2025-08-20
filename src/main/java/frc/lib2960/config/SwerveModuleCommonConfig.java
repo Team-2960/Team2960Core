@@ -1,9 +1,9 @@
-package frc.lib2960.settings;
+package frc.lib2960.config;
 
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 
-public class SwerveModuleCommonSettings {
+public class SwerveModuleCommonConfig {
     public final Distance wheelDiameter;
     public final Distance wheelRadius;
     public final Distance wheelCircumference;
@@ -16,10 +16,10 @@ public class SwerveModuleCommonSettings {
     public final Current maxDriveCurrent;
     public final Current maxAngleCurrent;
 
-    public final LinearControllerSettings driveCtrlSettings;
-    public final AngularControllerSettings angleCtrlSettings;
+    public final LinearControllerConfig driveCtrlConfig;
+    public final AngularControllerConfig angleCtrlConfig;
 
-    public SwerveModuleCommonSettings(
+    public SwerveModuleCommonConfig(
             Distance wheelDiameter,
             double driveRatio,
             double angleRatio,
@@ -27,8 +27,8 @@ public class SwerveModuleCommonSettings {
             Current slipCurrent,
             Current maxDriveCurrent,
             Current maxAngleCurrent,
-            LinearControllerSettings driveCtrlSettings,
-            AngularControllerSettings angleCtrlSettings) {
+            LinearControllerConfig driveCtrlConfig,
+            AngularControllerConfig angleCtrlConfig) {
 
         this.wheelDiameter = wheelDiameter;
         this.wheelRadius = wheelDiameter.div(2);
@@ -42,7 +42,7 @@ public class SwerveModuleCommonSettings {
         this.maxDriveCurrent = maxDriveCurrent;
         this.maxAngleCurrent = maxAngleCurrent;
 
-        this.driveCtrlSettings = driveCtrlSettings;
-        this.angleCtrlSettings = angleCtrlSettings;
+        this.driveCtrlConfig = driveCtrlConfig;
+        this.angleCtrlConfig = angleCtrlConfig;
     }
 }

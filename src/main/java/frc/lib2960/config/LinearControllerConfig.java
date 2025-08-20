@@ -1,4 +1,4 @@
-package frc.lib2960.settings;
+package frc.lib2960.config;
 
 import java.util.Optional;
 
@@ -8,9 +8,9 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
 import frc.lib2960.controllers.LinearController;
 
-public class LinearControllerSettings {
-    public final PIDSettings pidSettings;
-    public final FFSettings ffSettings;
+public class LinearControllerConfig {
+    public final PIDConfig pidConfig;
+    public final FFConfig ffConfig;
 
     public final Time period;
 
@@ -21,14 +21,14 @@ public class LinearControllerSettings {
     public final Optional<Distance> minimum;
     public final Optional<Distance> maximum;
 
-    LinearControllerSettings(
+    LinearControllerConfig(
         Time period, 
         LinearVelocity maxVel,
         LinearAcceleration maxAccel,
         LinearAcceleration maxDecel
     ) {
-        this.pidSettings = new PIDSettings(0, 0, 0);
-        this.ffSettings = new FFSettings(0, 0);
+        this.pidConfig = new PIDConfig(0, 0, 0);
+        this.ffConfig = new FFConfig(0, 0);
         this.period = period;
         this.maxVel = maxVel;
         this.maxAccel = maxAccel;
@@ -37,7 +37,7 @@ public class LinearControllerSettings {
         this.maximum = Optional.empty();
     }
 
-    LinearControllerSettings(
+    LinearControllerConfig(
         Time period, 
         LinearVelocity maxVel,
         LinearAcceleration maxAccel,
@@ -45,8 +45,8 @@ public class LinearControllerSettings {
         Distance minimum,
         Distance maximum
     ) {
-        this.pidSettings = new PIDSettings(0, 0, 0);
-        this.ffSettings = new FFSettings(0, 0);
+        this.pidConfig = new PIDConfig(0, 0, 0);
+        this.ffConfig = new FFConfig(0, 0);
         this.period = period;
         this.maxVel = maxVel;
         this.maxAccel = maxAccel;
@@ -55,16 +55,16 @@ public class LinearControllerSettings {
         this.maximum = Optional.of(maximum);
     }
 
-    LinearControllerSettings(
-        PIDSettings pidSettings,
-        FFSettings ffSettings,
+    LinearControllerConfig(
+        PIDConfig pidConfig,
+        FFConfig ffConfig,
         Time period, 
         LinearVelocity maxVel,
         LinearAcceleration maxAccel,
         LinearAcceleration maxDecel
     ) {
-        this.pidSettings = pidSettings;
-        this.ffSettings = ffSettings;
+        this.pidConfig = pidConfig;
+        this.ffConfig = ffConfig;
         this.period = period;
         this.maxVel = maxVel;
         this.maxAccel = maxAccel;
@@ -73,9 +73,9 @@ public class LinearControllerSettings {
         this.maximum = Optional.empty();
     }
 
-    LinearControllerSettings(
-        PIDSettings pidSettings,
-        FFSettings ffSettings,
+    LinearControllerConfig(
+        PIDConfig pidConfig,
+        FFConfig ffConfig,
         Time period, 
         LinearVelocity maxVel,
         LinearAcceleration maxAccel,
@@ -83,8 +83,8 @@ public class LinearControllerSettings {
         Distance minimum,
         Distance maximum
     ) {
-        this.pidSettings = pidSettings;
-        this.ffSettings = ffSettings;
+        this.pidConfig = pidConfig;
+        this.ffConfig = ffConfig;
         this.period = period;
         this.maxVel = maxVel;
         this.maxAccel = maxAccel;

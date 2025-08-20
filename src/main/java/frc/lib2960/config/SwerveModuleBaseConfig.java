@@ -1,4 +1,4 @@
-package frc.lib2960.settings;
+package frc.lib2960.config;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Rotations;
@@ -7,7 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 
-public class SwerveModuleBaseSettings {
+public class SwerveModuleBaseConfig {
     public final String name;
 
     public final int driveMotorID;
@@ -23,7 +23,7 @@ public class SwerveModuleBaseSettings {
 
     public Angle encoderOffset = Rotations.zero();
 
-    public SwerveModuleBaseSettings(
+    public SwerveModuleBaseConfig(
             String name,
             int driveMotorID,
             int angleMotorID,

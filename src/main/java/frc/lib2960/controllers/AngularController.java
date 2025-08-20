@@ -13,10 +13,10 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
-import frc.lib2960.settings.AngularControllerSettings;
+import frc.lib2960.config.AngularControllerConfig;
 
 public class AngularController {
-    public final AngularControllerSettings settings;
+    public final AngularControllerConfig config;
     private final TrapezoidalProfile trapProfile;
     private final PIDController pid;
     private final ArmFeedforward ff;
@@ -24,17 +24,17 @@ public class AngularController {
     /**
      * Constructor
      * 
-     * @param settings Controller settings
+     * @param config Controller config
      */
-    public AngularController(AngularControllerSettings settings) {
-        this.settings = settings;
+    public AngularController(AngularControllerConfig config) {
+        this.config = config;
         trapProfile = new TrapezoidalProfile(
-                settings.maxVel.in(DegreesPerSecond),
-                settings.maxAccel.in(DegreesPerSecondPerSecond),
-                settings.maxDecel.in(DegreesPerSecondPerSecond),
-                settings.period.in(Seconds));
-        pid = settings.pidSettings.getPIDController();
-        ff = settings.ffSettings.getArmFF();
+                config.maxVel.in(DegreesPerSecond),
+                config.maxAccel.in(DegreesPerSecondPerSecond),
+                config.maxDecel.in(DegreesPerSecondPerSecond),
+                config.period.in(Seconds));
+        pid = config.pidConfig.getPIDController();
+        ff = config.ffConfig.getArmFF();
     }
 
     /**
@@ -86,7 +86,7 @@ public class AngularController {
      *         Always returns true if limits are not set.
      */
     public boolean aboveMin(Angle position) {
-        return settings.minimum.isEmpty() || position.gte(settings.minimum.get());
+        return config.minimum.isEmpty() || position.gte(config.minimum.get());
     }
 
     /**
@@ -97,7 +97,7 @@ public class AngularController {
      *         Always returns true if limits are not set.
      */
     public boolean belowMax(Angle position) {
-        return settings.maximum.isEmpty() || position.lte(settings.maximum.get());
+        return config.maximum.isEmpty() || position.lte(config.maximum.get());
     }
 
     /**

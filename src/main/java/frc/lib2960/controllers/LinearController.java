@@ -12,10 +12,10 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
-import frc.lib2960.settings.LinearControllerSettings;
+import frc.lib2960.config.LinearControllerConfig;
 
 public class LinearController {
-    public final LinearControllerSettings settings;
+    public final LinearControllerConfig config;
     private final TrapezoidalProfile trapProfile;
     private final PIDController pid;
     private final ElevatorFeedforward ff;
@@ -23,17 +23,17 @@ public class LinearController {
     /**
      * Constructor
      * 
-     * @param settings Controller settings
+     * @param config Controller config
      */
-    public LinearController(LinearControllerSettings settings) {
-        this.settings = settings;
+    public LinearController(LinearControllerConfig config) {
+        this.config = config;
         trapProfile = new TrapezoidalProfile(
-                settings.maxVel.in(MetersPerSecond),
-                settings.maxAccel.in(MetersPerSecondPerSecond),
-                settings.maxDecel.in(MetersPerSecondPerSecond),
-                settings.period.in(Seconds));
-        pid = settings.pidSettings.getPIDController();
-        ff = settings.ffSettings.getElevatorFF();
+                config.maxVel.in(MetersPerSecond),
+                config.maxAccel.in(MetersPerSecondPerSecond),
+                config.maxDecel.in(MetersPerSecondPerSecond),
+                config.period.in(Seconds));
+        pid = config.pidConfig.getPIDController();
+        ff = config.ffConfig.getElevatorFF();
     }
 
     /**
@@ -82,7 +82,7 @@ public class LinearController {
      *         Always returns true if limits are not set.
      */
     public boolean aboveMin(Distance position) {
-        return settings.minimum.isEmpty() || position.gte(settings.minimum.get());
+        return config.minimum.isEmpty() || position.gte(config.minimum.get());
     }
 
     /**
@@ -93,7 +93,7 @@ public class LinearController {
      *         Always returns true if limits are not set.
      */
     public boolean belowMax(Distance position) {
-        return settings.maximum.isEmpty() || position.lte(settings.maximum.get());
+        return config.maximum.isEmpty() || position.lte(config.maximum.get());
     }
 
     /**

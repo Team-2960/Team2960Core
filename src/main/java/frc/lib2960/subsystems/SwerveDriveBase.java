@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
-import frc.lib2960.settings.SwerveDriveBaseSettings;
+import frc.lib2960.config.SwerveDriveBaseConfig;
 import frc.lib2960.util.MutVector2d;
 
 /**
@@ -36,9 +36,9 @@ import frc.lib2960.util.MutVector2d;
 public abstract class SwerveDriveBase extends SubsystemBase {
 
     /**********************/
-    /* Settings Variables */
+    /* Config Variables */
     /**********************/
-    protected final SwerveDriveBaseSettings settings;
+    protected final SwerveDriveBaseConfig config;
     private boolean isFieldRelative;
 
     private final LinearController linearCtrl;
@@ -431,16 +431,16 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     }
 
     /*********************/
-    /* Settings Commands */
+    /* Config Commands */
     /*********************/
 
     /****************/
     /* Constructors */
     /****************/
-    public SwerveDriveBase(SwerveDriveBaseSettings settings) {
-        this.settings = settings;
-        this.linearCtrl = new LinearController(settings.linearCtrlSettings);
-        this.angleCtrl = new AngularController(settings.angleCtrlSettings);
+    public SwerveDriveBase(SwerveDriveBaseConfig config) {
+        this.config = config;
+        this.linearCtrl = new LinearController(config.linearCtrlConfig);
+        this.angleCtrl = new AngularController(config.angleCtrlConfig);
     }
 
     /*******************/
@@ -508,7 +508,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     public abstract void addVisionMeasurement(Pose2d pose, Time timestamp, Vector<N3> std);
 
     /********************/
-    /* Settings Methods */
+    /* Config Methods */
     /********************/
     public void setFieldRelative(boolean isFieldRelative) {
         this.isFieldRelative = isFieldRelative;
