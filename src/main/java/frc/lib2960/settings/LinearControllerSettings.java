@@ -22,6 +22,40 @@ public class LinearControllerSettings {
     public final Optional<Distance> maximum;
 
     LinearControllerSettings(
+        Time period, 
+        LinearVelocity maxVel,
+        LinearAcceleration maxAccel,
+        LinearAcceleration maxDecel
+    ) {
+        this.pidSettings = new PIDSettings(0, 0, 0);
+        this.ffSettings = new FFSettings(0, 0);
+        this.period = period;
+        this.maxVel = maxVel;
+        this.maxAccel = maxAccel;
+        this.maxDecel = maxDecel;
+        this.minimum = Optional.empty();
+        this.maximum = Optional.empty();
+    }
+
+    LinearControllerSettings(
+        Time period, 
+        LinearVelocity maxVel,
+        LinearAcceleration maxAccel,
+        LinearAcceleration maxDecel,
+        Distance minimum,
+        Distance maximum
+    ) {
+        this.pidSettings = new PIDSettings(0, 0, 0);
+        this.ffSettings = new FFSettings(0, 0);
+        this.period = period;
+        this.maxVel = maxVel;
+        this.maxAccel = maxAccel;
+        this.maxDecel = maxDecel;
+        this.minimum = Optional.of(minimum);
+        this.maximum = Optional.of(maximum);
+    }
+
+    LinearControllerSettings(
         PIDSettings pidSettings,
         FFSettings ffSettings,
         Time period, 

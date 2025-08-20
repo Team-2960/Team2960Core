@@ -21,15 +21,45 @@ public class AngularControllerSettings {
     public final Optional<Angle> minimum;
     public final Optional<Angle> maximum;
 
+    AngularControllerSettings(
+            Time period,
+            AngularVelocity maxVel,
+            AngularAcceleration maxAccel,
+            AngularAcceleration maxDecel) {
+        this.pidSettings = new PIDSettings(0, 0, 0);
+        this.ffSettings = new FFSettings(0, 0);
+        this.period = period;
+        this.maxVel = maxVel;
+        this.maxAccel = maxAccel;
+        this.maxDecel = maxDecel;
+        this.minimum = Optional.empty();
+        this.maximum = Optional.empty();
+    }
 
     AngularControllerSettings(
-        PIDSettings pidSettings,
-        FFSettings ffSettings,
-        Time period, 
-        AngularVelocity maxVel,
-        AngularAcceleration maxAccel,
-        AngularAcceleration maxDecel
-    ) {
+            Time period,
+            AngularVelocity maxVel,
+            AngularAcceleration maxAccel,
+            AngularAcceleration maxDecel,
+            Angle minimum,
+            Angle maximum) {
+        this.pidSettings = new PIDSettings(0, 0, 0);
+        this.ffSettings = new FFSettings(0, 0);
+        this.period = period;
+        this.maxVel = maxVel;
+        this.maxAccel = maxAccel;
+        this.maxDecel = maxDecel;
+        this.minimum = Optional.of(minimum);
+        this.maximum = Optional.of(maximum);
+    }
+
+    AngularControllerSettings(
+            PIDSettings pidSettings,
+            FFSettings ffSettings,
+            Time period,
+            AngularVelocity maxVel,
+            AngularAcceleration maxAccel,
+            AngularAcceleration maxDecel) {
         this.pidSettings = pidSettings;
         this.ffSettings = ffSettings;
         this.period = period;
@@ -41,15 +71,14 @@ public class AngularControllerSettings {
     }
 
     AngularControllerSettings(
-        PIDSettings pidSettings,
-        FFSettings ffSettings,
-        Time period, 
-        AngularVelocity maxVel,
-        AngularAcceleration maxAccel,
-        AngularAcceleration maxDecel,
-        Angle minimum,
-        Angle maximum
-    ) {
+            PIDSettings pidSettings,
+            FFSettings ffSettings,
+            Time period,
+            AngularVelocity maxVel,
+            AngularAcceleration maxAccel,
+            AngularAcceleration maxDecel,
+            Angle minimum,
+            Angle maximum) {
         this.pidSettings = pidSettings;
         this.ffSettings = ffSettings;
         this.period = period;
@@ -59,7 +88,7 @@ public class AngularControllerSettings {
         this.minimum = Optional.of(minimum);
         this.maximum = Optional.of(maximum);
     }
-    
+
     public AngularController getController() {
         return new AngularController(this);
     }
