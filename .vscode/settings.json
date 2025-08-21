@@ -62,6 +62,8 @@
     "CTRE",
     "Decel",
     "Feedforward",
+    "feedforwards",
+    "Holonomic",
     "odometry"
   ]
 }

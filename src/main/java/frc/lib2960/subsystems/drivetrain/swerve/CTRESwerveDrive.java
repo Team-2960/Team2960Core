@@ -79,7 +79,13 @@ public class CTRESwerveDrive extends SwerveDriveBase {
     }
 
     @Override
-    public ChassisSpeeds getChassisSpeeds() {
+    public ChassisSpeeds getFieldRelativeSpeeds() {
+        var state = drivetrain.getState();
+        return ChassisSpeeds.fromRobotRelativeSpeeds(state.Speeds, state.Pose.getRotation());
+    }
+
+    @Override
+    public ChassisSpeeds getRobotRelativeSpeeds() {
         return drivetrain.getState().Speeds;
     }
 

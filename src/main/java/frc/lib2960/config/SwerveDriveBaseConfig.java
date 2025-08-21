@@ -9,6 +9,8 @@ import edu.wpi.first.units.measure.Time;
 public class SwerveDriveBaseConfig {
     public final LinearControllerConfig linearCtrlConfig;
     public final AngularControllerConfig angleCtrlConfig;
+    public final PIDConfig linearPPPID;
+    public final PIDConfig angularPPPID;
     public final Time period;
     public final Vector<N3> stateStd;
     public final Vector<N3> visionStd;
@@ -16,11 +18,15 @@ public class SwerveDriveBaseConfig {
     public SwerveDriveBaseConfig(
             LinearControllerConfig linearCtrlConfig,
             AngularControllerConfig angleCtrlConfig,
+            PIDConfig linearPPPID,
+            PIDConfig angularPPPID,
             Time period) {
 
         this(
                 linearCtrlConfig,
                 angleCtrlConfig,
+                linearPPPID,
+                angularPPPID,
                 period,
                 VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
                 VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
@@ -30,12 +36,16 @@ public class SwerveDriveBaseConfig {
     public SwerveDriveBaseConfig(
             LinearControllerConfig linearCtrlConfig,
             AngularControllerConfig angleCtrlConfig,
+            PIDConfig linearPPPID,
+            PIDConfig angularPPPID,
             Time period,
             Vector<N3> stateStd,
             Vector<N3> visionStd) {
 
         this.linearCtrlConfig = linearCtrlConfig;
         this.angleCtrlConfig = angleCtrlConfig;
+        this.linearPPPID = linearPPPID;
+        this.angularPPPID = angularPPPID;
         this.period = period;
         this.stateStd = stateStd;
         this.visionStd = visionStd;

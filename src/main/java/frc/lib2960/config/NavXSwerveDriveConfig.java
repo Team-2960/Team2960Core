@@ -12,10 +12,12 @@ public class NavXSwerveDriveConfig extends SwerveDriveBaseConfig {
     public NavXSwerveDriveConfig(
             LinearControllerConfig linearCtrlConfig,
             AngularControllerConfig angleCtrlConfig,
+            PIDConfig linearPPPID,
+            PIDConfig angularPPPID,
             Time period,
             NavXComType comType) {
 
-        super(linearCtrlConfig, angleCtrlConfig, period);
+        super(linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period);
         this.comType = comType;
 
     }
@@ -24,10 +26,12 @@ public class NavXSwerveDriveConfig extends SwerveDriveBaseConfig {
             LinearControllerConfig linearCtrlConfig,
             AngularControllerConfig angleCtrlConfig,
             Time period,
+            PIDConfig linearPPPID,
+            PIDConfig angularPPPID,
             Vector<N3> stateStd,
             Vector<N3> visionStd,
             NavXComType comType) {
-        super(linearCtrlConfig, angleCtrlConfig, period, stateStd, visionStd);
+        super(linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period, stateStd, visionStd);
         this.comType = comType;
     }
 }

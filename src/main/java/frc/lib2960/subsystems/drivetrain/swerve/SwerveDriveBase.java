@@ -21,17 +21,17 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
-import frc.lib2960.subsystems.drivetrain.Drivetrain;
+import frc.lib2960.subsystems.drivetrain.HolonomicDrivetrain;
+import frc.lib2960.config.PIDConfig;
 import frc.lib2960.config.SwerveDriveBaseConfig;
 import frc.lib2960.helper.MutVector2d;
 
 /**
  * Defines core capabilities of a swerve drive
  */
-public abstract class SwerveDriveBase extends SubsystemBase implements Drivetrain{
+public abstract class SwerveDriveBase implements HolonomicDrivetrain{
 
     /**********************/
     /* Config Variables */
@@ -445,11 +445,6 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Drivetrai
     /*******************/
     /* Control Methods */
     /*******************/
-
-    public void setPathPlannerSpeeds(ChassisSpeeds speeds) {
-        setChassisSpeeds(speeds, false);
-    }
-
     public void setChassisSpeeds(ChassisSpeeds speeds) {
         setChassisSpeeds(speeds, this.isFieldRelative);
     }
@@ -464,7 +459,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Drivetrai
 
     public MutVector2d<LinearVelocityUnit> calcVelToPosition(Translation2d target) {
         Pose2d curPose = getPoseEst();
-        ChassisSpeeds speeds = getChassisSpeeds();
+        ChassisSpeeds speeds = getFieldRelativeSpeeds();
         Translation2d error = target.minus(curPose.getTranslation());
 
         posErrorCalc.mut_replace(target.getDistance(curPose.getTranslation()), Meters);
@@ -485,7 +480,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Drivetrai
 
     public AngularVelocity calcVelToAngle(Angle target) {
         angleCalc.mut_replace(getPoseEst().getRotation().getRadians(), Radians);
-        angleVelCalc.mut_replace(getChassisSpeeds().omegaRadiansPerSecond, RadiansPerSecond);
+        angleVelCalc.mut_replace(getFieldRelativeSpeeds().omegaRadiansPerSecond, RadiansPerSecond);
 
         angleCtrl.updateVelocity(angleCalc, angleVelCalc, target, rVelMut);
 
@@ -495,7 +490,15 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Drivetrai
     /******************/
     /* Access Methods */
     /******************/
+    @Override
+    public PIDConfig getLinearPathPlannerPID() {
+        return config.linearPPPID;
+    }
 
+    @Override
+    public PIDConfig getAngularPathPlannerPID() {
+        return config.angularPPPID;
+    }
 
     /********************/
     /* Config Methods */

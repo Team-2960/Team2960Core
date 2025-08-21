@@ -81,7 +81,7 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
     }
 
     @Override
-    public ChassisSpeeds getChassisSpeeds() {
+    public ChassisSpeeds getRobotRelativeSpeeds() {
         return kinematics.toChassisSpeeds(SwerveModuleBase.getStates(modules));
     }
 

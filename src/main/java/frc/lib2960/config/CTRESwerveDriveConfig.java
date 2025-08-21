@@ -14,12 +14,30 @@ public class CTRESwerveDriveConfig extends SwerveDriveBaseConfig {
             LinearControllerConfig linearCtrlConfig,
             AngularControllerConfig angleCtrlConfig,
             Time period,
+            PIDConfig linearPPPID,
+            PIDConfig angularPPPID,
+            int imuCANID,
+            String CANBusName,
+            Frequency odometryUpdateFrequency) {
+        super(linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period);
+
+        this.imuCANID = imuCANID;
+        this.CANBusName = CANBusName;
+        this.odometryUpdateFrequency = odometryUpdateFrequency;
+    }
+
+    public CTRESwerveDriveConfig(
+            LinearControllerConfig linearCtrlConfig,
+            AngularControllerConfig angleCtrlConfig,
+            Time period,
+            PIDConfig linearPPPID,
+            PIDConfig angularPPPID,
             Vector<N3> stateStd,
             Vector<N3> visionStd,
             int imuCANID,
             String CANBusName,
             Frequency odometryUpdateFrequency) {
-        super(linearCtrlConfig, angleCtrlConfig, period, stateStd, visionStd);
+        super(linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period, stateStd, visionStd);
 
         this.imuCANID = imuCANID;
         this.CANBusName = CANBusName;
