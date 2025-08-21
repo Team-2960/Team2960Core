@@ -24,7 +24,7 @@ import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
 import frc.lib2960.config.SwerveModuleBaseConfig;
 import frc.lib2960.config.SwerveModuleCommonConfig;
-import frc.lib2960.util.AngleUtil;
+import frc.lib2960.helper.AngleUtil;
 
 public abstract class SwerveModuleBase {
     // TODO Implement SysID

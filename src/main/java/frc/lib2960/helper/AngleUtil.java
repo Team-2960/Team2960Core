@@ -1,4 +1,4 @@
-package frc.lib2960.util;
+package frc.lib2960.helper;
 
 import static edu.wpi.first.units.Units.Degrees;
 
