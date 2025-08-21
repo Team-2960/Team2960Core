@@ -83,6 +83,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         }
 
         public SwerveCmd(Distance xOffset, Distance yOffset, Angle rOffset) {
+            addRequirements(SwerveDriveBase.this);
             speeds = new ChassisSpeeds();
             this.xOffset = xOffset;
             this.yOffset = yOffset;
