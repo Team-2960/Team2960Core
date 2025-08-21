@@ -8,11 +8,9 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -21,19 +19,19 @@ import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
-import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
+import frc.lib2960.subsystems.drivetrain.Drivetrain;
 import frc.lib2960.config.SwerveDriveBaseConfig;
 import frc.lib2960.util.MutVector2d;
 
 /**
  * Defines core capabilities of a swerve drive
  */
-public abstract class SwerveDriveBase extends SubsystemBase {
+public abstract class SwerveDriveBase extends SubsystemBase implements Drivetrain{
 
     /**********************/
     /* Config Variables */
@@ -464,9 +462,6 @@ public abstract class SwerveDriveBase extends SubsystemBase {
         setChassisSpeeds(speeds, this.isFieldRelative, xOffset, yOffset);
     }
 
-    public abstract void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset,
-            Distance yOffset);
-
     public MutVector2d<LinearVelocityUnit> calcVelToPosition(Translation2d target) {
         Pose2d curPose = getPoseEst();
         ChassisSpeeds speeds = getChassisSpeeds();
@@ -500,13 +495,7 @@ public abstract class SwerveDriveBase extends SubsystemBase {
     /******************/
     /* Access Methods */
     /******************/
-    public abstract Pose2d getPoseEst();
 
-    public abstract ChassisSpeeds getChassisSpeeds();
-
-    public abstract void resetPose(Pose2d pose);
-
-    public abstract void addVisionMeasurement(Pose2d pose, Time timestamp, Vector<N3> std);
 
     /********************/
     /* Config Methods */
