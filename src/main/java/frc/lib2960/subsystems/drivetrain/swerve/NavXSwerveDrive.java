@@ -1,4 +1,4 @@
-package frc.lib2960.subsystems;
+package frc.lib2960.subsystems.drivetrain.swerve;
 
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
