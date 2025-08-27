@@ -56,6 +56,28 @@ public class AngleUtil {
     }
 
     /**
+     * Calculates the nearest target angle to the current angle.
+     * 
+     * @param current current angle in radians. Angle is unwrapped to -180 to 180
+     *                radians.
+     * @param target  target angle in radians. Angle is unwrapped to -180 to 180
+     *                radians.
+     * @return The nearest target angle in radians.
+     */
+    public static double nearestRotationRadians(double current, double target) {
+        current = unwrapRadians(current);
+        target = unwrapRadians(target);
+        double error = target - current;
+
+        if (Math.abs(error - Math.PI) < Math.abs(error))
+            target -= Math.PI;
+        if (Math.abs(error + Math.PI) < Math.abs(error))
+            target += Math.PI;
+
+        return target;
+    }
+
+    /**
      * Unwraps an supplied angle so it is between -180 and 180 degrees.
      * 
      * @param angle  angle to unwrap
@@ -80,6 +102,49 @@ public class AngleUtil {
             angle += 360;
 
         return angle;
+    }
+
+    /**
+     * Unwraps an supplied angle so it is between -180 and 180 radians.
+     * 
+     * @param angle angle to unwrap in radians
+     * @return unwrapped angle in radians
+     */
+    public static double unwrapRadians(double angle) {
+        angle %= Math.PI;
+
+        if (angle > Math.PI / 2)
+            angle -= Math.PI;
+        if (angle < -Math.PI / 2)
+            angle += Math.PI;
+
+        return angle;
+    }
+
+    /**
+     * Checks if an angle is within tolerance of a target in degrees
+     * 
+     * @param current   current angle in degrees
+     * @param target    target angle in degrees
+     * @param tolerance tolerance in degrees (inclusive)
+     * @return true if in tolerance, false otherwise
+     */
+    public static boolean inToleranceDegrees(double current, double target, double tolerance) {
+        target = nearestRotationDegrees(current, target);
+        return current >= target - tolerance && current < target + tolerance;
+    }
+
+    /**
+     * Checks if an angle is within tolerance of a target in radians
+     * 
+     * @param current   current angle in radians
+     * @param target    target angle in radians
+     * @param tolerance tolerance in radians (inclusive)
+     * @return true if in tolerance, false otherwise
+     */
+    public static boolean inToleranceRadians(double current, double target, double tolerance) {
+        target = nearestRotationRadians(current, target);
+        return current >= target - tolerance && current < target + tolerance;
     }
 
     /**
