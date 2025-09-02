@@ -16,6 +16,7 @@ import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.config.SwerveModuleBaseConfig;
 import frc.lib2960.config.SwerveModuleCommonConfig;
@@ -68,6 +69,11 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
     }
 
     @Override
+    public void getDriveVoltage(MutVoltage result) {
+        result.mut_replace(driveMotor.getAppliedOutput() * driveMotor.getBusVoltage(), Volts);
+    }
+
+    @Override
     public void getAnglePosition(MutAngle result) {
         result.mut_replace(angleAbsEncoder.getPosition(), Rotations);
     }
@@ -75,6 +81,11 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
     @Override
     public void getAngleVelocity(MutAngularVelocity result) {
         result.mut_replace(angleVelEncoder.getVelocity(), RotationsPerSecond);
+    }
+
+    @Override
+    public void getAngleVoltage(MutVoltage result) {
+        result.mut_replace(angleMotor.getAppliedOutput() * angleMotor.getBusVoltage(), Volts);
     }
 
 

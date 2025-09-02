@@ -7,13 +7,21 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.config.CTRESwerveDriveConfig;
 import frc.lib2960.config.SwerveModuleBaseConfig;
 import frc.lib2960.config.SwerveModuleCommonConfig;
 
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+
+import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.*;
@@ -26,6 +34,10 @@ public class CTRESwerveDrive extends SwerveDriveBase {
 
     public final SwerveRequest.FieldCentric fieldCentricDrive = new SwerveRequest.FieldCentric();
     public final SwerveRequest.RobotCentric robotCentricDrive = new SwerveRequest.RobotCentric();
+
+    private final SysIdRoutine linearSysIDRoutime;
+    private final SysIdRoutine angleSysIDRoutime;
+    private final SysIdRoutine turnSysIDRoutime;
 
     public CTRESwerveDrive(CANBus canBus, CTRESwerveDriveConfig config, SwerveModuleCommonConfig commonConfig,
             SwerveModuleBaseConfig lfConfig, SwerveModuleBaseConfig rfConfig,
@@ -49,25 +61,84 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 getModuleConst(constCreator, rfConfig),
                 getModuleConst(constCreator, lrConfig),
                 getModuleConst(constCreator, rrConfig));
+
+        linearSysIDRoutime = new SysIdRoutine(
+                new SysIdRoutine.Config(
+                        null, // Use default ramp rate (1 V/s)
+                        Volts.of(4), // Reduce dynamic step voltage to 4 V to prevent brownout
+                        null, // Use default timeout (10 s)
+                              // Log state with SignalLogger class
+                        state -> SignalLogger.writeString("SysIdTranslation_State",
+                                state.toString())),
+                new SysIdRoutine.Mechanism(
+                        output -> drivetrain
+                                .setControl(new SwerveRequest.SysIdSwerveTranslation()
+                                        .withVolts(output)),
+                        null,
+                        this));
+
+        angleSysIDRoutime = new SysIdRoutine(
+                new SysIdRoutine.Config(
+                        null, // Use default ramp rate (1 V/s)
+                        Volts.of(7), // Use dynamic voltage of 7 V
+                        null, // Use default timeout (10 s)
+                              // Log state with SignalLogger class
+                        state -> SignalLogger.writeString("SysIdSteer_State",
+                                state.toString())),
+                new SysIdRoutine.Mechanism(
+                        volts -> drivetrain.setControl(new SwerveRequest.SysIdSwerveSteerGains()
+                                .withVolts(volts)),
+                        null,
+                        this));
+
+        turnSysIDRoutime = new SysIdRoutine(
+                new SysIdRoutine.Config(
+                        /*
+                         * This is in radians per second², but SysId only supports
+                         * "volts per second"
+                         */
+                        Volts.of(Math.PI / 6).per(Second),
+                        /* This is in radians per second, but SysId only supports "volts" */
+                        Volts.of(Math.PI),
+                        null, // Use default timeout (10 s)
+                              // Log state with SignalLogger class
+                        state -> SignalLogger.writeString("SysIdRotation_State",
+                                state.toString())),
+                new SysIdRoutine.Mechanism(
+                        output -> {
+                            /*
+                             * output is actually radians per second, but SysId only
+                             * supports "volts"
+                             */
+                            drivetrain.setControl(
+                                    new SwerveRequest.SysIdSwerveRotation()
+                                            .withRotationalRate(output
+                                                    .in(Volts)));
+                            /* also log the requested output for SysId */
+                            SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
+                        },
+                        null,
+                        this));
     }
 
     @Override
-    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset, Distance yOffset) {
+    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset,
+            Distance yOffset) {
 
         SwerveRequest driveRequest;
 
-        if(isFieldRelative) {
+        if (isFieldRelative) {
             driveRequest = fieldCentricDrive
-            .withVelocityX(speeds.vxMetersPerSecond)
-            .withVelocityY(speeds.vyMetersPerSecond)
-            .withRotationalRate(speeds.omegaRadiansPerSecond)
-            .withCenterOfRotation(new Translation2d(xOffset, yOffset));
+                    .withVelocityX(speeds.vxMetersPerSecond)
+                    .withVelocityY(speeds.vyMetersPerSecond)
+                    .withRotationalRate(speeds.omegaRadiansPerSecond)
+                    .withCenterOfRotation(new Translation2d(xOffset, yOffset));
         } else {
             driveRequest = robotCentricDrive
-            .withVelocityX(speeds.vxMetersPerSecond)
-            .withVelocityY(speeds.vyMetersPerSecond)
-            .withRotationalRate(speeds.omegaRadiansPerSecond)
-            .withCenterOfRotation(new Translation2d(xOffset, yOffset));
+                    .withVelocityX(speeds.vxMetersPerSecond)
+                    .withVelocityY(speeds.vyMetersPerSecond)
+                    .withRotationalRate(speeds.omegaRadiansPerSecond)
+                    .withCenterOfRotation(new Translation2d(xOffset, yOffset));
         }
 
         drivetrain.setControl(driveRequest);
@@ -163,5 +234,89 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 config.invertAngleEncoder);
 
         return moduleConst;
+    }
+
+    /**
+     * Generate a linear motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new linear motion SysID Command
+     */
+    @Override
+    public Command getLinearSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
+        return (quasistatic) ? linearSysIDRoutime.quasistatic(direction)
+                : linearSysIDRoutime.dynamic(direction);
+    }
+
+    /**
+     * Generate a module angle motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new module angle motion SysID Command
+     */
+    @Override
+    public Command getAngleSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
+        return (quasistatic) ? angleSysIDRoutime.quasistatic(direction) : angleSysIDRoutime.dynamic(direction);
+    }
+
+    /**
+     * Generate a robot turn motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new robot turn motion SysID Command
+     */
+    @Override
+    public Command getTurnSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
+        return (quasistatic) ? turnSysIDRoutime.quasistatic(direction) : turnSysIDRoutime.dynamic(direction);
+    }
+
+
+    /**
+     * Creates a new command sequence that includes all the commands to run System
+     * Identification on the linear drive motors
+     * 
+     * @param nextTrigger Trigger for the sequence to move onto the next operation
+     *            in the sequence
+     * @return new command sequence
+     */
+    public Command getLinearSysIdSequence(BooleanSupplier nextTrigger) {
+        return Commands.sequence(
+                Commands.runOnce(SignalLogger::start),
+                super.getLinearSysIdSequence(nextTrigger),
+                Commands.runOnce(SignalLogger::stop));
+    }
+
+    /**
+     * Creates a new command sequence that includes all the commands to run System
+     * Identification on the angle motors
+     * 
+     * @param nextTrigger Trigger for the sequence to move onto the next operation
+     *                    in the sequence
+     * @return new command sequence
+     */
+    public Command getAngleSysIdSequence(BooleanSupplier nextTrigger) {
+        return Commands.sequence(
+                Commands.runOnce(SignalLogger::start),
+                super.getAngleSysIdSequence(nextTrigger),
+                Commands.runOnce(SignalLogger::stop));
+    }
+
+
+    /**
+     * Creates a new command sequence that includes all the commands to run System
+     * Identification on the robot turning
+     * 
+     * @param nextTrigger Trigger for the sequence to move onto the next operation
+     *                    in the sequence
+     * @return new command sequence
+     */
+    public Command getTurnSysIdSequence(BooleanSupplier nextTrigger) {
+        return Commands.sequence(
+                Commands.runOnce(SignalLogger::start),
+                super.getTurnSysIdSequence(nextTrigger),
+                Commands.runOnce(SignalLogger::stop));
     }
 }

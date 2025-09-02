@@ -82,29 +82,41 @@ public abstract class SwerveModuleBase {
      * @param state target state of the module
      */
     public void setState(SwerveModuleState state) {
+        updateAngle(state.angle);
+        updateDrive(state.speedMetersPerSecond);
+    }
+
+    /**
+     * Updates the module angle control
+     * 
+     * @param angle target angle
+     */
+    public void updateAngle(Rotation2d angle) {
+        // TODO Implement using units library
         // Calculate angle voltage
         getAnglePosition(angleCurPos);
         getAngleVelocity(angleCurVel);
         angleTarget.mut_replace(
                 AngleUtil.nearestRotationDegrees(
                         angleCurPos.in(Degrees),
-                        state.angle.getDegrees()),
+                        angle.getDegrees()),
                 Degrees);
 
         angleCtrl.updateVelocity(angleCurPos, angleCurVel, angleTarget, angleVelCalc);
         angleCtrl.updateVoltage(angleCurPos, angleCurVel, angleVelCalc, angleVoltCalc);
 
         setAngleVolt(angleVoltCalc);
+    }
 
+    public void updateDrive(double metersPerSecond) {
         // Calculate drive voltage
+        // TODO Implement using units library
         // TODO Include couple ratio into drive speed calculation
 
         getDriveVelocity(driveCurVel);
-        driveTarget.mut_replace(state.speedMetersPerSecond, MetersPerSecond);
+        driveTarget.mut_replace(metersPerSecond, MetersPerSecond);
 
         driveCtrl.updateVoltage(getDriveVelocity(), driveTarget, driveVoltCalc);
-
-        setDriveVolt(driveVoltCalc);
     }
 
     /**
@@ -205,6 +217,13 @@ public abstract class SwerveModuleBase {
     public abstract void getDriveVelocity(MutLinearVelocity result);
 
     /**
+     * Gets the current drive motor applied voltage
+     * 
+     * @param result
+     */
+    public abstract void getDriveVoltage(MutVoltage result);
+
+    /**
      * Gets the current angle position
      * 
      * @param result mutable object to store the result
@@ -217,6 +236,13 @@ public abstract class SwerveModuleBase {
      * @param result mutable object to store the result
      */
     public abstract void getAngleVelocity(MutAngularVelocity result);
+
+    /**
+     * Gets the current angle motor applied voltage
+     * 
+     * @param result
+     */
+    public abstract void getAngleVoltage(MutVoltage result);
 
     /*************************/
     /* Static Helper Methods */
@@ -239,8 +265,9 @@ public abstract class SwerveModuleBase {
 
     /**
      * Gets a list of module positions from a list of modules
-     * @param modules   list of modules
-     * @return  list of positions
+     * 
+     * @param modules list of modules
+     * @return list of positions
      */
     public static SwerveModulePosition[] getPositions(SwerveModuleBase[] modules) {
         SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
@@ -253,8 +280,9 @@ public abstract class SwerveModuleBase {
 
     /**
      * Gets a list of module states from a list of modules
-     * @param modules   list of modules
-     * @return  list of states
+     * 
+     * @param modules list of modules
+     * @return list of states
      */
     public static SwerveModuleState[] getStates(SwerveModuleBase[] modules) {
         SwerveModuleState[] states = new SwerveModuleState[modules.length];
@@ -264,6 +292,5 @@ public abstract class SwerveModuleBase {
 
         return states;
     }
-
 
 }

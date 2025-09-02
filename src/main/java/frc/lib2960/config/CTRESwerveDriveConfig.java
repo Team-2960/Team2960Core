@@ -11,6 +11,7 @@ public class CTRESwerveDriveConfig extends SwerveDriveBaseConfig {
     public final Frequency odometryUpdateFrequency;
 
     public CTRESwerveDriveConfig(
+            String name, 
             LinearControllerConfig linearCtrlConfig,
             AngularControllerConfig angleCtrlConfig,
             Time period,
@@ -19,7 +20,7 @@ public class CTRESwerveDriveConfig extends SwerveDriveBaseConfig {
             int imuCANID,
             String CANBusName,
             Frequency odometryUpdateFrequency) {
-        super(linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period);
+        super(name, linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period);
 
         this.imuCANID = imuCANID;
         this.CANBusName = CANBusName;
@@ -27,6 +28,7 @@ public class CTRESwerveDriveConfig extends SwerveDriveBaseConfig {
     }
 
     public CTRESwerveDriveConfig(
+            String name,
             LinearControllerConfig linearCtrlConfig,
             AngularControllerConfig angleCtrlConfig,
             Time period,
@@ -37,7 +39,7 @@ public class CTRESwerveDriveConfig extends SwerveDriveBaseConfig {
             int imuCANID,
             String CANBusName,
             Frequency odometryUpdateFrequency) {
-        super(linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period, stateStd, visionStd);
+        super(name, linearCtrlConfig, angleCtrlConfig, linearPPPID, angularPPPID, period, stateStd, visionStd);
 
         this.imuCANID = imuCANID;
         this.CANBusName = CANBusName;

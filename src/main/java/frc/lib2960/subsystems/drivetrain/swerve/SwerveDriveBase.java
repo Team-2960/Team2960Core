@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,6 +21,7 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
 import frc.lib2960.subsystems.drivetrain.HolonomicDrivetrain;
@@ -55,9 +57,9 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
 
     private final ChassisSpeeds targetSpeeds = new ChassisSpeeds();
 
-    /****************************/
-    /* Driver Station Variables */
-    /****************************/
+    /*************************/
+    /* Suffleboard Variables */
+    /*************************/
 
     /****************/
     /* Constructors */
@@ -483,6 +485,118 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
         double distance = cur_pos.getDistance(target);
 
         return distance >= tolerance.in(Meters);
+    }
+
+    /******************/
+    /* Sys ID Methods */
+    /******************/
+
+    /**
+     * Generate a linear motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new linear motion SysID Command
+     */
+    public abstract Command getLinearSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic);
+
+    /**
+     * Generate a module angle motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new module angle motion SysID Command
+     */
+    public abstract Command getAngleSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic);
+
+    /**
+     * Generate a robot turn motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new robot turn motion SysID Command
+     */
+    public abstract Command getTurnSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic);
+
+    /**
+     * Creates a new command sequence that includes all the commands to run System
+     * Identification on the linear drive motors
+     * 
+     * @param nextTrigger Trigger for the sequence to move onto the next operation
+     *                    in the sequence
+     * @return new command sequence
+     */
+    public Command getLinearSysIdSequence(BooleanSupplier nextTrigger) {
+        return Commands.sequence(
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getLinearSysIdCmd(SysIdRoutine.Direction.kForward, true)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getLinearSysIdCmd(SysIdRoutine.Direction.kReverse, true)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getLinearSysIdCmd(SysIdRoutine.Direction.kForward, false)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getLinearSysIdCmd(SysIdRoutine.Direction.kReverse, false)));
+    }
+
+    /**
+     * Creates a new command sequence that includes all the commands to run System
+     * Identification on the angle motors
+     * 
+     * @param nextTrigger Trigger for the sequence to move onto the next operation
+     *                    in the sequence
+     * @return new command sequence
+     */
+    public Command getAngleSysIdSequence(BooleanSupplier nextTrigger) {
+        return Commands.sequence(
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getAngleSysIdCmd(SysIdRoutine.Direction.kForward, true)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getAngleSysIdCmd(SysIdRoutine.Direction.kReverse, true)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getAngleSysIdCmd(SysIdRoutine.Direction.kForward, false)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getAngleSysIdCmd(SysIdRoutine.Direction.kReverse, false)));
+    }
+
+    /**
+     * Creates a new command sequence that includes all the commands to run System
+     * Identification on the robot turning
+     * 
+     * @param nextTrigger Trigger for the sequence to move onto the next operation
+     *                    in the sequence
+     * @return new command sequence
+     */
+    public Command getTurnSysIdSequence(BooleanSupplier nextTrigger) {
+        return Commands.sequence(
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getTurnSysIdCmd(SysIdRoutine.Direction.kForward, true)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getTurnSysIdCmd(SysIdRoutine.Direction.kReverse, true)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getTurnSysIdCmd(SysIdRoutine.Direction.kForward, false)),
+                Commands.waitUntil(() -> !nextTrigger.getAsBoolean()),
+                Commands.deadline(
+                        Commands.waitUntil(nextTrigger),
+                        getTurnSysIdCmd(SysIdRoutine.Direction.kReverse, false)));
     }
 
     /*********************/
