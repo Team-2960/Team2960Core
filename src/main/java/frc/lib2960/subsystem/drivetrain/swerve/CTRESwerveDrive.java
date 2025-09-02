@@ -180,12 +180,12 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 .withKV(commonConfig.driveCtrlConfig.ffConfig.kV);
 
         Slot0Configs steerGains = new Slot0Configs()
-                .withKP(commonConfig.angleCtrlConfig.pidConfig.kP)
-                .withKI(commonConfig.angleCtrlConfig.pidConfig.kP)
-                .withKD(commonConfig.angleCtrlConfig.pidConfig.kP)
-                .withKS(commonConfig.angleCtrlConfig.ffConfig.kS)
-                .withKV(commonConfig.angleCtrlConfig.ffConfig.kV)
-                .withKA(commonConfig.angleCtrlConfig.ffConfig.kA)
+                .withKP(commonConfig.angleCtrlConfig.getPIDConfig().kP)
+                .withKI(commonConfig.angleCtrlConfig.getPIDConfig().kP)
+                .withKD(commonConfig.angleCtrlConfig.getPIDConfig().kP)
+                .withKS(commonConfig.angleCtrlConfig.getFFConfig().kS)
+                .withKV(commonConfig.angleCtrlConfig.getFFConfig().kV)
+                .withKA(commonConfig.angleCtrlConfig.getFFConfig().kA)
                 .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
         TalonFXConfiguration driveInitialConfigs = new TalonFXConfiguration();

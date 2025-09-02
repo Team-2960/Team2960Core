@@ -29,12 +29,12 @@ public class AngularController {
     public AngularController(AngularControllerConfig config) {
         this.config = config;
         trapProfile = new TrapezoidalProfile(
-                config.maxVel.in(DegreesPerSecond),
-                config.maxAccel.in(DegreesPerSecondPerSecond),
-                config.maxDecel.in(DegreesPerSecondPerSecond),
-                config.period.in(Seconds));
-        pid = config.pidConfig.getPIDController();
-        ff = config.ffConfig.getArmFF();
+                config.getMaxVelocity().in(DegreesPerSecond),
+                config.getMaxAccel().in(DegreesPerSecondPerSecond),
+                config.getMaxDecel().in(DegreesPerSecondPerSecond),
+                config.getPeriod().in(Seconds));
+        pid = config.getPIDConfig().getPIDController();
+        ff = config.getFFConfig().getArmFF();
     }
 
     /**
@@ -86,7 +86,8 @@ public class AngularController {
      *         Always returns true if limits are not set.
      */
     public boolean aboveMin(Angle position) {
-        return config.minimum.isEmpty() || position.gte(config.minimum.get());
+        var minimum = config.getMinimum();
+        return minimum.isEmpty() || position.gte(minimum.get());
     }
 
     /**
@@ -97,7 +98,8 @@ public class AngularController {
      *         Always returns true if limits are not set.
      */
     public boolean belowMax(Angle position) {
-        return config.maximum.isEmpty() || position.lte(config.maximum.get());
+        var maximum = config.getMaximum();
+        return maximum.isEmpty() || position.lte(maximum.get());
     }
 
     /**
