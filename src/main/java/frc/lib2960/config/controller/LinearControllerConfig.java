@@ -13,32 +13,17 @@ import edu.wpi.first.units.measure.Time;
 import frc.lib2960.controller.LinearController;
 
 public class LinearControllerConfig {
-    private PIDConfig pidConfig;
-    private FFConfig ffConfig;
+    private PIDConfig pidConfig = new PIDConfig(0, 0, 0);
+    private FFConfig ffConfig = new FFConfig(0, 0);
 
-    private Time period;
+    private Time period = Seconds.of(0.02);
 
-    private LinearVelocity maxVel;
-    private LinearAcceleration maxAccel;
-    private LinearAcceleration maxDecel;
+    private LinearVelocity maxVel = MetersPerSecond.of(Double.POSITIVE_INFINITY);
+    private LinearAcceleration maxAccel = MetersPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+    private LinearAcceleration maxDecel = MetersPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
 
-    private Optional<Distance> minimum;
-    private Optional<Distance> maximum;
-
-    /**
-     * Constructor
-     */
-    public LinearControllerConfig() {
-        this.pidConfig = new PIDConfig(0, 0, 0);
-        this.ffConfig = new FFConfig(0, 0);
-        this.period = Seconds.of(0.02);
-        this.maxVel = MetersPerSecond.of(Double.POSITIVE_INFINITY);
-        this.maxAccel = MetersPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
-        this.maxDecel = MetersPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
-        ;
-        this.minimum = Optional.empty();
-        this.maximum = Optional.empty();
-    }
+    private Optional<Distance> minimum = Optional.empty();
+    private Optional<Distance> maximum = Optional.empty();
 
     /**
      * Sets the PIDConfig. Default config is kP, kI, and kD are set to zero.

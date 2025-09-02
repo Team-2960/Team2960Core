@@ -13,32 +13,17 @@ import edu.wpi.first.units.measure.Time;
 import frc.lib2960.controller.AngularController;
 
 public class AngularControllerConfig {
-    private PIDConfig pidConfig;
-    private FFConfig ffConfig;
+    private PIDConfig pidConfig = new PIDConfig(0, 0, 0);
+    private FFConfig ffConfig = new FFConfig(0, 0);
 
-    private Time period;
+    private Time period = Seconds.of(0.02);
 
-    private AngularVelocity maxVel;
-    private AngularAcceleration maxAccel;
-    private AngularAcceleration maxDecel;
+    private AngularVelocity maxVel = RadiansPerSecond.of(Double.POSITIVE_INFINITY);
+    private AngularAcceleration maxAccel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+    private AngularAcceleration maxDecel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
 
-    private Optional<Angle> minimum;
-    private Optional<Angle> maximum;
-
-    /**
-     * Constructor
-     */
-    public AngularControllerConfig() {
-        this.pidConfig = new PIDConfig(0, 0, 0);
-        this.ffConfig = new FFConfig(0, 0);
-        this.period = Seconds.of(0.02);
-        this.maxVel = RadiansPerSecond.of(Double.POSITIVE_INFINITY);
-        this.maxAccel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
-        this.maxDecel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
-        ;
-        this.minimum = Optional.empty();
-        this.maximum = Optional.empty();
-    }
+    private Optional<Angle> minimum = Optional.empty();
+    private Optional<Angle> maximum = Optional.empty();
 
     /**
      * Sets the PIDConfig. Default config is kP, kI, and kD are set to zero.
