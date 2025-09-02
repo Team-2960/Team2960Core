@@ -1,6 +1,6 @@
 package frc.robot;
 
-import frc.lib2960.config.RobotCommonConfig;
+import frc.lib2960.config.basic.RobotCommonConfig;
 
 /**
  * Defines all the robot constants

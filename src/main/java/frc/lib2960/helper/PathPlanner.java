@@ -11,10 +11,10 @@ import com.pathplanner.lib.controllers.PathFollowingController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib2960.config.basic.PIDConfig;
-import frc.lib2960.subsystems.drivetrain.Drivetrain;
-import frc.lib2960.subsystems.drivetrain.HolonomicDrivetrain;
-import frc.lib2960.subsystems.drivetrain.NonHolonomicDrivetrain;
+import frc.lib2960.config.controller.PIDConfig;
+import frc.lib2960.subsystem.drivetrain.Drivetrain;
+import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
+import frc.lib2960.subsystem.drivetrain.NonHolonomicDrivetrain;
 
 public class PathPlanner {
     private static SendableChooser<Command> autoChooser = new SendableChooser<Command>();
