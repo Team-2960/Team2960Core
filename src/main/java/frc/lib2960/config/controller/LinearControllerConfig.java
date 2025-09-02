@@ -28,7 +28,7 @@ public class LinearControllerConfig {
     /**
      * Constructor
      */
-    LinearControllerConfig() {
+    public LinearControllerConfig() {
         this.pidConfig = new PIDConfig(0, 0, 0);
         this.ffConfig = new FFConfig(0, 0);
         this.period = Seconds.of(0.02);
