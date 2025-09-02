@@ -81,8 +81,8 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
                 getRotation(),
                 SwerveModuleBase.getPositions(modules),
                 new Pose2d(),
-                config.stateStd,
-                config.visionStd);
+                config.getStateStd(),
+                config.getStateStd());
 
         // Initialize SysID
         sysidLinearRoutine = new SysIdRoutine(
@@ -130,7 +130,7 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         }
 
         // Discretize speeds for the update period
-        speeds = ChassisSpeeds.discretize(speeds, config.period.in(Seconds));
+        speeds = ChassisSpeeds.discretize(speeds, config.getPeriod().in(Seconds));
 
         // Calculate target module states
         var states = kinematics.toSwerveModuleStates(speeds, offset);
@@ -168,7 +168,7 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
     }
 
     public void addVisionMeasurement(Pose2d pose, Time timestamp) {
-        addVisionMeasurement(pose, timestamp, config.visionStd);
+        addVisionMeasurement(pose, timestamp, config.getVisionStd());
     }
 
     @Override

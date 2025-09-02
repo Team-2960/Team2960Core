@@ -42,7 +42,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
     public CTRESwerveDrive(CANBus canBus, CTRESwerveDriveConfig config, SwerveModuleCommonConfig commonConfig,
             SwerveModuleBaseConfig lfConfig, SwerveModuleBaseConfig rfConfig,
             SwerveModuleBaseConfig lrConfig, SwerveModuleBaseConfig rrConfig) {
-        super(config);
+        super(config.baseConfig);
 
         // Create DriveTrain Constants
         SwerveDrivetrainConstants drivetrainConstants = new SwerveDrivetrainConstants()
