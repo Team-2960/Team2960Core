@@ -7,6 +7,8 @@ import edu.wpi.first.units.measure.LinearAcceleration;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
 import frc.lib2960.controllers.LinearController;
+import frc.lib2960.config.basic.PIDConfig;
+import frc.lib2960.config.basic.FFConfig;
 
 public class LinearControllerConfig {
     public final PIDConfig pidConfig;

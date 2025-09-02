@@ -9,6 +9,8 @@ import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Per;
+import frc.lib2960.config.basic.MotorConfig;
+import frc.lib2960.config.basic.EncoderConfig;
 
 public class LinearMotorMechConfig extends MotorMechBaseConfig {
     public final Per<DistanceUnit, AngleUnit> motorToMechRatio;

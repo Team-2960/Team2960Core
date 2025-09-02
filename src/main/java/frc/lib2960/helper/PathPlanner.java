@@ -11,7 +11,7 @@ import com.pathplanner.lib.controllers.PathFollowingController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib2960.config.PIDConfig;
+import frc.lib2960.config.basic.PIDConfig;
 import frc.lib2960.subsystems.drivetrain.Drivetrain;
 import frc.lib2960.subsystems.drivetrain.HolonomicDrivetrain;
 import frc.lib2960.subsystems.drivetrain.NonHolonomicDrivetrain;

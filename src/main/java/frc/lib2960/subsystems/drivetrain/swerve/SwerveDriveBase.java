@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.controllers.AngularController;
 import frc.lib2960.controllers.LinearController;
 import frc.lib2960.subsystems.drivetrain.HolonomicDrivetrain;
-import frc.lib2960.config.PIDConfig;
+import frc.lib2960.config.basic.PIDConfig;
 import frc.lib2960.config.SwerveDriveBaseConfig;
 import frc.lib2960.helper.AngleUtil;
 

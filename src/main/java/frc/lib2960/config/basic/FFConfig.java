@@ -1,4 +1,4 @@
-package frc.lib2960.config;
+package frc.lib2960.config.basic;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;

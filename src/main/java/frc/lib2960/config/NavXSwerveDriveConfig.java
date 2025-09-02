@@ -5,6 +5,7 @@ import com.studica.frc.AHRS.NavXComType;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Time;
+import frc.lib2960.config.basic.PIDConfig;
 
 public class NavXSwerveDriveConfig extends SwerveDriveBaseConfig {
     public final NavXComType comType;

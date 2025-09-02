@@ -1,4 +1,4 @@
-package frc.lib2960.config;
+package frc.lib2960.config.basic;
 
 /**
  * Common configurations for a motor

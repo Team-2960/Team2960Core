@@ -5,6 +5,7 @@ import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Time;
+import frc.lib2960.config.basic.PIDConfig;
 
 public class SwerveDriveBaseConfig {
     public final String name;
