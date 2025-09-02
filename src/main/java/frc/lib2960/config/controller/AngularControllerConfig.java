@@ -86,7 +86,8 @@ public class AngularControllerConfig {
 
     /**
      * Sets the maximum acceleration. Default is positive infinity.
-     * @param maxAccel  maximum acceleration
+     * 
+     * @param maxAccel maximum acceleration
      * @return current config object
      */
     public AngularControllerConfig setMaxAccel(AngularAcceleration maxAccel) {
@@ -96,7 +97,8 @@ public class AngularControllerConfig {
 
     /**
      * Sets the maximum deceleration. Default is positive infinity.
-     * @param maxDecel  maximum deceleration
+     * 
+     * @param maxDecel maximum deceleration
      * @return current config object
      */
     public AngularControllerConfig setMaxDecel(AngularAcceleration maxDecel) {
@@ -105,9 +107,11 @@ public class AngularControllerConfig {
     }
 
     /**
-     * Sets the minimum and maximum position. If not set, the system is assumed to be continuous.
-     * @param minimum   minimum position
-     * @param maximum   maximum position
+     * Sets the minimum and maximum position. If not set, the system is assumed to
+     * be continuous.
+     * 
+     * @param minimum minimum position
+     * @param maximum maximum position
      * @return current config object
      */
     public AngularControllerConfig setLimits(Angle minimum, Angle maximum) {
@@ -118,8 +122,9 @@ public class AngularControllerConfig {
 
     /**
      * Clears the position limits. System will be assumed to be continuous.
-     * @param minimum   minimum position
-     * @param maximum   maximum position
+     * 
+     * @param minimum minimum position
+     * @param maximum maximum position
      * @return current config object
      */
     public AngularControllerConfig clearLimits() {
@@ -129,53 +134,75 @@ public class AngularControllerConfig {
     }
 
     /**
-     * Gets the set PIDConfig 
-     * @return  set PIDConfig
+     * Copies the configuration from another config object
+     * @param other other config object to copy
+     * @return current config object
+     */
+    public AngularControllerConfig copyConfig(AngularControllerConfig other) {
+        this.pidConfig = other.pidConfig;
+        this.ffConfig = other.ffConfig;
+    
+        this.period = other.period;
+    
+        this.maxVel = other.maxVel;
+        this.maxAccel = other.maxAccel;
+        this.maxDecel = other.maxDecel;
+    
+        this.minimum = other.minimum;
+        this.maximum = other.maximum;
+
+        return this;
+    }
+
+    /**
+     * Gets the set PIDConfig
+     * 
+     * @return set PIDConfig
      */
     public PIDConfig getPIDConfig() {
         return pidConfig;
     }
 
     /**
-     * Gets the set FFConfig 
-     * @return  set FFConfig
+     * Gets the set FFConfig
+     * 
+     * @return set FFConfig
      */
     public FFConfig getFFConfig() {
         return ffConfig;
     }
 
-
     /**
-     * Gets the set Period 
-     * @return  set Period
+     * Gets the set Period
+     * 
+     * @return set Period
      */
     public Time getPeriod() {
         return period;
     }
 
-
-
     /**
-     * Gets the set maximum velocity 
-     * @return  set Period
+     * Gets the set maximum velocity
+     * 
+     * @return set Period
      */
     public AngularVelocity getMaxVelocity() {
         return maxVel;
     }
 
-
     /**
-     * Gets the set maximum acceleration 
-     * @return  set Period
+     * Gets the set maximum acceleration
+     * 
+     * @return set Period
      */
     public AngularAcceleration getMaxAccel() {
         return maxAccel;
     }
 
-
     /**
-     * Gets the set maximum deceleration 
-     * @return  set Period
+     * Gets the set maximum deceleration
+     * 
+     * @return set Period
      */
     public AngularAcceleration getMaxDecel() {
         return maxDecel;
@@ -183,16 +210,17 @@ public class AngularControllerConfig {
 
     /**
      * Get the minimum position.
-     * @return  minimum position. Set to empty is no limits are set.
+     * 
+     * @return minimum position. Set to empty is no limits are set.
      */
     public Optional<Angle> getMinimum() {
         return minimum;
     }
 
-
     /**
      * Get the maximum position.
-     * @return  maximum position. Set to empty is no limits are set.
+     * 
+     * @return maximum position. Set to empty is no limits are set.
      */
     public Optional<Angle> getMaximum() {
         return maximum;
@@ -200,7 +228,8 @@ public class AngularControllerConfig {
 
     /**
      * Generates a new AngularController object from this configuration
-     * @return  new AngularController object from this configuration
+     * 
+     * @return new AngularController object from this configuration
      */
     public AngularController getController() {
         return new AngularController(this);

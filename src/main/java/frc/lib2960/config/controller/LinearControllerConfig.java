@@ -129,6 +129,27 @@ public class LinearControllerConfig {
     }
 
     /**
+     * Copies the configuration from another config object
+     * @param other other config object to copy
+     * @return current config object
+     */
+    public LinearControllerConfig copyConfig(LinearControllerConfig other) {
+        this.pidConfig = other.pidConfig;
+        this.ffConfig = other.ffConfig;
+    
+        this.period = other.period;
+    
+        this.maxVel = other.maxVel;
+        this.maxAccel = other.maxAccel;
+        this.maxDecel = other.maxDecel;
+    
+        this.minimum = other.minimum;
+        this.maximum = other.maximum;
+
+        return this;
+    }
+
+    /**
      * Gets the set PIDConfig 
      * @return  set PIDConfig
      */
