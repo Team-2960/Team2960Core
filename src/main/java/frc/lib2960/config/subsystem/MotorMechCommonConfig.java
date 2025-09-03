@@ -9,6 +9,8 @@ import frc.lib2960.config.device.MotorConfig;
 import frc.lib2960.config.device.EncoderConfig;
 
 public class MotorMechCommonConfig {
+    public enum LimitTrim{ Voltage, Velocity}
+
     /** Name of the mechanism */
     public String name;
 
@@ -20,6 +22,9 @@ public class MotorMechCommonConfig {
 
     /** Sets the maximum per motor current for the mechanism. Defaults to 80A. */
     public Current maxMotorCurrent = Amps.of(80);
+
+    /** Sets method for keeping mechanism from exceeding its limits if they are set. Defaults to LimitTrim.Voltage.  */
+    public LimitTrim limitTrim = LimitTrim.Voltage;
 
     /**
      * Constructor
@@ -60,6 +65,16 @@ public class MotorMechCommonConfig {
      */
     public MotorMechCommonConfig setMaxCurrent(Current current) {
         this.maxMotorCurrent = current;
+        return this;
+    }
+
+    /**
+     * Sets the method used to keep the mechanism from exceeding its limits. Defaults to LimitTrim.Voltage.
+     * @param limitTrim mechanism limit trimming method
+     * @return current configuration object
+     */
+    public MotorMechCommonConfig setLimitTrim(LimitTrim limitTrim) {
+        this.limitTrim = limitTrim;
         return this;
     }
 }

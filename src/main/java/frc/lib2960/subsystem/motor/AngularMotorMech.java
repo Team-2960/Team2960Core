@@ -1,36 +1,36 @@
 package frc.lib2960.subsystem.motor;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.MutDistance;
-import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.MutAngle;
+import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib2960.config.subsystem.LinearMotorMechConfig;
+import frc.lib2960.config.subsystem.AngularMotorMechConfig;
 import frc.lib2960.config.subsystem.MotorMechCommonConfig.LimitTrim;
-import frc.lib2960.controller.LinearController;
+import frc.lib2960.controller.AngularController;
 
 /**
- * Manages a linear motor mechanism
+ * Manages a angular motor mechanism
  */
-public abstract class LinearMotorMech extends SubsystemBase{
+public abstract class AngularMotorMech extends SubsystemBase {
     // TODO Implement SysID
-    public final LinearMotorMechConfig config;
+    public final AngularMotorMechConfig config;
 
-    private final LinearController controller;
+    private final AngularController controller;
 
-    private final MutDistance curPos = Meters.mutable(0);
-    private final MutLinearVelocity curVel = MetersPerSecond.mutable(0);
+    private final MutAngle curPos = Radians.mutable(0);
+    private final MutAngularVelocity curVel = RadiansPerSecond.mutable(0);
     private final MutVoltage curVolt = Volts.mutable(0);
-    private final MutLinearVelocity targetVel = MetersPerSecond.mutable(0);
+    private final MutAngularVelocity targetVel = RadiansPerSecond.mutable(0);
     private final MutVoltage targetVolt = Volts.mutable(0);
 
     /**
@@ -38,10 +38,10 @@ public abstract class LinearMotorMech extends SubsystemBase{
      * 
      * @param config motor mechanism configuration
      */
-    public LinearMotorMech(LinearMotorMechConfig config) {
+    public AngularMotorMech(AngularMotorMechConfig config) {
         this.config = config;
 
-        controller = new LinearController(config.controlConfig);
+        controller = new AngularController(config.controlConfig);
     }
 
     /**
@@ -49,7 +49,7 @@ public abstract class LinearMotorMech extends SubsystemBase{
      * 
      * @param target target position
      */
-    public void gotoPosition(Distance target) {
+    public void gotoPosition(Angle target) {
         getPosition(curPos);
         getVelocity(curVel);
 
@@ -63,7 +63,7 @@ public abstract class LinearMotorMech extends SubsystemBase{
      * 
      * @param target target velocity
      */
-    public void gotoVelocity(LinearVelocity target) {
+    public void gotoVelocity(AngularVelocity target) {
         getPosition(curPos);
         getVelocity(curVel);
 
@@ -79,13 +79,13 @@ public abstract class LinearMotorMech extends SubsystemBase{
      * @param curPos current position
      * @param curVel current velocity
      */
-    public void gotoVelocity(LinearVelocity target, Distance curPos, LinearVelocity curVel) {
+    public void gotoVelocity(AngularVelocity target, Angle curPos, AngularVelocity curVel) {
         targetVel.mut_replace(target);
 
         if (config.common.limitTrim == LimitTrim.Velocity)
             controller.trimVelocity(curPos, targetVel);
 
-        controller.updateVoltage(curVel, target, curVolt);
+        controller.updateVoltage(curPos, curVel, target, curVolt);
         setVoltage(targetVolt, curPos);
     }
 
@@ -100,7 +100,7 @@ public abstract class LinearMotorMech extends SubsystemBase{
         setVoltage(volts, curPos);
     }
 
-    public void setVoltage(Voltage volts, Distance curPos) {
+    public void setVoltage(Voltage volts, Angle curPos) {
         targetVolt.mut_replace(volts);
 
         if (config.common.limitTrim == LimitTrim.Voltage)
@@ -111,9 +111,9 @@ public abstract class LinearMotorMech extends SubsystemBase{
 
     public abstract void setMotorVoltage(Voltage volts);
 
-    public abstract void getPosition(MutDistance result);
+    public abstract void getPosition(MutAngle result);
 
-    public abstract void getVelocity(MutLinearVelocity result);
+    public abstract void getVelocity(MutAngularVelocity result);
 
     public abstract void getVoltage(MutVoltage result);
 
@@ -121,15 +121,15 @@ public abstract class LinearMotorMech extends SubsystemBase{
     /*********************/
     /* Command Factories */
     /*********************/
-    public Command getPositionCmd(Distance position) {
+    public Command getPositionCmd(Angle position) {
         return this.run(() -> this.gotoPosition(position));
     }
 
-    public Command getVelocity(Supplier<LinearVelocity> velocity) {
+    public Command getVelocity(Supplier<AngularVelocity> velocity) {
         return this.run(() -> this.gotoVelocity(velocity.get()));
     }
 
-    public Command getVelocity(LinearVelocity velocity) {
+    public Command getVelocity(AngularVelocity velocity) {
         return this.run(() -> this.gotoVelocity(velocity));
     }
 
@@ -140,4 +140,5 @@ public abstract class LinearMotorMech extends SubsystemBase{
     public Command getVoltage(Voltage velocity) {
         return this.run(() -> this.setVoltage(velocity));
     }
+
 }
