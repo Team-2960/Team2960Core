@@ -43,7 +43,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
     public CTRESwerveDrive(CANBus canBus, CTRESwerveDriveConfig config, SwerveModuleCommonConfig commonConfig,
             SwerveModuleBaseConfig lfConfig, SwerveModuleBaseConfig rfConfig,
             SwerveModuleBaseConfig lrConfig, SwerveModuleBaseConfig rrConfig) {
-        super(config.baseConfig);
+        super(config.common);
 
         // Create DriveTrain Constants
         SwerveDrivetrainConstants drivetrainConstants = new SwerveDrivetrainConstants()
@@ -59,8 +59,8 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 CANcoder::new,
                 drivetrainConstants,
                 config.odometryUpdateFrequency.in(Hertz),
-                config.baseConfig.stateStd,
-                config.baseConfig.visionStd,
+                config.common.stateStd,
+                config.common.visionStd,
                 getModuleConst(constCreator, lfConfig),
                 getModuleConst(constCreator, rfConfig),
                 getModuleConst(constCreator, lrConfig),

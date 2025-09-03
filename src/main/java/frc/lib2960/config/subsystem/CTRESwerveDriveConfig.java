@@ -6,7 +6,7 @@ import edu.wpi.first.units.measure.Frequency;
 
 public class CTRESwerveDriveConfig {
     /** Common Swerve Drive config */
-    public SwerveDriveBaseConfig baseConfig = new SwerveDriveBaseConfig();
+    public SwerveDriveCommonConfig common = new SwerveDriveCommonConfig();
     /** CAN ID of the IMU. */
     public int imuCANID;
     /** CAN Bus Name. Default to "canivore". */

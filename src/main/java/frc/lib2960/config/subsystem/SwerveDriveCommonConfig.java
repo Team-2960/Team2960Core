@@ -11,7 +11,7 @@ import frc.lib2960.config.controller.AngularControllerConfig;
 import frc.lib2960.config.controller.LinearControllerConfig;
 import frc.lib2960.config.controller.PIDConfig;
 
-public class SwerveDriveBaseConfig {
+public class SwerveDriveCommonConfig {
     /** Config for linear control of the robot base. Defaults to a default LinearControlConfig. */
     public LinearControllerConfig linearCtrlConfig = new LinearControllerConfig();
     /** Config for anguler control of the robot base. Defaults to a default AngularControlConfig. */
@@ -35,7 +35,7 @@ public class SwerveDriveBaseConfig {
      * @param pidConfig linear PathPlanner PID
      * @return current configuration object
      */
-    public SwerveDriveBaseConfig setLinearPPPID(PIDConfig pidConfig) {
+    public SwerveDriveCommonConfig setLinearPPPID(PIDConfig pidConfig) {
         this.linearPPPID = pidConfig;
         return this;
     }
@@ -47,7 +47,7 @@ public class SwerveDriveBaseConfig {
      * @param pidConfig angular PathPlanner PID
      * @return current configuration object
      */
-    public SwerveDriveBaseConfig setAngularPPPID(PIDConfig pidConfig) {
+    public SwerveDriveCommonConfig setAngularPPPID(PIDConfig pidConfig) {
         this.angularPPPID = pidConfig;
         return this;
     }
@@ -58,7 +58,7 @@ public class SwerveDriveBaseConfig {
      * @param period update period
      * @return current configuration object
      */
-    public SwerveDriveBaseConfig setPeriod(Time period) {
+    public SwerveDriveCommonConfig setPeriod(Time period) {
         this.period = period;
         return this;
     }
@@ -70,7 +70,7 @@ public class SwerveDriveBaseConfig {
      * @param std odometry standard deviation vector
      * @return current configuration object
      */
-    public SwerveDriveBaseConfig setStateStd(Vector<N3> std) {
+    public SwerveDriveCommonConfig setStateStd(Vector<N3> std) {
         this.stateStd = std;
         return this;
     }
@@ -82,7 +82,7 @@ public class SwerveDriveBaseConfig {
      * @param std default vision standard deviation vector
      * @return current configuration object
      */
-    public SwerveDriveBaseConfig setVisionStd(Vector<N3> std) {
+    public SwerveDriveCommonConfig setVisionStd(Vector<N3> std) {
         this.visionStd = std;
         return this;
     }
@@ -92,7 +92,7 @@ public class SwerveDriveBaseConfig {
      * @param other other config to copy
      * @return current configuration object
      */
-    public SwerveDriveBaseConfig copyConfig(SwerveDriveBaseConfig other) {
+    public SwerveDriveCommonConfig copyConfig(SwerveDriveCommonConfig other) {
         this.linearCtrlConfig = other.linearCtrlConfig;
         this.angleCtrlConfig = other.angleCtrlConfig;
         

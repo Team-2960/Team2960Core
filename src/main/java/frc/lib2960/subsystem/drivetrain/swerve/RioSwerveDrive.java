@@ -29,7 +29,7 @@ import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.lib2960.config.subsystem.SwerveDriveBaseConfig;
+import frc.lib2960.config.subsystem.SwerveDriveCommonConfig;
 import frc.lib2960.helper.AngleUtil;
 
 /**
@@ -37,7 +37,7 @@ import frc.lib2960.helper.AngleUtil;
  */
 public abstract class RioSwerveDrive extends SwerveDriveBase {
 
-    private final SwerveDriveBaseConfig config;
+    private final SwerveDriveCommonConfig config;
 
     private final SwerveModuleBase[] modules;
 
@@ -65,7 +65,7 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
      * @param modules list of swerve modules
      */
     public RioSwerveDrive(
-            SwerveDriveBaseConfig config,
+            SwerveDriveCommonConfig config,
             SwerveModuleBase... modules) {
         super(config);
         this.config = config;
@@ -109,10 +109,10 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
 
         sysidTurnRoutine = new SysIdRoutine(
                 new SysIdRoutine.Config(
-                    Volts.of(Math.PI / 6).per(Second),
-                    Volts.of(Math.PI),
-                    null,
-                    null),
+                        Volts.of(Math.PI / 6).per(Second),
+                        Volts.of(Math.PI),
+                        null,
+                        null),
                 new SysIdRoutine.Mechanism(
                         (volts) -> this.setChassisSpeeds(new ChassisSpeeds(0, 0, volts.in(Volts) * Math.PI / 6)),
                         this::sysidTurnMotorsLog,

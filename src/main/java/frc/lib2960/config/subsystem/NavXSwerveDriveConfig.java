@@ -3,7 +3,7 @@ package frc.lib2960.config.subsystem;
 import com.studica.frc.AHRS.NavXComType;
 
 public class NavXSwerveDriveConfig {
-    public SwerveDriveBaseConfig baseConfig = new SwerveDriveBaseConfig();
+    public SwerveDriveCommonConfig common = new SwerveDriveCommonConfig();
     public NavXComType comType = NavXComType.kMXP_SPI;
 
     /**

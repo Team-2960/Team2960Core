@@ -18,7 +18,7 @@ public class NavXSwerveDrive extends RioSwerveDrive{
     public final MutAngularVelocity mutAngularVel = DegreesPerSecond.mutable(0);
 
     public NavXSwerveDrive(NavXSwerveDriveConfig config, SwerveModuleBase... modules) {
-        super(config.baseConfig, modules);
+        super(config.common, modules);
         this.config = config;
 
         navx = new AHRS(NavXComType.kMXP_SPI);

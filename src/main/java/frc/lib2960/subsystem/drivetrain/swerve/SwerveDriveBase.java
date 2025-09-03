@@ -26,7 +26,7 @@ import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
 import frc.lib2960.config.controller.PIDConfig;
-import frc.lib2960.config.subsystem.SwerveDriveBaseConfig;
+import frc.lib2960.config.subsystem.SwerveDriveCommonConfig;
 import frc.lib2960.helper.AngleUtil;
 
 /**
@@ -37,7 +37,7 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
     /**********************/
     /* Config Variables */
     /**********************/
-    protected final SwerveDriveBaseConfig config;
+    protected final SwerveDriveCommonConfig config;
     private boolean isFieldRelative;
 
     private final LinearController linearCtrl;
@@ -70,7 +70,7 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
      * 
      * @param config swerve drive configuration
      */
-    public SwerveDriveBase(SwerveDriveBaseConfig config) {
+    public SwerveDriveBase(SwerveDriveCommonConfig config) {
         this.config = config;
         this.linearCtrl = new LinearController(config.linearCtrlConfig);
         this.angleCtrl = new AngularController(config.angleCtrlConfig);
