@@ -1,20 +1,44 @@
 package frc.lib2960.config.subsystem;
 
+import static edu.wpi.first.units.Units.Hertz;
+
 import edu.wpi.first.units.measure.Frequency;
 
 public class CTRESwerveDriveConfig {
-    public final SwerveDriveBaseConfig baseConfig = new SwerveDriveBaseConfig();
-    public final int imuCANID;
-    public final String CANBusName;
-    public final Frequency odometryUpdateFrequency;
+    /** Common Swerve Drive config */
+    public SwerveDriveBaseConfig baseConfig = new SwerveDriveBaseConfig();
+    /** CAN ID of the IMU. */
+    public int imuCANID;
+    /** CAN Bus Name. Default to "canivore". */
+    public String CANBusName = "canivore";
+    /** Odometry update frequency. Defaults to 250 hz. */
+    public Frequency odometryUpdateFrequency = Hertz.of(250);
 
-    public CTRESwerveDriveConfig(
-            int imuCANID,
-            String CANBusName,
-            Frequency odometryUpdateFrequency) {
-
+    /**
+     * Constructor
+     * @param imuCANID  IMU CAN ID
+     */
+    public CTRESwerveDriveConfig(int imuCANID) {
         this.imuCANID = imuCANID;
+    }
+
+    /**
+     * Sets the CAN Bus Name. Defaults to "canivore".
+     * @param CANBusName    CAN Bus Name
+     * @return  Current config object
+     */
+    public CTRESwerveDriveConfig setCANBusName(String CANBusName) {
         this.CANBusName = CANBusName;
-        this.odometryUpdateFrequency = odometryUpdateFrequency;
+        return this;
+    }
+
+    /**
+     * Sets the odometry update frequency. Defaults to 250 hz.
+     * @param freq  odometry update frequency
+     * @return  Current config object
+     */
+    public CTRESwerveDriveConfig setOdometryUpdateFrequency(Frequency freq) {
+        this.odometryUpdateFrequency = freq;
+        return this;
     }
 }

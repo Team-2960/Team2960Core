@@ -387,12 +387,12 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
     /******************/
     @Override
     public PIDConfig getLinearPathPlannerPID() {
-        return config.getLinearPPPIDConfig();
+        return config.linearPPPID;
     }
 
     @Override
     public PIDConfig getAngularPathPlannerPID() {
-        return config.getAngularPPPIDConfig();
+        return config.angularPPPID;
     }
 
     /********************/

@@ -7,13 +7,18 @@ import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
 
 public class RobotCommonConfig {
-    private Time updatePeriod = Seconds.of(.020);
+    /** Update period for the robot. Defaults to 20ms */
+    public Time updatePeriod = Seconds.of(.020);
 
-    private Mass robotMass = Pounds.of(120);
-    private Mass bumperMass = Pounds.of(15);
-    private Mass batteryMass = Pounds.of(12.89);
+    /** Robot's mass without battery or bumpers. Defaults to 120 lbs. */
+    public Mass robotMass = Pounds.of(120);
+    /** Robot bumper's mass. Defaults to 15 lbs. */
+    public Mass bumperMass = Pounds.of(15);
+    /** Robot battery's mass. Defaults to 12.89 lbs. */
+    public Mass batteryMass = Pounds.of(12.89);
 
-    private Mass totalMass = Pounds.of(robotMass.in(Pounds) + bumperMass.in(Pounds) + batteryMass.in(Pounds));
+    /** Robot's mass with bumpers and battery. */
+    public Mass totalMass = Pounds.of(robotMass.in(Pounds) + bumperMass.in(Pounds) + batteryMass.in(Pounds));
 
     /**
      * Sets the configured update period. Default is 20ms.
@@ -61,49 +66,6 @@ public class RobotCommonConfig {
         updateTotalMass();
         return this;
     }
-
-    /**
-     * Gets the configured update period
-     * @return  configured update period
-     */
-    public Time getUpdatePeriod() {
-        return updatePeriod;
-    }
-
-    /**
-     * Gets the robot's mass without bumpers or battery.
-     * @return  robot's mass without bumpers or battery.
-     */
-    public Mass getRobotMass() {
-        return robotMass;
-    }
-
-
-    /**
-     * Gets the bumper mass
-     * @return  bumper mass
-     */
-    public Mass getBumperMass() {
-        return bumperMass;
-    }
-
-
-    /**
-     * Gets the battery mass
-     * @return  battery mass
-     */
-    public Mass getBatteryMass() {
-        return batteryMass;
-    }
-
-
-    /**
-     * Gets the robot's mass with bumpers or battery.
-     * @return  robot's mass with bumpers or battery.
-     */
-    public Mass getTotalMass() {
-        return totalMass;
-    }   
 
     /**
      * Updates the total robot mass

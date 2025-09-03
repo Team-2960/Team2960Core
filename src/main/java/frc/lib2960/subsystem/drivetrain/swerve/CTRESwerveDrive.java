@@ -173,19 +173,19 @@ public class CTRESwerveDrive extends SwerveDriveBase {
     private static SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> getConstCreator(
             SwerveModuleCommonConfig commonConfig) {
         Slot0Configs driveGains = new Slot0Configs()
-                .withKP(commonConfig.driveCtrlConfig.getPIDConfig().kP)
-                .withKI(commonConfig.driveCtrlConfig.getPIDConfig().kP)
-                .withKD(commonConfig.driveCtrlConfig.getPIDConfig().kP)
-                .withKS(commonConfig.driveCtrlConfig.getFFConfig().kS)
-                .withKV(commonConfig.driveCtrlConfig.getFFConfig().kV);
+                .withKP(commonConfig.driveCtrlConfig.pidConfig.kP)
+                .withKI(commonConfig.driveCtrlConfig.pidConfig.kP)
+                .withKD(commonConfig.driveCtrlConfig.pidConfig.kP)
+                .withKS(commonConfig.driveCtrlConfig.ffConfig.kS)
+                .withKV(commonConfig.driveCtrlConfig.ffConfig.kV);
 
         Slot0Configs steerGains = new Slot0Configs()
-                .withKP(commonConfig.angleCtrlConfig.getPIDConfig().kP)
-                .withKI(commonConfig.angleCtrlConfig.getPIDConfig().kP)
-                .withKD(commonConfig.angleCtrlConfig.getPIDConfig().kP)
-                .withKS(commonConfig.angleCtrlConfig.getFFConfig().kS)
-                .withKV(commonConfig.angleCtrlConfig.getFFConfig().kV)
-                .withKA(commonConfig.angleCtrlConfig.getFFConfig().kA)
+                .withKP(commonConfig.angleCtrlConfig.pidConfig.kP)
+                .withKI(commonConfig.angleCtrlConfig.pidConfig.kP)
+                .withKD(commonConfig.angleCtrlConfig.pidConfig.kP)
+                .withKS(commonConfig.angleCtrlConfig.ffConfig.kS)
+                .withKV(commonConfig.angleCtrlConfig.ffConfig.kV)
+                .withKA(commonConfig.angleCtrlConfig.ffConfig.kA)
                 .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
         TalonFXConfiguration driveInitialConfigs = new TalonFXConfiguration();
@@ -207,7 +207,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 .withDriveMotorClosedLoopOutput(ClosedLoopOutputType.Voltage)
                 .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage)
                 .withSlipCurrent(commonConfig.slipCurrent)
-                .withSpeedAt12Volts(commonConfig.driveCtrlConfig.getMaxVelocity())
+                .withSpeedAt12Volts(commonConfig.driveCtrlConfig.maxVel)
                 .withDriveMotorType(DriveMotorArrangement.TalonFX_Integrated)
                 .withSteerMotorType(SteerMotorArrangement.TalonFX_Integrated)
                 .withFeedbackSource(SteerFeedbackType.FusedCANcoder)

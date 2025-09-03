@@ -12,27 +12,21 @@ import frc.lib2960.config.controller.LinearControllerConfig;
 import frc.lib2960.config.controller.PIDConfig;
 
 public class SwerveDriveBaseConfig {
+    /** Config for linear control of the robot base. Defaults to a default LinearControlConfig. */
+    public LinearControllerConfig linearCtrlConfig = new LinearControllerConfig();
+    /** Config for anguler control of the robot base. Defaults to a default AngularControlConfig. */
+    public AngularControllerConfig angleCtrlConfig = new AngularControllerConfig();
 
-    public final LinearControllerConfig linearCtrlConfig = new LinearControllerConfig();
-    public final AngularControllerConfig angleCtrlConfig = new AngularControllerConfig();
-
-    private String name = "Drivetrain";
-    private PIDConfig linearPPPID = new PIDConfig(0, 0, 0);
-    private PIDConfig angularPPPID = new PIDConfig(0, 0, 0);
-    private Time period = Seconds.of(0.02);
-    private Vector<N3> stateStd = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
-    private Vector<N3> visionStd = VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30));
-
-    /**
-     * Set the configured name. Default is "Drivetrain".
-     * 
-     * @param name set the configured name
-     * @return current configuration object
-     */
-    public SwerveDriveBaseConfig setName(String name) {
-        this.name = name;
-        return this;
-    }
+    /** PID Config for linear PathPlanner control. Defaults to kP, kI, & kD set to zero. */
+    public PIDConfig linearPPPID = new PIDConfig(0, 0, 0);
+    /** PID Config for angular PathPlanner control. Defaults to kP, kI, & kD set to zero. */
+    public PIDConfig angularPPPID = new PIDConfig(0, 0, 0);
+    /** Update period of the drive base */
+    public Time period = Seconds.of(0.02);
+    /** Odometry standard deviation vector. Defaults to [.05, .05, Units.degreesToRadians(5)] */
+    public Vector<N3> stateStd = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
+    /** Default vision standard deviation vector. Defaults to [.5, .5, Units.degreesToRadians(30)] */
+    public Vector<N3> visionStd = VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30));
 
     /**
      * Set the linear PathPlanner PID configuration. Default is kP, kI, and kD are
@@ -94,55 +88,20 @@ public class SwerveDriveBaseConfig {
     }
 
     /**
-     * Gets the configured name
-     * 
-     * @return configured name
+     * Copies another config into the current config
+     * @param other other config to copy
+     * @return current configuration object
      */
-    public String getName() {
-        return name;
-    }
+    public SwerveDriveBaseConfig copyConfig(SwerveDriveBaseConfig other) {
+        this.linearCtrlConfig = other.linearCtrlConfig;
+        this.angleCtrlConfig = other.angleCtrlConfig;
+        
+        this.linearPPPID = other.linearPPPID;
+        this.angularPPPID = other.angularPPPID;
+        this.period = other.period;
+        this.stateStd = other.stateStd;
+        this.visionStd = other.visionStd;
 
-    /**
-     * Gets the linear PathPlanner PID configuration
-     * 
-     * @return linear PathPlanner PID configuration
-     */
-    public PIDConfig getLinearPPPIDConfig() {
-        return linearPPPID;
-    }
-
-    /**
-     * Gets the angular PathPlanner PID configuration
-     * 
-     * @return angular PathPlanner PID configuration
-     */
-    public PIDConfig getAngularPPPIDConfig() {
-        return angularPPPID;
-    }
-
-    /**
-     * Gets the update period
-     * 
-     * @return update period
-     */
-    public Time getPeriod() {
-        return period;
-    }
-
-    /**
-     * Gets the odometry standard deviation vector
-     * @return odometry standard deviation vector
-     */
-    public Vector<N3> getStateStd() {
-        return stateStd;
-    }
-
-
-    /**
-     * Gets the default vision standard deviation vector
-     * @return default vision standard deviation vector
-     */
-    public Vector<N3> getVisionStd() {
-        return visionStd;
+        return this;
     }
 }

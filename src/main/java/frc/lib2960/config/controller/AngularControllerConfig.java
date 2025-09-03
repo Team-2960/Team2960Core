@@ -13,17 +13,40 @@ import edu.wpi.first.units.measure.Time;
 import frc.lib2960.controller.AngularController;
 
 public class AngularControllerConfig {
-    private PIDConfig pidConfig = new PIDConfig(0, 0, 0);
-    private FFConfig ffConfig = new FFConfig(0, 0);
+    /** PID gains for the controller. kP, kI, & kD default to zero. */
+    public PIDConfig pidConfig = new PIDConfig(0, 0, 0);
+    /** Feed Forward gains for the controller. kS, kV, kG, & kA default to zero. */
+    public FFConfig ffConfig = new FFConfig(0, 0);
 
-    private Time period = Seconds.of(0.02);
+    /** Update period of the controller. Defaults to 20ms. */
+    public Time period = Seconds.of(0.02);
 
-    private AngularVelocity maxVel = RadiansPerSecond.of(Double.POSITIVE_INFINITY);
-    private AngularAcceleration maxAccel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
-    private AngularAcceleration maxDecel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+    /**
+     * Maximum velocity of the controller. Defaults to Positive Infinity Radians per
+     * Second.
+     */
+    public AngularVelocity maxVel = RadiansPerSecond.of(Double.POSITIVE_INFINITY);
+    /**
+     * Maximum acceleration of the controller. Defaults to Positive Infinity Radians
+     * per Second per Second.
+     */
+    public AngularAcceleration maxAccel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+    /**
+     * Maximum deceleration of the controller. Defaults to Positive Infinity Radians
+     * per Second per Second.
+     */
+    public AngularAcceleration maxDecel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
 
-    private Optional<Angle> minimum = Optional.empty();
-    private Optional<Angle> maximum = Optional.empty();
+    /**
+     * Minimum position of the controller. if empty, system is assumed to be
+     * continuous. Defaults to empty.
+     */
+    public Optional<Angle> minimum = Optional.empty();
+    /**
+     * Maximum position of the controller. if empty, system is assumed to be
+     * continuous. Defaults to empty.
+     */
+    public Optional<Angle> maximum = Optional.empty();
 
     /**
      * Sets the PIDConfig. Default config is kP, kI, and kD are set to zero.
@@ -120,95 +143,24 @@ public class AngularControllerConfig {
 
     /**
      * Copies the configuration from another config object
+     * 
      * @param other other config object to copy
      * @return current config object
      */
     public AngularControllerConfig copyConfig(AngularControllerConfig other) {
         this.pidConfig = other.pidConfig;
         this.ffConfig = other.ffConfig;
-    
+
         this.period = other.period;
-    
+
         this.maxVel = other.maxVel;
         this.maxAccel = other.maxAccel;
         this.maxDecel = other.maxDecel;
-    
+
         this.minimum = other.minimum;
         this.maximum = other.maximum;
 
         return this;
-    }
-
-    /**
-     * Gets the set PIDConfig
-     * 
-     * @return set PIDConfig
-     */
-    public PIDConfig getPIDConfig() {
-        return pidConfig;
-    }
-
-    /**
-     * Gets the set FFConfig
-     * 
-     * @return set FFConfig
-     */
-    public FFConfig getFFConfig() {
-        return ffConfig;
-    }
-
-    /**
-     * Gets the set Period
-     * 
-     * @return set Period
-     */
-    public Time getPeriod() {
-        return period;
-    }
-
-    /**
-     * Gets the set maximum velocity
-     * 
-     * @return set Period
-     */
-    public AngularVelocity getMaxVelocity() {
-        return maxVel;
-    }
-
-    /**
-     * Gets the set maximum acceleration
-     * 
-     * @return set Period
-     */
-    public AngularAcceleration getMaxAccel() {
-        return maxAccel;
-    }
-
-    /**
-     * Gets the set maximum deceleration
-     * 
-     * @return set Period
-     */
-    public AngularAcceleration getMaxDecel() {
-        return maxDecel;
-    }
-
-    /**
-     * Get the minimum position.
-     * 
-     * @return minimum position. Set to empty is no limits are set.
-     */
-    public Optional<Angle> getMinimum() {
-        return minimum;
-    }
-
-    /**
-     * Get the maximum position.
-     * 
-     * @return maximum position. Set to empty is no limits are set.
-     */
-    public Optional<Angle> getMaximum() {
-        return maximum;
     }
 
     /**

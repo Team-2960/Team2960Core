@@ -29,12 +29,12 @@ public class AngularController {
     public AngularController(AngularControllerConfig config) {
         this.config = config;
         trapProfile = new TrapezoidalProfile(
-                config.getMaxVelocity().in(DegreesPerSecond),
-                config.getMaxAccel().in(DegreesPerSecondPerSecond),
-                config.getMaxDecel().in(DegreesPerSecondPerSecond),
-                config.getPeriod().in(Seconds));
-        pid = config.getPIDConfig().getPIDController();
-        ff = config.getFFConfig().getArmFF();
+                config.maxVel.in(DegreesPerSecond),
+                config.maxAccel.in(DegreesPerSecondPerSecond),
+                config.maxDecel.in(DegreesPerSecondPerSecond),
+                config.period.in(Seconds));
+        pid = config.pidConfig.getPIDController();
+        ff = config.ffConfig.getArmFF();
     }
 
     /**
@@ -72,9 +72,9 @@ public class AngularController {
                 pid.calculate(
                         currentVel.in(DegreesPerSecond),
                         targetVel.in(DegreesPerSecond)) +
-                ff.calculate(
-                        currentPos.in(Radians),
-                        targetVel.in(DegreesPerSecond)),
+                        ff.calculate(
+                                currentPos.in(Radians),
+                                targetVel.in(DegreesPerSecond)),
                 Volts);
     }
 
@@ -86,8 +86,7 @@ public class AngularController {
      *         Always returns true if limits are not set.
      */
     public boolean aboveMin(Angle position) {
-        var minimum = config.getMinimum();
-        return minimum.isEmpty() || position.gte(minimum.get());
+        return config.minimum.isEmpty() || position.gte(config.minimum.get());
     }
 
     /**
@@ -98,8 +97,7 @@ public class AngularController {
      *         Always returns true if limits are not set.
      */
     public boolean belowMax(Angle position) {
-        var maximum = config.getMaximum();
-        return maximum.isEmpty() || position.lte(maximum.get());
+        return config.maximum.isEmpty() || position.lte(config.maximum.get());
     }
 
     /**

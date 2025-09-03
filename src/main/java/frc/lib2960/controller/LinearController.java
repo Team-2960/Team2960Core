@@ -28,12 +28,12 @@ public class LinearController {
     public LinearController(LinearControllerConfig config) {
         this.config = config;
         trapProfile = new TrapezoidalProfile(
-                config.getMaxVelocity().in(MetersPerSecond),
-                config.getMaxAccel().in(MetersPerSecondPerSecond),
-                config.getMaxDecel().in(MetersPerSecondPerSecond),
-                config.getPeriod().in(Seconds));
-        pid = config.getPIDConfig().getPIDController();
-        ff = config.getFFConfig().getElevatorFF();
+                config.maxVel.in(MetersPerSecond),
+                config.maxAccel.in(MetersPerSecondPerSecond),
+                config.maxDecel.in(MetersPerSecondPerSecond),
+                config.period.in(Seconds));
+        pid = config.pidConfig.getPIDController();
+        ff = config.ffConfig.getElevatorFF();
     }
 
     /**
@@ -82,8 +82,7 @@ public class LinearController {
      *         Always returns true if limits are not set.
      */
     public boolean aboveMin(Distance position) {
-        var minimum = config.getMinimum();
-        return minimum.isEmpty() || position.gte(minimum.get());
+        return config.minimum.isEmpty() || position.gte(config.minimum.get());
     }
 
     /**
@@ -94,8 +93,7 @@ public class LinearController {
      *         Always returns true if limits are not set.
      */
     public boolean belowMax(Distance position) {
-        var maximum = config.getMaximum();
-        return maximum.isEmpty() || position.lte(maximum.get());
+        return config.maximum.isEmpty() || position.lte(config.maximum.get());
     }
 
     /**
