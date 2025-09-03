@@ -230,7 +230,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 config.angleMotorID,
                 config.driveMotorID,
                 config.angleEncoderID,
-                config.encoderOffset,
+                config.angleEncoderOffset,
                 config.xPos,
                 config.yPos,
                 config.invertDriveMotor,

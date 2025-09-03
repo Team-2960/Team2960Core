@@ -8,21 +8,41 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 
 public class SwerveModuleBaseConfig {
-    public final String name;
+    /** Swerve module name */
+    public String name;
 
-    public final int driveMotorID;
-    public final int angleMotorID;
-    public final int angleEncoderID;
+    /** Drive motor ID. */
+    public int driveMotorID;
+    /** Angle motor ID. */
+    public int angleMotorID;
+    /** Angle Encoder ID */
+    public int angleEncoderID;
 
-    public final Distance xPos;
-    public final Distance yPos;
+    /** Module x offset from robot origin. */
+    public Distance xPos;
+    /** Module y offset from robot origin. */
+    public Distance yPos;
 
+    /** Invert drive motor flag. Defaults to false. */
     public boolean invertDriveMotor = false;
+    /** Invert angle motor flag. Defaults to false. */
     public boolean invertAngleMotor = false;
+    /** Invert angle encoder flag. Defaults to false. */
     public boolean invertAngleEncoder = false;
 
-    public Angle encoderOffset = Rotations.zero();
+    /** Angle encoder offset. Defaults to zeto rotations. */
+    public Angle angleEncoderOffset = Rotations.zero();
 
+    /**
+     * Constructor
+     * 
+     * @param name           Name of the module
+     * @param driveMotorID   drive motor ID
+     * @param angleMotorID   angle motor ID
+     * @param angleEncoderID angle encoder ID
+     * @param xPos           Module x offset from robot origin.
+     * @param yPos           Module y offset from robot origin.
+     */
     public SwerveModuleBaseConfig(
             String name,
             int driveMotorID,
@@ -37,6 +57,50 @@ public class SwerveModuleBaseConfig {
         this.angleEncoderID = angleEncoderID;
         this.xPos = xPos;
         this.yPos = yPos;
+    }
+
+    /**
+     * Sets the drive motor inverted flag. Defaults to false.
+     * 
+     * @param invert invert flag
+     * @return current configuration object
+     */
+    public SwerveModuleBaseConfig setInvertDriveMotor(boolean invert) {
+        this.invertDriveMotor = invert;
+        return this;
+    }
+
+    /**
+     * Sets the angle motor inverted flag. Defaults to false.
+     * 
+     * @param invert invert flag
+     * @return current configuration object
+     */
+    public SwerveModuleBaseConfig setInvertAngleMotor(boolean invert) {
+        this.invertAngleMotor = invert;
+        return this;
+    }
+
+    /**
+     * Sets the angle encoder inverted flag. Defaults to false.
+     * 
+     * @param invert invert flag
+     * @return current configuration object
+     */
+    public SwerveModuleBaseConfig setInvertAngleEncoder(boolean invert) {
+        this.invertAngleEncoder = invert;
+        return this;
+    }
+
+    /**
+     * Sets the angle encoder offset. Defaults to zero rotations.
+     * 
+     * @param offset angle encoder offset
+     * @return current configuration object
+     */
+    public SwerveModuleBaseConfig setAngleEncoderOffset(Angle offset) {
+        this.angleEncoderOffset = offset;
+        return this;
     }
 
     public Translation2d getTranslation() {
