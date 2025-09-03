@@ -14,6 +14,7 @@ import frc.lib2960.config.subsystem.CTRESwerveDriveConfig;
 import frc.lib2960.config.subsystem.SwerveModuleBaseConfig;
 import frc.lib2960.config.subsystem.SwerveModuleCommonConfig;
 
+import static edu.wpi.first.units.Units.Hertz;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
@@ -57,6 +58,9 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 TalonFX::new,
                 CANcoder::new,
                 drivetrainConstants,
+                config.odometryUpdateFrequency.in(Hertz),
+                config.baseConfig.stateStd,
+                config.baseConfig.visionStd,
                 getModuleConst(constCreator, lfConfig),
                 getModuleConst(constCreator, rfConfig),
                 getModuleConst(constCreator, lrConfig),
