@@ -10,6 +10,9 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.units.measure.MutAngle;
@@ -32,9 +35,30 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
     public RevFlexMaxSwerveModule(SwerveModuleCommonConfig commonConfig, SwerveModuleBaseConfig config) {
         super(commonConfig, config);
 
-        driveMotor = new SparkFlex(config.driveMotorID,MotorType.kBrushless);
-        angleMotor = new SparkMax(config.driveMotorID,MotorType.kBrushless);
+        // Create motors
+        driveMotor = new SparkFlex(config.driveMotorID, MotorType.kBrushless);
+        angleMotor = new SparkMax(config.driveMotorID, MotorType.kBrushless);
 
+        // Configure Drive Motor
+        var driveConfig = new SparkMaxConfig();
+
+        double driveDist = commonConfig.driveRatio * commonConfig.wheelCircumference.in(Meters);
+
+        driveConfig.inverted(config.invertDriveMotor);
+        driveConfig.encoder.positionConversionFactor(driveDist);
+        driveConfig.encoder.velocityConversionFactor(driveDist / 60);
+
+        driveMotor.configure(driveConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+
+        // Configure Angle Motor
+        var angleConfig = new SparkMaxConfig();
+
+        angleConfig.inverted(config.invertAngleMotor);
+        angleConfig.absoluteEncoder.inverted(config.invertAngleEncoder)
+                .zeroOffset(config.angleEncoderOffset.in(Rotations));
+        angleConfig.alternateEncoder.inverted(config.invertAngleEncoder);
+
+        angleMotor.configure(angleConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         driveEncoder = driveMotor.getEncoder();
 
@@ -54,18 +78,12 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
 
     @Override
     public void getDrivePosition(MutDistance result) {
-        result
-        .mut_replace(commonConfig.wheelCircumference)
-        .mut_times(commonConfig.driveRatio)
-        .mut_times(driveEncoder.getPosition());
+        result.mut_replace(driveEncoder.getPosition(), Meters);
     }
 
     @Override
     public void getDriveVelocity(MutLinearVelocity result) {
-        result
-        .mut_replace(commonConfig.wheelCircumference.in(Meters), MetersPerSecond)
-        .mut_times(commonConfig.driveRatio)
-        .mut_times(driveEncoder.getVelocity());
+        result.mut_replace(driveEncoder.getVelocity(), MetersPerSecond);
     }
 
     @Override
@@ -87,6 +105,5 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
     public void getAngleVoltage(MutVoltage result) {
         result.mut_replace(angleMotor.getAppliedOutput() * angleMotor.getBusVoltage(), Volts);
     }
-
 
 }
