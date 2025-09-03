@@ -28,7 +28,8 @@ import frc.lib2960.helper.AngleUtil;
 
 public abstract class SwerveModuleBase {
     // TODO Implement SysID
-    // TODO Implemnent Shuffleboard outputs
+    // TODO Implement Telemetry
+    // TODO Implement Logging
 
     /**********************/
     /* Config Variables */

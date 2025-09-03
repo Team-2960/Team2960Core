@@ -33,6 +33,9 @@ import frc.lib2960.helper.AngleUtil;
  * Defines core capabilities of a swerve drive
  */
 public abstract class SwerveDriveBase implements HolonomicDrivetrain {
+    // TODO Implement SysID
+    // TODO Implement Telemetry
+    // TODO Implement Logging
 
     /**********************/
     /* Config Variables */
