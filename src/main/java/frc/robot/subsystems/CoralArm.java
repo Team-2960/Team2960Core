@@ -33,15 +33,13 @@ public class CoralArm extends AngularMotorMech {
         for (int i = 0; i < motors.length; i++) {
             var motorConfig = config.common.motorConfigs[i];
 
-            var motor = new SparkFlex(motorConfig.id, MotorType.kBrushless);
+            motors[i] = new SparkFlex(motorConfig.id, MotorType.kBrushless);
 
             var flexConfig = new SparkFlexConfig();
             flexConfig.inverted(motorConfig.invert);
             flexConfig.externalEncoder.velocityConversionFactor(1 / 60);
 
-            motor.configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-
-            motors[i] = motor;
+            motors[i].configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
         }
 
         // FInd the motor controller with the same ID as the encoder ID
