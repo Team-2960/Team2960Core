@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -40,7 +41,7 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
         angleMotor = new SparkMax(config.driveMotorID, MotorType.kBrushless);
 
         // Configure Drive Motor
-        var driveConfig = new SparkMaxConfig();
+        var driveConfig = new SparkFlexConfig();
 
         double driveDist = commonConfig.driveRatio * commonConfig.wheelCircumference.in(Meters);
 
