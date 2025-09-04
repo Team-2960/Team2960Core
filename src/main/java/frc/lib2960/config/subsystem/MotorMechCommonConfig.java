@@ -15,7 +15,7 @@ public class MotorMechCommonConfig {
     public String name;
 
     /** Array of motor configurations for all the motors in the mechanism. */
-    public MotorConfig[] motorsConfigs;
+    public MotorConfig[] motorConfigs;
 
     /** Encoder configuration for the mechanism. Set to empty if no encoder is present. Defaults to empty, */
     public Optional<EncoderConfig> encoderConfig = Optional.empty();
@@ -36,7 +36,7 @@ public class MotorMechCommonConfig {
             String name,
             MotorConfig... motorConfigs) {
         this.name = name;
-        this.motorsConfigs = motorConfigs;
+        this.motorConfigs = motorConfigs;
     }
 
     /**
