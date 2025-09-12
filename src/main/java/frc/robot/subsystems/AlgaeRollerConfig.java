@@ -21,10 +21,8 @@ public class AlgaeRollerConfig {
     public AlgaeRollerConfig(
             AngularMotorMechConfig motorMechConfig,
             MotorConfig motorConfig,
-            int intakeSensorID,
             Voltage intakeVolt,
-            Voltage ejectVolt,
-            Voltage reverseVolt) {
+            Voltage ejectVolt) {
         this.motorMechConfig = motorMechConfig;
         this.motorConfig = motorConfig;
         this.intakeVolt = intakeVolt;

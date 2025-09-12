@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.config.subsystem.LinearMotorMechConfig;
-import frc.lib2960.config.subsystem.MotorMechCommonConfig.LimitTrim;
 import frc.lib2960.controller.LinearController;
+import frc.lib2960.helper.LimitTrim;
 
 /**
  * Manages a linear motor mechanism
@@ -123,7 +123,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
     public void gotoVelocity(LinearVelocity target, Distance curPos, LinearVelocity curVel) {
         targetVel.mut_replace(target);
 
-        if (config.common.limitTrim == LimitTrim.Velocity)
+        if (config.limitTrim == LimitTrim.Velocity)
             controller.trimVelocity(curPos, targetVel);
 
         controller.updateVoltage(curVel, target, curVolt);
@@ -144,7 +144,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
     public void setVoltage(Voltage volts, Distance curPos) {
         targetVolt.mut_replace(volts);
 
-        if (config.common.limitTrim == LimitTrim.Voltage)
+        if (config.limitTrim == LimitTrim.Voltage)
             controller.trimVoltage(curPos, targetVolt);
 
         setMotorVoltage(volts);
@@ -410,7 +410,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
         getPosition(sysIdPos);
         getVelocity(sysIdVel);
 
-        log.motor(config.common.name)
+        log.motor(config.name)
                 .voltage(sysIdVolt)
                 .linearPosition(sysIdPos)
                 .linearVelocity(sysIdVel);

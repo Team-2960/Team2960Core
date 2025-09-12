@@ -32,8 +32,7 @@ public class ClimberConfig {
             Voltage retractVolt,
             Angle extendAngle,
             Angle climbAngle,
-            Angle homeAngle,
-            Angle tolerance) {
+            Angle homeAngle) {
         this.motorMechConfig = motorMechConfig;
         this.motorConfig = motorConfig;
         this.extendVolt = extendVolt;

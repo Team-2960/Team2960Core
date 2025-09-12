@@ -58,6 +58,26 @@ public class SwerveModuleCommonConfig {
     }
 
     /**
+     * Sets the drive controller configuration. defaults to new LinearControllerConfig().
+     * @param linearCtrlConfig  new linear controller config
+     * @return current configuration object
+     */
+    public SwerveModuleCommonConfig setDriveControlConfig(LinearControllerConfig linearCtrlConfig) {
+        this.driveCtrlConfig = linearCtrlConfig;
+        return this;
+    }
+    
+    /**
+     * Sets the angle controller configuration. defaults to new AngularControllerConfig().
+     * @param angularCtrlConfig  new angular controller config
+     * @return current configuration object
+     */
+    public SwerveModuleCommonConfig setAngleControlConfig(AngularControllerConfig angularCtrlConfig) {
+        this.angleCtrlConfig = angularCtrlConfig;
+        return this;
+    }
+
+    /**
      * Sets the couple ratio. Defaults to 0.
      * 
      * @param ratio couple ratio

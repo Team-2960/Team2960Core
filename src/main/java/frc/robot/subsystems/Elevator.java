@@ -45,7 +45,7 @@ public class Elevator extends LinearMotorMech {
         motor = new SparkFlex(motorConfig.id, MotorType.kBrushless);
 
         // Configure motor controller
-        double posConv = config.pulleyCircumfrance.in(Meters) * motorConfig.gearRatio;
+        double posConv = config.pulleyCircumference.in(Meters) * motorConfig.gearRatio;
 
         SparkFlexConfig flexConfig = new SparkFlexConfig();
         flexConfig.inverted(motorConfig.invert);

@@ -76,7 +76,7 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
     public SwerveDriveBase(SwerveDriveCommonConfig config) {
         this.config = config;
         this.linearCtrl = new LinearController(config.linearCtrlConfig);
-        this.angleCtrl = new AngularController(config.angleCtrlConfig);
+        this.angleCtrl = new AngularController(config.angularCtrlConfig);
     }
 
     /*******************/

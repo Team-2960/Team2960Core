@@ -1,14 +1,28 @@
 package frc.lib2960.config.subsystem;
 
+import static edu.wpi.first.units.Units.Amps;
+
 import java.util.HashMap;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import frc.lib2960.config.controller.AngularControllerConfig;
+import frc.lib2960.helper.LimitTrim;
 
 public class AngularMotorMechConfig {
-    /** Common motor mechanism configurations. */
-    public MotorMechCommonConfig common;
+
+    /** Name of the mechanism */
+    public String name;
+
+    /** Sets the maximum per motor current for the mechanism. Defaults to 80A. */
+    public Current maxMotorCurrent = Amps.of(80);
+
+    /**
+     * Sets method for keeping mechanism from exceeding its limits if they are set.
+     * Defaults to LimitTrim.Voltage.
+     */
+    public LimitTrim limitTrim = LimitTrim.Voltage;
 
     /** Motion control configuration */
     public AngularControllerConfig controlConfig = new AngularControllerConfig();
@@ -27,7 +41,30 @@ public class AngularMotorMechConfig {
      * @param motorConfigs   motor configurations
      */
     public AngularMotorMechConfig(String name) {
-        common = new MotorMechCommonConfig(name);
+        this.name = name;
+    }
+
+    /**
+     * Sets the maximum per motor current. Defaults to 80A.
+     * 
+     * @param current maximum per motor current.
+     * @return current configuration object
+     */
+    public AngularMotorMechConfig setMaxCurrent(Current current) {
+        this.maxMotorCurrent = current;
+        return this;
+    }
+
+    /**
+     * Sets the method used to keep the mechanism from exceeding its limits.
+     * Defaults to LimitTrim.Voltage.
+     * 
+     * @param limitTrim mechanism limit trimming method
+     * @return current configuration object
+     */
+    public AngularMotorMechConfig setLimitTrim(LimitTrim limitTrim) {
+        this.limitTrim = limitTrim;
+        return this;
     }
 
     /**
@@ -37,7 +74,7 @@ public class AngularMotorMechConfig {
      * @param controlConfig AngularControllerConfig object
      * @return current configuration object
      */
-    public AngularMotorMechConfig setAngularMotorMechConfig(AngularControllerConfig controlConfig) {
+    public AngularMotorMechConfig setAngularControllerConfig(AngularControllerConfig controlConfig) {
         this.controlConfig = controlConfig;
         return this;
     }

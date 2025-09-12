@@ -7,7 +7,19 @@ public class NavXSwerveDriveConfig {
     public NavXComType comType = NavXComType.kMXP_SPI;
 
     /**
+     * Sets the common config. Defaults to new SwerveDriveCommonConfig().
+     * 
+     * @param common new common config
+     * @return current config object
+     */
+    public NavXSwerveDriveConfig setCommonConfig(SwerveDriveCommonConfig common) {
+        this.common = common;
+        return this;
+    }
+
+    /**
      * Sets the NavX com type. Default is "kMXP_SPI".
+     * 
      * @param comType NavX com type
      * @return current config object
      */

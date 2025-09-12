@@ -15,7 +15,7 @@ public class SwerveDriveCommonConfig {
     /** Config for linear control of the robot base. Defaults to a default LinearControlConfig. */
     public LinearControllerConfig linearCtrlConfig = new LinearControllerConfig();
     /** Config for anguler control of the robot base. Defaults to a default AngularControlConfig. */
-    public AngularControllerConfig angleCtrlConfig = new AngularControllerConfig();
+    public AngularControllerConfig angularCtrlConfig = new AngularControllerConfig();
 
     /** PID Config for linear PathPlanner control. Defaults to kP, kI, & kD set to zero. */
     public PIDConfig linearPPPID = new PIDConfig(0, 0, 0);
@@ -27,6 +27,26 @@ public class SwerveDriveCommonConfig {
     public Vector<N3> stateStd = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
     /** Default vision standard deviation vector. Defaults to [.5, .5, Units.degreesToRadians(30)] */
     public Vector<N3> visionStd = VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30));
+
+    /**
+     * Sets the linear controller configuration. defaults to new LinearControllerConfig().
+     * @param linearCtrlConfig  new linear controller config
+     * @return current configuration object
+     */
+    public SwerveDriveCommonConfig setLinearControlConfig(LinearControllerConfig linearCtrlConfig) {
+        this.linearCtrlConfig = linearCtrlConfig;
+        return this;
+    }
+    
+    /**
+     * Sets the angular controller configuration. defaults to new AngularControllerConfig().
+     * @param angularCtrlConfig  new angular controller config
+     * @return current configuration object
+     */
+    public SwerveDriveCommonConfig setAngularControlConfig(AngularControllerConfig angularCtrlConfig) {
+        this.angularCtrlConfig = angularCtrlConfig;
+        return this;
+    }
 
     /**
      * Set the linear PathPlanner PID configuration. Default is kP, kI, and kD are
@@ -94,7 +114,7 @@ public class SwerveDriveCommonConfig {
      */
     public SwerveDriveCommonConfig copyConfig(SwerveDriveCommonConfig other) {
         this.linearCtrlConfig = other.linearCtrlConfig;
-        this.angleCtrlConfig = other.angleCtrlConfig;
+        this.angularCtrlConfig = other.angularCtrlConfig;
         
         this.linearPPPID = other.linearPPPID;
         this.angularPPPID = other.angularPPPID;

@@ -1,21 +1,35 @@
 package frc.lib2960.config.subsystem;
 
+import static edu.wpi.first.units.Units.Amps;
+
 import java.util.HashMap;
 
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import frc.lib2960.config.controller.LinearControllerConfig;
+import frc.lib2960.helper.LimitTrim;
 
 public class LinearMotorMechConfig {
-    /** Common motor mechanism configrations. */
-    public MotorMechCommonConfig common;
+
+    /** Name of the mechanism */
+    public String name;
 
     /** Diameter of the output pulley. */
     public Distance pulleyDiameter;
     /** Radius of the output pulley. */
     public Distance pulleyRadius;
     /** Circumfrance of the output pulley. */
-    public Distance pulleyCircumfrance;
+    public Distance pulleyCircumference;
+
+    /** Sets the maximum per motor current for the mechanism. Defaults to 80A. */
+    public Current maxMotorCurrent = Amps.of(80);
+
+    /**
+     * Sets method for keeping mechanism from exceeding its limits if they are set.
+     * Defaults to LimitTrim.Voltage.
+     */
+    public LimitTrim limitTrim = LimitTrim.Voltage;
 
     /** Motion control configruation */
     public LinearControllerConfig controlConfig = new LinearControllerConfig();
@@ -31,14 +45,36 @@ public class LinearMotorMechConfig {
      * 
      * @param name           name of the mechanism
      * @param pulleyDiameter diameter of the output pulley
-     * @param motorConfigs   motor configurations
      */
     public LinearMotorMechConfig(
             String name,
             Distance pulleyDiameter) {
         this.pulleyDiameter = pulleyDiameter;
         this.pulleyRadius = pulleyDiameter.div(2);
-        this.pulleyCircumfrance = pulleyDiameter.times(Math.PI);
+        this.pulleyCircumference = pulleyDiameter.times(Math.PI);
+    }
+
+    /**
+     * Sets the maximum per motor current. Defaults to 80A.
+     * 
+     * @param current maximum per motor current.
+     * @return current configuration object
+     */
+    public LinearMotorMechConfig setMaxCurrent(Current current) {
+        this.maxMotorCurrent = current;
+        return this;
+    }
+
+    /**
+     * Sets the method used to keep the mechanism from exceeding its limits.
+     * Defaults to LimitTrim.Voltage.
+     * 
+     * @param limitTrim mechanism limit trimming method
+     * @return current configuration object
+     */
+    public LinearMotorMechConfig setLimitTrim(LimitTrim limitTrim) {
+        this.limitTrim = limitTrim;
+        return this;
     }
 
     /**
