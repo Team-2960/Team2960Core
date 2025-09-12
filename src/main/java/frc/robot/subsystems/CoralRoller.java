@@ -148,8 +148,8 @@ public class CoralRoller extends LinearMotorMech {
      */
     public Command getEjectCmd() {
         return this.runEnd(
-                () -> getVoltageCmd(config.ejectVolt),
-                () -> getVoltageCmd(Volts.zero()));
+                () -> setVoltage(config.ejectVolt),
+                () -> setVoltage(Volts.zero()));
     }
 
     /**
@@ -172,8 +172,8 @@ public class CoralRoller extends LinearMotorMech {
      */
     public Command getIntakeCmd() {
         return this.runEnd(
-                () -> getVoltageCmd(config.intakeVolt),
-                () -> getVoltageCmd(Volts.zero()));
+            () -> setVoltage(config.intakeVolt),
+            () -> setVoltage(Volts.zero()));
     }
 
     /**
@@ -196,8 +196,8 @@ public class CoralRoller extends LinearMotorMech {
      */
     public Command getReverseCommand() {
         return this.runEnd(
-                () -> getVoltageCmd(config.reverseVolt),
-                () -> getVoltageCmd(Volts.zero()));
+            () -> setVoltage(config.reverseVolt),
+            () -> setVoltage(Volts.zero()));
     }
 
     /**
