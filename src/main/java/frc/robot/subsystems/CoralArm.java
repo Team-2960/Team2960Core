@@ -57,6 +57,9 @@ public class CoralArm extends AngularMotorMech {
         // Get encoders
         absEncoder = motor.getAbsoluteEncoder();
         encoder = motor.getExternalEncoder();
+
+        // Set Default Command 
+        setDefaultCommand(getHoldPosCmd());
     }
 
     /**
