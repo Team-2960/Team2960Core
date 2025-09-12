@@ -24,7 +24,12 @@ public class CoralArm extends AngularMotorMech {
 
     private AbsoluteEncoder absEncoder = null;
     private RelativeEncoder encoder = null;
-    
+
+    /**
+     * Constructor
+     * 
+     * @param config Angular motor mechanism configuration
+     */
     public CoralArm(AngularMotorMechConfig config) {
         super(config);
 
@@ -55,16 +60,26 @@ public class CoralArm extends AngularMotorMech {
 
             // Throw exception if no encoder is found
             if (absEncoder == null)
-                throw new IllegalArgumentException("Encoder ID not set to the same ID as a motor is this mechamism");
+                throw new IllegalArgumentException("Encoder ID not set to the same ID as a motor is this mechanism");
         }
     }
 
+    /**
+     * Sets the output voltage for all the motors
+     * 
+     * @param volts output voltage for all the motors
+     */
     @Override
     public void setMotorVoltage(Voltage volts) {
         for (var motor : motors)
             motor.setVoltage(volts);
     }
 
+    /**
+     * Gets the current position of the mechanism.
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
     public void getPosition(MutAngle result) {
         if (absEncoder != null) {
@@ -74,6 +89,11 @@ public class CoralArm extends AngularMotorMech {
         }
     }
 
+    /**
+     * Gets the current velocity of the mechanism.
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
     public void getVelocity(MutAngularVelocity result) {
         if (encoder != null) {
@@ -83,11 +103,16 @@ public class CoralArm extends AngularMotorMech {
         }
     }
 
+    /**
+     * Gets the current voltage applied to each motor on the mechanism
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
     public void getVoltage(MutVoltage result) {
-        if(motors.length > 1) {
+        if (motors.length > 1) {
             result.mut_replace(motors[0].getAppliedOutput() * motors[0].getBusVoltage(), Volts);
-        }else {
+        } else {
             result.mut_replace(0, Volts);
         }
     }
