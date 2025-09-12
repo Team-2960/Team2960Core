@@ -16,57 +16,35 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
+import frc.lib2960.config.device.MotorConfig;
 import frc.lib2960.config.subsystem.LinearMotorMechConfig;
 import frc.lib2960.subsystem.motor.LinearMotorMech;
 
 public class CoralRoller extends LinearMotorMech {
-    private SparkFlex[] motors;
+    private final SparkFlex motor;
 
-    private RelativeEncoder encoder = null;
+    private final RelativeEncoder encoder;
 
     /**
      * Constructor
      * 
      * @param config Linear motor mechanism configuration
      */
-    public CoralRoller(LinearMotorMechConfig config) {
+    public CoralRoller(LinearMotorMechConfig config, MotorConfig motorConfig) {
         super(config);
 
-        // Create the motors
-        motors = new SparkFlex[config.common.motorConfigs.length];
-        for (int i = 0; i < motors.length; i++) {
-            var motorConfig = config.common.motorConfigs[i];
+        // Create motor controller
+        motor = new SparkFlex(motorConfig.id, MotorType.kBrushless);
 
-            motors[i] = new SparkFlex(motorConfig.id, MotorType.kBrushless);
+        // Configure motor controller
+        SparkFlexConfig flexConfig = new SparkFlexConfig();
+        flexConfig.inverted(motorConfig.invert);
+        flexConfig.externalEncoder.velocityConversionFactor(1 / 60);
 
-            var flexConfig = new SparkFlexConfig();
-            flexConfig.inverted(motorConfig.invert);
+        motor.configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-            motors[i].configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        }
-
-        // FInd the motor controller with the same ID as the encoder ID
-        if (config.common.encoderConfig.isPresent()) {
-            var encoderConfig = config.common.encoderConfig.get();
-            for (int i = 0; i < config.common.motorConfigs.length; i++) {
-                if (encoderConfig.id == config.common.motorConfigs[i].id) {
-                    encoder = motors[i].getEncoder();
-                    var flexConfig = new SparkFlexConfig();
-
-                    double posConv = config.pulleyCircumfrance.in(Meters) * encoderConfig.gearRatio;
-
-                    flexConfig.encoder.inverted(encoderConfig.invert)
-                       .positionConversionFactor(posConv)
-                       .velocityConversionFactor(posConv / 60);
-
-                    break;
-                }
-            }
-
-            // Throw exception if no encoder is found
-            if (encoder == null)
-                throw new IllegalArgumentException("Encoder ID not set to the same ID as a motor is this mechanism");
-        }
+        // Get encoders
+        encoder = motor.getEncoder();
     }
 
     /**
@@ -76,8 +54,7 @@ public class CoralRoller extends LinearMotorMech {
      */
     @Override
     public void setMotorVoltage(Voltage volts) {
-        for (var motor : motors)
-            motor.setVoltage(volts);
+        motor.setVoltage(volts);
     }
 
     /**
@@ -87,24 +64,16 @@ public class CoralRoller extends LinearMotorMech {
      */
     @Override
     public void getPosition(MutDistance result) {
-        if (encoder != null) {
-            result.mut_replace(encoder.getPosition(), Meters);
-        } else {
-            result.mut_replace(0, Meters);
-        }
+        result.mut_replace(encoder.getPosition(), Meters);
     }
 
     /**
      * Resets the position of the encoder.
-     * @param position  new position of the encoder.
+     * 
+     * @param position new position of the encoder.
      */
     public void resetPosition(Distance position) {
-        if (encoder != null) {
-            encoder.setPosition(position.in(Meters));
-        } else {
-            // TODO Improve warning
-            System.out.println("Encoder not set for CoralRoller. Encoder not reset");
-        }
+        encoder.setPosition(position.in(Meters));
     }
 
     /**
@@ -114,11 +83,7 @@ public class CoralRoller extends LinearMotorMech {
      */
     @Override
     public void getVelocity(MutLinearVelocity result) {
-        if (encoder != null) {
-            result.mut_replace(encoder.getVelocity(), MetersPerSecond);
-        } else {
-            result.mut_replace(0, MetersPerSecond);
-        }
+        result.mut_replace(encoder.getVelocity(), MetersPerSecond);
     }
 
     /**
@@ -128,11 +93,7 @@ public class CoralRoller extends LinearMotorMech {
      */
     @Override
     public void getVoltage(MutVoltage result) {
-        if (motors.length > 1) {
-            result.mut_replace(motors[0].getAppliedOutput() * motors[0].getBusVoltage(), Volts);
-        } else {
-            result.mut_replace(0, Volts);
-        }
+        result.mut_replace(motor.getAppliedOutput() * motor.getBusVoltage(), Volts);
     }
 
 }

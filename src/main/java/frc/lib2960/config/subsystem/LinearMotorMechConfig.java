@@ -1,7 +1,6 @@
 package frc.lib2960.config.subsystem;
 
 import edu.wpi.first.units.measure.Distance;
-import frc.lib2960.config.device.MotorConfig;
 import frc.lib2960.config.controller.LinearControllerConfig;
 
 public class LinearMotorMechConfig {
@@ -27,9 +26,7 @@ public class LinearMotorMechConfig {
      */
     public LinearMotorMechConfig(
             String name,
-            Distance pulleyDiameter,
-            MotorConfig... motorConfigs) {
-        this.common = new MotorMechCommonConfig(name, motorConfigs);
+            Distance pulleyDiameter) {
         this.pulleyDiameter = pulleyDiameter;
         this.pulleyRadius = pulleyDiameter.div(2);
         this.pulleyCircumfrance = pulleyDiameter.times(Math.PI);

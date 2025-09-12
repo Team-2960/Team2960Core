@@ -16,52 +16,37 @@ import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
+import frc.lib2960.config.device.MotorConfig;
 import frc.lib2960.config.subsystem.AngularMotorMechConfig;
 import frc.lib2960.subsystem.motor.AngularMotorMech;
 
 public class CoralArm extends AngularMotorMech {
-    private SparkFlex[] motors;
+    private final SparkFlex motor;
 
-    private AbsoluteEncoder absEncoder = null;
-    private RelativeEncoder encoder = null;
+    private final AbsoluteEncoder absEncoder;
+    private final RelativeEncoder encoder;
 
     /**
      * Constructor
      * 
      * @param config Angular motor mechanism configuration
      */
-    public CoralArm(AngularMotorMechConfig config) {
+    public CoralArm(AngularMotorMechConfig config, MotorConfig motorConfig) {
         super(config);
 
-        // Create the motors
-        motors = new SparkFlex[config.common.motorConfigs.length];
-        for (int i = 0; i < motors.length; i++) {
-            var motorConfig = config.common.motorConfigs[i];
+        // Create motor controller
+        motor = new SparkFlex(motorConfig.id, MotorType.kBrushless);
 
-            motors[i] = new SparkFlex(motorConfig.id, MotorType.kBrushless);
+        // Configure motor controller
+        SparkFlexConfig flexConfig = new SparkFlexConfig();
+        flexConfig.inverted(motorConfig.invert);
+        flexConfig.externalEncoder.velocityConversionFactor(1 / 60);
 
-            var flexConfig = new SparkFlexConfig();
-            flexConfig.inverted(motorConfig.invert);
-            flexConfig.externalEncoder.velocityConversionFactor(1 / 60);
+        motor.configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-            motors[i].configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        }
-
-        // FInd the motor controller with the same ID as the encoder ID
-        if (config.common.encoderConfig.isPresent()) {
-            var encoderConfig = config.common.encoderConfig.get();
-            for (int i = 0; i < config.common.motorConfigs.length; i++) {
-                if (encoderConfig.id == config.common.motorConfigs[i].id) {
-                    absEncoder = motors[i].getAbsoluteEncoder();
-                    encoder = motors[i].getExternalEncoder();
-                    break;
-                }
-            }
-
-            // Throw exception if no encoder is found
-            if (absEncoder == null)
-                throw new IllegalArgumentException("Encoder ID not set to the same ID as a motor is this mechanism");
-        }
+        // Get encoders
+        absEncoder = motor.getAbsoluteEncoder();
+        encoder = motor.getExternalEncoder();
     }
 
     /**
@@ -71,8 +56,7 @@ public class CoralArm extends AngularMotorMech {
      */
     @Override
     public void setMotorVoltage(Voltage volts) {
-        for (var motor : motors)
-            motor.setVoltage(volts);
+        motor.setVoltage(volts);
     }
 
     /**
@@ -82,11 +66,7 @@ public class CoralArm extends AngularMotorMech {
      */
     @Override
     public void getPosition(MutAngle result) {
-        if (absEncoder != null) {
-            result.mut_replace(absEncoder.getPosition(), Rotations);
-        } else {
-            result.mut_replace(0, Rotations);
-        }
+        result.mut_replace(absEncoder.getPosition(), Rotations);
     }
 
     /**
@@ -96,11 +76,7 @@ public class CoralArm extends AngularMotorMech {
      */
     @Override
     public void getVelocity(MutAngularVelocity result) {
-        if (encoder != null) {
-            result.mut_replace(encoder.getVelocity(), RotationsPerSecond);
-        } else {
-            result.mut_replace(0, RotationsPerSecond);
-        }
+        result.mut_replace(encoder.getVelocity(), RotationsPerSecond);
     }
 
     /**
@@ -110,11 +86,7 @@ public class CoralArm extends AngularMotorMech {
      */
     @Override
     public void getVoltage(MutVoltage result) {
-        if (motors.length > 1) {
-            result.mut_replace(motors[0].getAppliedOutput() * motors[0].getBusVoltage(), Volts);
-        } else {
-            result.mut_replace(0, Volts);
-        }
+        result.mut_replace(motor.getAppliedOutput() * motor.getBusVoltage(), Volts);
     }
 
 }
