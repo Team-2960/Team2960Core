@@ -52,6 +52,8 @@ public class Elevator extends LinearMotorMech {
         flexConfig.encoder.positionConversionFactor(posConv);
         flexConfig.encoder.velocityConversionFactor(posConv / 60);
 
+        // TODO Add motor controller based soft limits
+
         motor.configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         // Get encoders
