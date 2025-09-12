@@ -10,11 +10,6 @@ public class MotorConfig {
     public final int id;
     /** Inverted flag. Defaults to false. */
     public boolean invert = false;
-    /**
-     * Gear ratio between the motor and the mechanism. Should not include final
-     * pulley diameter in a linear system. Defaults to 1.
-     */
-    public double gearRatio = 1;
 
     /**
      * Constructor
@@ -43,16 +38,6 @@ public class MotorConfig {
      */
     public MotorConfig setInverted(boolean invert) {
         this.invert = invert;
-        return this;
-    }
-
-    /**
-     * Sets the gear ratio between the motor and the mechanism. Final drive pulley for linear mechanism should not be included. Default is 1.
-     * @param gearRatio gear ratio between the motor and the mechanism
-     * @return current configuration object
-     */
-    public MotorConfig setGearRatio(double gearRatio) {
-        this.gearRatio = gearRatio;
         return this;
     }
 }
