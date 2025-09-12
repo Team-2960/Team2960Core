@@ -20,6 +20,7 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib2960.subsystem.motor.LinearMotorMech;
 
 public class CoralRoller extends LinearMotorMech {
@@ -30,6 +31,8 @@ public class CoralRoller extends LinearMotorMech {
     private final RelativeEncoder encoder;
     private final DigitalInput intakeSensor;
     private final SparkLimitSwitch grippedSensor;
+
+    private final Trigger intakeTrigger;
 
     /**
      * Constructor
@@ -56,6 +59,10 @@ public class CoralRoller extends LinearMotorMech {
         // Get Sensors
         intakeSensor = new DigitalInput(config.intakeSensorID);
         grippedSensor = motor.getForwardLimitSwitch();
+
+        // Setup Triggers
+        intakeTrigger = new Trigger(this::coralAtIntake);
+        intakeTrigger.onTrue(getAutoIntakeCmd(Meters.zero()));
 
         // Set Default Command 
         setDefaultCommand(getHoldPosCmd());
