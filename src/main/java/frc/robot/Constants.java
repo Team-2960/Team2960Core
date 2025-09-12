@@ -166,6 +166,8 @@ public class Constants {
         /*********************/
         /* Coral Arm Configs */
         /*********************/
+        public static final Angle coralArmPosTol = Degrees.of(2);
+
         public static final AngularControllerConfig coralArmCtrlConfig = new AngularControllerConfig()
                         .setPIDConfig(new PIDConfig(0.002, 0.0, 0.0))
                         .setFFConfig(new FFConfig(0.02, 0.025, 0.029481))
@@ -179,9 +181,10 @@ public class Constants {
                         .setLimitTrim(LimitTrim.Velocity)
                         .addPreset("Intake", Degrees.of(85.5))
                         .addPreset("Travel", Degrees.of(75.0))
-                        .addPreset("L1 Coral", Degrees.of(73.0))
-                        .addPreset("L2/3 Coral", Degrees.of(60.0))
-                        .addPreset("L4 Coral", Degrees.of(60.0))
+                        .addPreset("L1", Degrees.of(73.0))
+                        .addPreset("L2", Degrees.of(60.0))
+                        .addPreset("L3", Degrees.of(60.0))
+                        .addPreset("L4", Degrees.of(60.0))
                         .addPreset("Remove Algae", Degrees.of(45));
 
         public static final MotorConfig coralArmMotorConfig = new MotorConfig("Coral Arm Motor", coralArmMotorID)
@@ -218,6 +221,7 @@ public class Constants {
         /* Elevator Configs */
         /********************/
         public static final Distance elevatorPulleyDiam = Inches.of(1.752);
+        public static final Distance elevatorPosTol = Inches.of(.5);
 
         public static LinearControllerConfig elevatorCtrlConfig = new LinearControllerConfig()
                         .setPIDConfig(new PIDConfig(0, 0, 0))
