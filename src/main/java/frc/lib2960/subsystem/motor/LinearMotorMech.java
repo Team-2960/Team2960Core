@@ -44,6 +44,30 @@ public abstract class LinearMotorMech extends SubsystemBase {
     private final MutLinearVelocity sysIdVel = MetersPerSecond.mutable(0);
 
     /**
+     * Command to hold position the mechanism is at when the command is scheduled
+     */
+    private class HoldPosCmd extends Command {
+        /** < Record of the current position of the mechanism */
+        private MutDistance curPos = Meters.mutable(0);
+
+        /**
+         * Captures the mechanism position when the command is scheduled
+         */
+        @Override
+        public void initialize() {
+            getPosition(curPos);
+        }
+
+        /**
+         * Moves to the captured position
+         */
+        @Override
+        public void execute() {
+            gotoPosition(curPos);
+        }
+    }
+
+    /**
      * Constructor
      * 
      * @param config motor mechanism configuration
@@ -188,7 +212,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @param target target velocity supplier
      * @return new command to move to a target velocity
      */
-    public Command getVelocity(Supplier<LinearVelocity> target) {
+    public Command getVelocityCmd(Supplier<LinearVelocity> target) {
         return this.run(() -> this.gotoVelocity(target.get()));
     }
 
@@ -198,7 +222,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @param target target velocity
      * @return new command to move to a target velocity
      */
-    public Command getVelocity(LinearVelocity target) {
+    public Command getVelocityCmd(LinearVelocity target) {
         return this.run(() -> this.gotoVelocity(target));
     }
 
@@ -211,10 +235,10 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @param tolerance target velocity tolerance
      * @return new command to move to a target velocity
      */
-    public Command getVelocity(LinearVelocity target, LinearVelocity tolerance) {
+    public Command getVelocityCmd(LinearVelocity target, LinearVelocity tolerance) {
         return Commands.deadline(
                 getAtTargetCmd(target, tolerance),
-                getVelocity(target));
+                getVelocityCmd(target));
     }
 
     /**
@@ -223,7 +247,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @param target target voltage supplier
      * @return new command to move to a target voltage
      */
-    public Command getVoltage(Supplier<Voltage> target) {
+    public Command getVoltageCmd(Supplier<Voltage> target) {
         return this.run(() -> this.setVoltage(target.get()));
     }
 
@@ -233,8 +257,17 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @param target target voltage
      * @return new command to move to a target voltage
      */
-    public Command getVoltage(Voltage target) {
+    public Command getVoltageCmd(Voltage target) {
         return this.run(() -> this.setVoltage(target));
+    }
+
+    /**
+     * Gets a new hold position command
+     * 
+     * @return new hold position command
+     */
+    public Command getHoldPosCmd() {
+        return new HoldPosCmd();
     }
 
     /**
@@ -295,13 +328,14 @@ public abstract class LinearMotorMech extends SubsystemBase {
         });
     }
 
-    /*********************/
-    /* Command Factories */
-    /*********************/
+    /***************************/
+    /* SysID Command Factories */
+    /***************************/
 
     /**
      * Logs sysId data
-     * @param log   sysId routime log object
+     * 
+     * @param log sysId routime log object
      */
     public void sysIDLog(SysIdRoutineLog log) {
         getVoltage(sysIdVolt);
@@ -316,9 +350,11 @@ public abstract class LinearMotorMech extends SubsystemBase {
 
     /**
      * Creates a sysID Command
-     * @param direction     direction of the command
-     * @param quasistatic   true to get a quasistatic command, false to get a dynamic command
-     * @return  new sysID Command
+     * 
+     * @param direction   direction of the command
+     * @param quasistatic true to get a quasistatic command, false to get a dynamic
+     *                    command
+     * @return new sysID Command
      */
     public Command getSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
         return quasistatic ? sysIdRoutine.quasistatic(direction) : sysIdRoutine.dynamic(direction);
@@ -326,8 +362,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
 
     /**
      * Generates a full sysID command sequence
-     * @param nextTrigger   boolean supplier to move to the next step in the sequence
-     * @return  new full sysID command sequence
+     * 
+     * @param nextTrigger boolean supplier to move to the next step in the sequence
+     * @return new full sysID command sequence
      */
     public Command getTurnSysIdSequence(BooleanSupplier nextTrigger) {
         return Commands.sequence(

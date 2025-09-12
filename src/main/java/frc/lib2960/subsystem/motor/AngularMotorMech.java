@@ -44,6 +44,32 @@ public abstract class AngularMotorMech extends SubsystemBase {
     private final MutAngularVelocity sysIdVel = RadiansPerSecond.mutable(0);
 
     /**
+     * Command to hold position the mechanism is at when the command is scheduled
+     */
+    private class HoldPosCmd extends Command {
+        /** < Record of the current position of the mechanism */
+        private MutAngle curPos = Radians.mutable(0);
+
+        /**
+         * Captures the mechanism position when the command is scheduled
+         */
+        @Override
+        public void initialize() {
+            getPosition(curPos);
+        }
+
+        /**
+         * Moves to the captured position
+         */
+        @Override
+        public void execute() {
+            gotoPosition(curPos);
+        }
+    }
+
+
+
+    /**
      * Constructor
      * 
      * @param config motor mechanism configuration
@@ -188,7 +214,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @param target target velocity supplier
      * @return new command to move to a target velocity
      */
-    public Command getVelocity(Supplier<AngularVelocity> target) {
+    public Command getVelocityCmd(Supplier<AngularVelocity> target) {
         return this.run(() -> this.gotoVelocity(target.get()));
     }
 
@@ -198,7 +224,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @param target target velocity
      * @return new command to move to a target velocity
      */
-    public Command getVelocity(AngularVelocity target) {
+    public Command getVelocityCmd(AngularVelocity target) {
         return this.run(() -> this.gotoVelocity(target));
     }
 
@@ -211,10 +237,10 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @param tolerance target velocity tolerance
      * @return new command to move to a target velocity
      */
-    public Command getVelocity(AngularVelocity target, AngularVelocity tolerance) {
+    public Command getVelocityCmd(AngularVelocity target, AngularVelocity tolerance) {
         return Commands.deadline(
                 getAtTargetCmd(target, tolerance),
-                getVelocity(target));
+                getVelocityCmd(target));
     }
 
     /**
@@ -223,7 +249,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @param target target voltage supplier
      * @return new command to move to a target voltage
      */
-    public Command getVoltage(Supplier<Voltage> target) {
+    public Command getVoltageCmd(Supplier<Voltage> target) {
         return this.run(() -> this.setVoltage(target.get()));
     }
 
@@ -233,8 +259,17 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @param target target voltage
      * @return new command to move to a target voltage
      */
-    public Command getVoltage(Voltage target) {
+    public Command getVoltageCmd(Voltage target) {
         return this.run(() -> this.setVoltage(target));
+    }
+
+    /**
+     * Gets a new hold position command
+     * 
+     * @return new hold position command
+     */
+    public Command getHoldPosCmd() {
+        return new HoldPosCmd();
     }
 
     /**
@@ -295,9 +330,9 @@ public abstract class AngularMotorMech extends SubsystemBase {
         });
     }
 
-    /*********************/
-    /* Command Factories */
-    /*********************/
+    /***************************/
+    /* SysID Command Factories */
+    /***************************/
 
     /**
      * Logs sysId data
