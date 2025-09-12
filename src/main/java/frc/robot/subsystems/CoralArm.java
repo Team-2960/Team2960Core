@@ -42,6 +42,16 @@ public class CoralArm extends AngularMotorMech {
         flexConfig.inverted(motorConfig.invert);
         flexConfig.externalEncoder.velocityConversionFactor(1 / 60);
 
+        if(config.controlConfig.minimum.isPresent()) {
+            flexConfig.softLimit.reverseSoftLimit(config.controlConfig.minimum.get().in(Rotations));
+            flexConfig.softLimit.reverseSoftLimitEnabled(true);
+        }
+
+        if(config.controlConfig.maximum.isPresent()) {
+            flexConfig.softLimit.forwardSoftLimit(config.controlConfig.minimum.get().in(Rotations));
+            flexConfig.softLimit.forwardSoftLimitEnabled(true);
+        }
+
         motor.configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         // Get encoders
