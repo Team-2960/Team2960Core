@@ -328,6 +328,74 @@ public abstract class LinearMotorMech extends SubsystemBase {
         });
     }
 
+    /**
+     * Gets a new command for moving to a named preset position
+     * 
+     * @param name name of the preset
+     * @return new command for moving to a named preset position
+     * @exception IllegalArgumentException Thrown if the named position preset does
+     *                                     not exist.
+     */
+    public Command getPosPresetCmd(String name) {
+        if (config.presetPos.containsKey(name)) {
+            return getPositionCmd(config.presetPos.get(name));
+        } else {
+            throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
+        }
+    }
+
+    /**
+     * Gets a new command for moving to a named preset position. Command ends
+     * execution when it is within tolerance of the preset.
+     * 
+     * @param name      name of the preset
+     * @param tolerance
+     * @return new command for moving to a named preset position
+     * @exception IllegalArgumentException Thrown if the named position preset does
+     *                                     not exist.
+     */
+    public Command getPosPresetCmd(String name, Distance tolerance) {
+        if (config.presetPos.containsKey(name)) {
+            return getPositionCmd(config.presetPos.get(name), tolerance);
+        } else {
+            throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
+        }
+    }
+
+    /**
+     * Gets a new command for moving to a named preset velocity
+     * 
+     * @param name name of the preset
+     * @return new command for moving to a named preset velocity
+     * @exception IllegalArgumentException Thrown if the named velocity preset does
+     *                                     not exist.
+     */
+    public Command getVelPresetCmd(String name) {
+        if (config.presetVel.containsKey(name)) {
+            return getVelocityCmd(config.presetVel.get(name));
+        } else {
+            throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
+        }
+    }
+
+    /**
+     * Gets a new command for moving to a named preset velocity. Command ends
+     * execution when it is within tolerance of the preset.
+     * 
+     * @param name      name of the preset
+     * @param tolerance
+     * @return new command for moving to a named preset velocity
+     * @exception IllegalArgumentException Thrown if the named velocity preset does
+     *                                     not exist.
+     */
+    public Command getVelPresetCmd(String name, LinearVelocity tolerance) {
+        if (config.presetVel.containsKey(name)) {
+            return getVelocityCmd(config.presetVel.get(name), tolerance);
+        } else {
+            throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
+        }
+    }
+
     /***************************/
     /* SysID Command Factories */
     /***************************/

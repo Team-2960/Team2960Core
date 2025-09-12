@@ -67,8 +67,6 @@ public abstract class AngularMotorMech extends SubsystemBase {
         }
     }
 
-
-
     /**
      * Constructor
      * 
@@ -330,13 +328,82 @@ public abstract class AngularMotorMech extends SubsystemBase {
         });
     }
 
+    /**
+     * Gets a new command for moving to a named preset position
+     * 
+     * @param name name of the preset
+     * @return new command for moving to a named preset position
+     * @exception IllegalArgumentException Thrown if the named position preset does
+     *                                     not exist.
+     */
+    public Command getPosPresetCmd(String name) {
+        if (config.presetPos.containsKey(name)) {
+            return getPositionCmd(config.presetPos.get(name));
+        } else {
+            throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
+        }
+    }
+
+    /**
+     * Gets a new command for moving to a named preset position. Command ends
+     * execution when it is within tolerance of the preset.
+     * 
+     * @param name      name of the preset
+     * @param tolerance
+     * @return new command for moving to a named preset position
+     * @exception IllegalArgumentException Thrown if the named position preset does
+     *                                     not exist.
+     */
+    public Command getPosPresetCmd(String name, Angle tolerance) {
+        if (config.presetPos.containsKey(name)) {
+            return getPositionCmd(config.presetPos.get(name), tolerance);
+        } else {
+            throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
+        }
+    }
+
+    /**
+     * Gets a new command for moving to a named preset velocity
+     * 
+     * @param name name of the preset
+     * @return new command for moving to a named preset velocity
+     * @exception IllegalArgumentException Thrown if the named velocity preset does
+     *                                     not exist.
+     */
+    public Command getVelPresetCmd(String name) {
+        if (config.presetVel.containsKey(name)) {
+            return getVelocityCmd(config.presetVel.get(name));
+        } else {
+            throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
+        }
+    }
+
+    /**
+     * Gets a new command for moving to a named preset velocity. Command ends
+     * execution when it is within tolerance of the preset.
+     * 
+     * @param name      name of the preset
+     * @param tolerance
+     * @return new command for moving to a named preset velocity
+     * @exception IllegalArgumentException Thrown if the named velocity preset does
+     *                                     not exist.
+     */
+    public Command getVelPresetCmd(String name, AngularVelocity tolerance) {
+        if (config.presetVel.containsKey(name)) {
+            return getVelocityCmd(config.presetVel.get(name), tolerance);
+        } else {
+            throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
+        }
+    }
+
     /***************************/
     /* SysID Command Factories */
     /***************************/
 
     /**
      * Logs sysId data
-     * @param log   sysId routime log object
+     * 
+     * @param log sysId routime log object
      */
     public void sysIDLog(SysIdRoutineLog log) {
         getVoltage(sysIdVolt);
@@ -351,9 +418,11 @@ public abstract class AngularMotorMech extends SubsystemBase {
 
     /**
      * Creates a sysID Command
-     * @param direction     direction of the command
-     * @param quasistatic   true to get a quasistatic command, false to get a dynamic command
-     * @return  new sysID Command
+     * 
+     * @param direction   direction of the command
+     * @param quasistatic true to get a quasistatic command, false to get a dynamic
+     *                    command
+     * @return new sysID Command
      */
     public Command getSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
         return quasistatic ? sysIdRoutine.quasistatic(direction) : sysIdRoutine.dynamic(direction);
@@ -361,8 +430,9 @@ public abstract class AngularMotorMech extends SubsystemBase {
 
     /**
      * Generates a full sysID command sequence
-     * @param nextTrigger   boolean supplier to move to the next step in the sequence
-     * @return  new full sysID command sequence
+     * 
+     * @param nextTrigger boolean supplier to move to the next step in the sequence
+     * @return new full sysID command sequence
      */
     public Command getTurnSysIdSequence(BooleanSupplier nextTrigger) {
         return Commands.sequence(
