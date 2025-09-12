@@ -388,11 +388,22 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
     /******************/
     /* Access Methods */
     /******************/
+
+    /**
+     * Gets the Linear PID parameters for PathPlanner
+     * 
+     * @return Linear PID parameters for PathPlanner
+     */
     @Override
     public PIDConfig getLinearPathPlannerPID() {
         return config.linearPPPID;
     }
 
+    /**
+     * Gets the Angular PID parameters for PathPlanner
+     * 
+     * @return Angular PID parameters for PathPlanner
+     */
     @Override
     public PIDConfig getAngularPathPlannerPID() {
         return config.angularPPPID;
@@ -401,6 +412,10 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
     /********************/
     /* Config Methods */
     /********************/
+    /**
+     * Sets if the robot defaults to field relative or robot relative drive
+     * @param isFieldRelative true to set to field relative drive, false for robot relative
+     */
     public void setFieldRelative(boolean isFieldRelative) {
         this.isFieldRelative = isFieldRelative;
     }

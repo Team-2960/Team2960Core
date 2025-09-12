@@ -119,6 +119,15 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
                         this));
     }
 
+    /**
+     * Sets the chassis speeds for the drivetrain
+     * 
+     * @param speeds          Chassis speeds for the drivetrain
+     * @param isFieldRelative Sets if the chassis speeds should be field relative or
+     *                        robot relative
+     * @param xOffset         X offset for the center of rotation
+     * @param yOffset         Y Offset for the center of rotation
+     */
     @Override
     public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset, Distance yOffset) {
         // Get offset for center of rotation
@@ -140,11 +149,22 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
             modules[i].setState(states[i]);
     }
 
+    /**
+     * Sets a voltage to all the module angles
+     * 
+     * @param voltage angle voltage
+     */
     public void setModuleAngleVolt(Voltage voltage) {
         for (var module : modules)
             module.setAngleVolt(voltage);
     }
 
+    /**
+     * Sets a voltage to all the module drives
+     * 
+     * @param voltage drive voltage
+     * @param angle   target angle for the modules
+     */
     public void setModuleLinearVolt(Voltage voltage, Rotation2d angle) {
         for (var module : modules) {
             module.updateAngle(angle);
@@ -152,30 +172,61 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         }
     }
 
+    /**
+     * Gets the current estimated pose of the robot
+     * 
+     * @return current estimated pose fo the robot
+     */
     @Override
     public Pose2d getPoseEst() {
         return poseEst.getEstimatedPosition();
     }
 
+    /**
+     * Gets the chassis speeds relative to the robot's frame of reference
+     * 
+     * @return ChassisSpeeds relative to the robot's frame of reference
+     */
     @Override
     public ChassisSpeeds getRobotRelativeSpeeds() {
         return kinematics.toChassisSpeeds(SwerveModuleBase.getStates(modules));
     }
 
+    /**
+     * Sets the pose of the robot to a pre-defined position
+     * 
+     * @param pose new pose for the robot
+     */
     @Override
     public void resetPose(Pose2d pose) {
         poseEst.resetPosition(getRotation(), SwerveModuleBase.getPositions(modules), pose);
     }
 
+    /**
+     * Adds a vision measurement to the pose estimator
+     * 
+     * @param pose      estimated pose from vision
+     * @param timestamp vision measurement timestamp
+     */
     public void addVisionMeasurement(Pose2d pose, Time timestamp) {
         addVisionMeasurement(pose, timestamp, config.visionStd);
     }
 
+    /**
+     * Adds a vision measurement to the pose estimator
+     * 
+     * @param pose      estimated pose from vision
+     * @param timestamp vision measurement timestamp
+     * @param std       standard deviation vector for the estimated pose
+     */
     @Override
     public void addVisionMeasurement(Pose2d pose, Time timestamp, Vector<N3> std) {
         poseEst.addVisionMeasurement(pose, timestamp.in(Seconds));
     }
 
+    /**
+     * Updates the pose estimation
+     */
     @Override
     public void periodic() {
         super.periodic();
@@ -185,27 +236,66 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         poseEst.update(getRotation(), SwerveModuleBase.getPositions(modules));
     }
 
+    /**
+     * Gets the current rotation from the IMU
+     * 
+     * @return current rotation from the IMU
+     */
     public abstract Rotation2d getRotation();
 
+    /**
+     * Gest the current angular velocity from the IMU
+     * 
+     * @return current angular velocity from the IMU
+     */
     public abstract AngularVelocity getAngularVelocity();
 
+    /**
+     * Generate a linear motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new linear motion SysID Command
+     */
+    @Override
     public Command getLinearSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
         return quasistatic ? sysidLinearRoutine.quasistatic(direction) : sysidLinearRoutine.dynamic(direction);
     }
 
+    /**
+     * Generate a module angle motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new module angle motion SysID Command
+     */
+    @Override
     public Command getAngleSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
         return quasistatic ? sysidAngleRoutine.quasistatic(direction) : sysidAngleRoutine.dynamic(direction);
     }
 
+    /**
+     * Generate a robot turn motion SysID Command
+     * 
+     * @param direction   Direction of the command
+     * @param quasistatic true for a quasistatic command, false for dynamic command
+     * @return new robot turn motion SysID Command
+     */
+    @Override
     public Command getTurnSysIdCmd(SysIdRoutine.Direction direction, boolean quasistatic) {
         return quasistatic ? sysidTurnRoutine.quasistatic(direction) : sysidTurnRoutine.dynamic(direction);
     }
 
+    /**
+     * Logs SysID results for the drive motors
+     * 
+     * @param log SysID Log object
+     */
     public void sysidDriveMotorsLog(SysIdRoutineLog log) {
         for (var module : modules) {
-            module.getDriveVoltage(sysidDriveVolt);
-            module.getDrivePosition(sysidDrivePos);
-            module.getDriveVelocity(sysidDriveVel);
+            module.getDriveVolt(sysidDriveVolt);
+            module.getDrivePos(sysidDrivePos);
+            module.getDriveVel(sysidDriveVel);
 
             log.motor(String.format("%s Drive Motor", module.config.name))
                     .voltage(sysidDriveVolt)
@@ -214,11 +304,16 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         }
     }
 
+    /**
+     * Logs SysID results for the angle motors
+     * 
+     * @param log SysID Log object
+     */
     public void sysidAngleMotorsLog(SysIdRoutineLog log) {
         for (var module : modules) {
-            module.getAngleVoltage(sysidAngleVolt);
-            module.getAnglePosition(sysidAnglePos);
-            module.getAngleVelocity(sysidAngleVel);
+            module.getAngleVolt(sysidAngleVolt);
+            module.getAnglePos(sysidAnglePos);
+            module.getAngleVel(sysidAngleVel);
 
             log.motor(String.format("%s Angle Motor", module.config.name))
                     .voltage(sysidAngleVolt)
@@ -227,6 +322,11 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         }
     }
 
+    /**
+     * Logs SysID results for the turning operation
+     * 
+     * @param log SysID Log object
+     */
     public void sysidTurnMotorsLog(SysIdRoutineLog log) {
         sysidTurnVel.mut_replace(this.getAngularVelocity());
         sysidTurnVolt.mut_replace(sysidTurnVel.in(RadiansPerSecond), Volts);

@@ -48,15 +48,29 @@ public class FFConfig {
         this(kS, 0, kV, 0);
     }
 
-
-    public SimpleMotorFeedforward getSimpleMotorFF(){
+    /**
+     * Generates a new simple motor feed forward controller
+     * 
+     * @return new simple motor feed forward controller
+     */
+    public SimpleMotorFeedforward getSimpleMotorFF() {
         return new SimpleMotorFeedforward(kS, kV, kA);
     }
 
+    /**
+     * Generates a new arm feed forward controller
+     * 
+     * @return new arm feed forward controller
+     */
     public ArmFeedforward getArmFF() {
         return new ArmFeedforward(kS, kG, kV, kA);
     }
 
+    /**
+     * Generates a new elevator feed forward controller
+     * 
+     * @return new elevator feed forward controller
+     */
     public ElevatorFeedforward getElevatorFF() {
         return new ElevatorFeedforward(kS, kG, kV, kA);
     }

@@ -10,7 +10,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import frc.lib2960.config.subsystem.NavXSwerveDriveConfig;
 
-public class NavXSwerveDrive extends RioSwerveDrive{
+public class NavXSwerveDrive extends RioSwerveDrive {
 
     public final NavXSwerveDriveConfig config;
     private final AHRS navx;
@@ -25,11 +25,21 @@ public class NavXSwerveDrive extends RioSwerveDrive{
         navx.reset();
     }
 
+    /**
+     * Gets the current rotation from the IMU
+     * 
+     * @return current rotation from the IMU
+     */
     @Override
     public Rotation2d getRotation() {
         return navx.getRotation2d();
     }
 
+    /**
+     * Gest the current angular velocity from the IMU
+     * 
+     * @return current angular velocity from the IMU
+     */
     @Override
     public AngularVelocity getAngularVelocity() {
         return mutAngularVel.mut_replace(navx.getRate(), DegreesPerSecond);

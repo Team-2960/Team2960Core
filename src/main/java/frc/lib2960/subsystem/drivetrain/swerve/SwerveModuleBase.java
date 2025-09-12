@@ -95,8 +95,8 @@ public abstract class SwerveModuleBase {
     public void updateAngle(Rotation2d angle) {
         // TODO Implement using units library
         // Calculate angle voltage
-        getAnglePosition(angleCurPos);
-        getAngleVelocity(angleCurVel);
+        getAnglePos(angleCurPos);
+        getAngleVel(angleCurVel);
         angleTarget.mut_replace(
                 AngleUtil.nearestRotationDegrees(
                         angleCurPos.in(Degrees),
@@ -114,7 +114,7 @@ public abstract class SwerveModuleBase {
         // TODO Implement using units library
         // TODO Include couple ratio into drive speed calculation
 
-        getDriveVelocity(driveCurVel);
+        getDriveVel(driveCurVel);
         driveTarget.mut_replace(metersPerSecond, MetersPerSecond);
 
         driveCtrl.updateVoltage(getDriveVelocity(), driveTarget, driveVoltCalc);
@@ -166,7 +166,7 @@ public abstract class SwerveModuleBase {
      */
     public Distance getDrivePosition() {
         var result = Meters.mutable(0);
-        getDrivePosition(result);
+        getDrivePos(result);
         return result;
     }
 
@@ -177,7 +177,7 @@ public abstract class SwerveModuleBase {
      */
     public LinearVelocity getDriveVelocity() {
         var result = MetersPerSecond.mutable(0);
-        getDriveVelocity(result);
+        getDriveVel(result);
         return result;
     }
 
@@ -188,7 +188,7 @@ public abstract class SwerveModuleBase {
      */
     public Angle getAnglePosition() {
         var result = Degrees.mutable(0);
-        getAnglePosition(result);
+        getAnglePos(result);
         return result;
     }
 
@@ -199,7 +199,7 @@ public abstract class SwerveModuleBase {
      */
     public AngularVelocity getAngleVelocity() {
         var result = DegreesPerSecond.mutable(0);
-        getAngleVelocity(result);
+        getAngleVel(result);
         return result;
     }
 
@@ -208,42 +208,42 @@ public abstract class SwerveModuleBase {
      * 
      * @param result mutable object to store the result
      */
-    public abstract void getDrivePosition(MutDistance result);
+    public abstract void getDrivePos(MutDistance result);
 
     /**
      * Gets the current drive velocity
      * 
      * @param result mutable object to store the result
      */
-    public abstract void getDriveVelocity(MutLinearVelocity result);
+    public abstract void getDriveVel(MutLinearVelocity result);
 
     /**
      * Gets the current drive motor applied voltage
      * 
      * @param result
      */
-    public abstract void getDriveVoltage(MutVoltage result);
+    public abstract void getDriveVolt(MutVoltage result);
 
     /**
      * Gets the current angle position
      * 
      * @param result mutable object to store the result
      */
-    public abstract void getAnglePosition(MutAngle result);
+    public abstract void getAnglePos(MutAngle result);
 
     /**
      * Gets the current angle velocity
      * 
      * @param result mutable object to store the result
      */
-    public abstract void getAngleVelocity(MutAngularVelocity result);
+    public abstract void getAngleVel(MutAngularVelocity result);
 
     /**
      * Gets the current angle motor applied voltage
      * 
-     * @param result
+     * @param result mutable object to store the result
      */
-    public abstract void getAngleVoltage(MutVoltage result);
+    public abstract void getAngleVolt(MutVoltage result);
 
     /*************************/
     /* Static Helper Methods */

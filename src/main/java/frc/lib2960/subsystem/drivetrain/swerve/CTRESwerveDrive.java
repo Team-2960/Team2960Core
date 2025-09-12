@@ -21,7 +21,6 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.BooleanSupplier;
 
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.hardware.*;
@@ -40,7 +39,17 @@ public class CTRESwerveDrive extends SwerveDriveBase {
     private final SysIdRoutine angleSysIDRoutime;
     private final SysIdRoutine turnSysIDRoutime;
 
-    public CTRESwerveDrive(CANBus canBus, CTRESwerveDriveConfig config, SwerveModuleCommonConfig commonConfig,
+    /**
+     * Constructor
+     * 
+     * @param config       Swerve drive config
+     * @param commonConfig Swerve module common config
+     * @param lfConfig     Left front swerve module config
+     * @param rfConfig     Right front swerve module config
+     * @param lrConfig     Left rear swerve module config
+     * @param rrConfig     Right rear swerve module config
+     */
+    public CTRESwerveDrive(CTRESwerveDriveConfig config, SwerveModuleCommonConfig commonConfig,
             SwerveModuleBaseConfig lfConfig, SwerveModuleBaseConfig rfConfig,
             SwerveModuleBaseConfig lrConfig, SwerveModuleBaseConfig rrConfig) {
         super(config.common);
@@ -125,6 +134,15 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                         this));
     }
 
+    /**
+     * Sets the chassis speeds for the drivetrain
+     * 
+     * @param speeds      Chassis speeds for the drivetrain
+     * @param isFieldRelative Sets if the chassis speeds should be field relative or
+     *            robot relative
+     * @param xOffset     X offset for the center of rotation
+     * @param yOffset     Y Offset for the center of rotation
+     */
     @Override
     public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset,
             Distance yOffset) {
@@ -148,32 +166,67 @@ public class CTRESwerveDrive extends SwerveDriveBase {
         drivetrain.setControl(driveRequest);
     }
 
+    /**
+     * Gets the current estimated pose of the robot
+     * 
+     * @return current estimated pose fo the robot
+     */
     @Override
     public Pose2d getPoseEst() {
         return drivetrain.getState().Pose;
     }
 
+    /**
+     * Gets the chassis speeds relative to the field's frame of reference
+     * 
+     * @return ChassisSpeeds relative to the field's frame of reference
+     */
     @Override
     public ChassisSpeeds getFieldRelativeSpeeds() {
         var state = drivetrain.getState();
         return ChassisSpeeds.fromRobotRelativeSpeeds(state.Speeds, state.Pose.getRotation());
     }
 
+    /**
+     * Gets the chassis speeds relative to the robot's frame of reference
+     * 
+     * @return ChassisSpeeds relative to the robot's frame of reference
+     */
     @Override
     public ChassisSpeeds getRobotRelativeSpeeds() {
         return drivetrain.getState().Speeds;
     }
 
+    /**
+     * Sets the pose of the robot to a pre-defined position
+     * 
+     * @param pose new pose for the robot
+     */
     @Override
     public void resetPose(Pose2d pose) {
         drivetrain.resetPose(pose);
     }
 
+    /**
+     * Adds a vision measurement to the pose estimator
+     * 
+     * @param pose      estimated pose from vision
+     * @param timestamp vision measurement timestamp
+     * @param std       standard deviation vector for the estimated pose
+     */
     @Override
     public void addVisionMeasurement(Pose2d pose, Time timestamp, Vector<N3> std) {
         drivetrain.addVisionMeasurement(pose, timestamp.in(Seconds), std);
     }
 
+    /**
+     * Helper method to generate the SwerveModuleConstantsFactory object from a
+     * SwerveModuleBaseConfig object
+     * 
+     * @param commonConfig SwerveModuleBaseConfig object
+     * @return SwerveModuleConstantsFactory object generated for the supplied
+     *     SwerveModuleBaseConfig
+     */
     private static SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> getConstCreator(
             SwerveModuleCommonConfig commonConfig) {
         Slot0Configs driveGains = new Slot0Configs()
@@ -222,6 +275,13 @@ public class CTRESwerveDrive extends SwerveDriveBase {
         return constCreator;
     }
 
+    /**
+     * Generates a swerve module constants object
+     * 
+     * @param constCreator swerve drive base constants file
+     * @param config       swerve module config
+     * @return swerve module constants object
+     */
     private static SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> getModuleConst(
             SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> constCreator,
             SwerveModuleBaseConfig config) {
@@ -277,7 +337,6 @@ public class CTRESwerveDrive extends SwerveDriveBase {
         return (quasistatic) ? turnSysIDRoutime.quasistatic(direction) : turnSysIDRoutime.dynamic(direction);
     }
 
-
     /**
      * Creates a new command sequence that includes all the commands to run System
      * Identification on the linear drive motors
@@ -298,7 +357,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
      * Identification on the angle motors
      * 
      * @param nextTrigger Trigger for the sequence to move onto the next operation
-     *                    in the sequence
+     *            in the sequence
      * @return new command sequence
      */
     public Command getAngleSysIdSequence(BooleanSupplier nextTrigger) {
@@ -308,13 +367,12 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                 Commands.runOnce(SignalLogger::stop));
     }
 
-
     /**
      * Creates a new command sequence that includes all the commands to run System
      * Identification on the robot turning
      * 
      * @param nextTrigger Trigger for the sequence to move onto the next operation
-     *                    in the sequence
+     *            in the sequence
      * @return new command sequence
      */
     public Command getTurnSysIdSequence(BooleanSupplier nextTrigger) {

@@ -33,6 +33,12 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
     private final AbsoluteEncoder angleAbsEncoder;
     private final RelativeEncoder angleVelEncoder;
 
+    /**
+     * Constructor
+     * 
+     * @param commonConfig Swerve module common config
+     * @param config       Swerve module config
+     */
     public RevFlexMaxSwerveModule(SwerveModuleCommonConfig commonConfig, SwerveModuleBaseConfig config) {
         super(commonConfig, config);
 
@@ -67,43 +73,83 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
         angleVelEncoder = angleMotor.getAlternateEncoder();
     }
 
+    /**
+     * Sets the voltage of the drive motor
+     * 
+     * @param volts voltage to set to the drive motor
+     */
     @Override
     public void setDriveVolt(Voltage volts) {
         driveMotor.setVoltage(volts.in(Volts));
     }
 
+    /**
+     * Sets the voltage of the angle motor
+     * 
+     * @param volts voltage to set to the angle motor
+     */
     @Override
     public void setAngleVolt(Voltage volts) {
         angleMotor.setVoltage(volts.in(Volts));
     }
 
+    /**
+     * Gets the current drive position
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
-    public void getDrivePosition(MutDistance result) {
+    public void getDrivePos(MutDistance result) {
         result.mut_replace(driveEncoder.getPosition(), Meters);
     }
 
+    /**
+     * Gets the current drive velocity
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
-    public void getDriveVelocity(MutLinearVelocity result) {
+    public void getDriveVel(MutLinearVelocity result) {
         result.mut_replace(driveEncoder.getVelocity(), MetersPerSecond);
     }
 
+    /**
+     * Gets the current drive motor applied voltage
+     * 
+     * @param result
+     */
     @Override
-    public void getDriveVoltage(MutVoltage result) {
+    public void getDriveVolt(MutVoltage result) {
         result.mut_replace(driveMotor.getAppliedOutput() * driveMotor.getBusVoltage(), Volts);
     }
 
+    /**
+     * Gets the current angle position
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
-    public void getAnglePosition(MutAngle result) {
+    public void getAnglePos(MutAngle result) {
         result.mut_replace(angleAbsEncoder.getPosition(), Rotations);
     }
 
+    /**
+     * Gets the current angle velocity
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
-    public void getAngleVelocity(MutAngularVelocity result) {
+    public void getAngleVel(MutAngularVelocity result) {
         result.mut_replace(angleVelEncoder.getVelocity(), RotationsPerSecond);
     }
 
+    /**
+     * Gets the current angle motor applied voltage
+     * 
+     * @param result mutable object to store the result
+     */
     @Override
-    public void getAngleVoltage(MutVoltage result) {
+    public void getAngleVolt(MutVoltage result) {
         result.mut_replace(angleMotor.getAppliedOutput() * angleMotor.getBusVoltage(), Volts);
     }
 
