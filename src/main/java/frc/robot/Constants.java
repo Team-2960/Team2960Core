@@ -240,6 +240,9 @@ public class Constants {
                         .addPreset("Low Algae", Inches.of(4.7))
                         .addPreset("High Algae", Inches.of(20));
 
+        public static MotorConfig elevatorMotorConfig = new MotorConfig(elevatorMotorID)
+                        .setGearRatio(12);
+
         /*********************/
         /* Algae Arm Configs */
         /*********************/
@@ -290,20 +293,20 @@ public class Constants {
         public static final Angle climberRetAngle = Rotations.of(.127);
 
         public static final AngularMotorMechConfig climberMechConfig = new AngularMotorMechConfig(
-                "Climber");
+                        "Climber");
 
         public static final MotorConfig climberMotorConfig = new MotorConfig(
-                "Climber Motor",
-                climberMotorID)
-                .setGearRatio(75);
+                        "Climber Motor",
+                        climberMotorID)
+                        .setGearRatio(75);
 
         public static final ClimberConfig climberConfig = new ClimberConfig(
-                climberMechConfig,
-                climberMotorConfig,
-                climberExtVolt,
-                climberRetVolt,
-                climberExtAngle,
-                climberRetAngle,
-                climberRetAngle);
+                        climberMechConfig,
+                        climberMotorConfig,
+                        climberExtVolt,
+                        climberRetVolt,
+                        climberExtAngle,
+                        climberRetAngle,
+                        climberRetAngle);
 
 }
