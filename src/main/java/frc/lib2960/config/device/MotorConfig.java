@@ -11,6 +11,9 @@ public class MotorConfig {
     /** Inverted flag. Defaults to false. */
     public boolean invert = false;
 
+    /**< Motor gear reduction */
+    public double gearRatio = 1;
+
     /**
      * Constructor
      * 
@@ -40,4 +43,15 @@ public class MotorConfig {
         this.invert = invert;
         return this;
     }
+
+    /**
+     * Sets the motor gear ratio. Default is 1.
+     * @param gearRatio motor gear ratio
+     * @return  current configuration object
+     */
+    public MotorConfig setGearRatio(double gearRatio) {
+        this.gearRatio = gearRatio;
+        return this;
+    }
+
 }
