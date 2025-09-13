@@ -1,6 +1,12 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import edu.wpi.first.units.measure.MutAngularVelocity;
+import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib2960.helper.PathPlanner;
 import frc.lib2960.subsystem.drivetrain.swerve.NavXSwerveDrive;
 import frc.lib2960.subsystem.drivetrain.swerve.RevFlexMaxSwerveModule;
@@ -17,6 +23,8 @@ import frc.robot.subsystems.Elevator;
  * a single or group of subsystems
  */
 public class RobotContainer {
+
+    // Subsystems
     public static final RevFlexMaxSwerveModule[] swerveModules = {
             new RevFlexMaxSwerveModule(Constants.swerveModuleCommonConfig, Constants.lfConfig),
             new RevFlexMaxSwerveModule(Constants.swerveModuleCommonConfig, Constants.rfConfig),
@@ -34,6 +42,15 @@ public class RobotContainer {
     public static final AlgaeRoller algaeRoller = new AlgaeRoller(Constants.algaeRollerConfig);
     public static final Climber climber = new Climber(Constants.climberConfig);
 
+    // Joysticks
+    public static final CommandXboxController driveCtrl = new CommandXboxController(0);
+    public static final CommandXboxController opCtrl = new CommandXboxController(1);
+
+    // Helper Units
+    private static final MutLinearVelocity xTeleopVel = MetersPerSecond.mutable(0);
+    private static final MutLinearVelocity yTeleopVel = MetersPerSecond.mutable(0);
+    private static final MutAngularVelocity rTeleopVel = DegreesPerSecond.mutable(0);
+
     // TODO Implement AprilTag vision
     // TODO Map Joysticks
 
@@ -41,7 +58,20 @@ public class RobotContainer {
      * Static initializer
      */
     static {
+        initControls();
         initPathPlanner();
+    }
+
+    private static void initControls() {
+        // Init Drivetrain controls
+        drivetrain.setDefaultCommand(drivetrain.getVelocityControlCmd(
+                () -> xTeleopVel.mut_replace(-driveCtrl.getLeftX() * Constants.driveLinMaxVel.in(MetersPerSecond),
+                        MetersPerSecond),
+                () -> yTeleopVel.mut_replace(-driveCtrl.getLeftY() * Constants.driveLinMaxVel.in(MetersPerSecond),
+                        MetersPerSecond),
+                () -> rTeleopVel.mut_replace(-driveCtrl.getRightX() * Constants.driveAngMaxVel.in(DegreesPerSecond),
+                        DegreesPerSecond)));
+
     }
 
     /**

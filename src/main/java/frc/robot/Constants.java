@@ -12,8 +12,12 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularAcceleration;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearAcceleration;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.config.basic.RobotCommonConfig;
 import frc.lib2960.config.controller.AngularControllerConfig;
@@ -85,14 +89,21 @@ public class Constants {
         public static final Distance moduleXOffset = frameLength.div(2).minus(wheelInset);
         public static final Distance moduleYOffset = frameWidth.div(2).minus(wheelInset);
 
+        public static final LinearVelocity driveLinMaxVel = MetersPerSecond.of(4.5);
+        public static final LinearAcceleration driveLinMaxAccel = MetersPerSecondPerSecond.of(11);
+
+        public static final AngularVelocity driveAngMaxVel = DegreesPerSecond.of(540);
+        public static final AngularAcceleration driveAnglMaxAccel = DegreesPerSecondPerSecond.of(720);
+
+
         public static final LinearControllerConfig swerveLinearConfig = new LinearControllerConfig()
-                        .setMaxVelocity(MetersPerSecond.of(4.5))
-                        .setMaxAccel(MetersPerSecondPerSecond.of(11))
-                        .setMaxDecel(MetersPerSecondPerSecond.of(11));
+                        .setMaxVelocity(driveLinMaxVel)
+                        .setMaxAccel(driveLinMaxAccel)
+                        .setMaxDecel(driveLinMaxAccel);
 
         public static final AngularControllerConfig swerveAngularConfig = new AngularControllerConfig()
-                        .setMaxVelocity(DegreesPerSecond.of(540))
-                        .setMaxAccel(DegreesPerSecondPerSecond.of(720));
+                        .setMaxVelocity(driveAngMaxVel)
+                        .setMaxAccel(driveAnglMaxAccel);
 
         public static final LinearControllerConfig driveMotorCtrlConfig = new LinearControllerConfig()
                         .setPIDConfig(new PIDConfig(1, 0, 0))
