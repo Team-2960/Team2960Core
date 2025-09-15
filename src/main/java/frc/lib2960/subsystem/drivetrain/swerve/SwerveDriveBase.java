@@ -19,6 +19,9 @@ import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -60,6 +63,8 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
 
     private final ChassisSpeeds targetSpeeds = new ChassisSpeeds();
 
+    private final ShuffleboardLayout layout;
+
     /*************************/
     /* Suffleboard Variables */
     /*************************/
@@ -77,6 +82,22 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
         this.config = config;
         this.linearCtrl = new LinearController(config.linearCtrlConfig);
         this.angleCtrl = new AngularController(config.angularCtrlConfig);
+
+        layout = Shuffleboard.getTab(config.uiTabName)
+            .getLayout(config.name, BuiltInLayouts.kList)
+            .withSize(1,6);
+
+        layout.add("Subsystem", this);
+        layout.add("Linear Controller", linearCtrl);
+        layout.add("Angular Controller", angleCtrl);
+        layout.add("Position Error", posErrorCalc);
+        layout.add("Target Velocity Magnetude", velMagCalc);
+        layout.add("X Target Velocity", xVelCalc);
+        layout.add("Y Target Velocity", yVelCalc);
+        layout.add("Angle Target Position", xVelCalc);
+        layout.add("Angle Target Velocity", angleVelCalc);
+        layout.add("Chassis Speeds", targetSpeeds);
+        
     }
 
     /*******************/
