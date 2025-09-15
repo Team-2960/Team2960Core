@@ -42,6 +42,27 @@ import frc.robot.subsystems.CoralRollerConfig;
 public class Constants {
         public static final RobotCommonConfig commonConfig = new RobotCommonConfig();
 
+        /*******************/
+        /* Driver Controls */
+        /*******************/
+        public static final int driverCtrlID = 0;
+        public static final int opCtrlID = 1;
+
+        public static final double linDriveDB = 0.05;
+        public static final double angDriveDB = 0.05;
+
+        /*******************/
+        /* Auton Constants */
+        /*******************/
+        public static final Distance autoClearance = Inches.of(3);
+
+        /*******************/
+        /* Robot Constants */
+        /*******************/
+        public static final Distance coralXOffset = Meters.of(.474);
+        public static final Distance coralYOffset = Meters.of(.275);
+        public static final Angle coralROffset = Degrees.of(0);
+        
         /**************/
         /* Device IDs */
         /**************/
@@ -83,8 +104,13 @@ public class Constants {
         public static final Current angleMaxCurrent = Amps.of(40);
 
         public static final Distance wheelInset = Meters.of(0.044449999999999996);
-        public static final Distance frameWidth = Meters.of(0.7493);
-        public static final Distance frameLength = Meters.of(0.7493);
+        public static final Distance frameWidth = Inches.of(29.5);
+        public static final Distance frameLength = Inches.of(29.5);
+        public static final Distance frameDiag = Inches.of(Math.sqrt(Math.pow(frameWidth.in(Inches),2)+Math.pow(frameLength.in(Inches),2)));
+        public static final Distance bumperThickness = Inches.of(3.25);
+        public static final Distance fullWidth = frameWidth.plus(bumperThickness.times(2));
+        public static final Distance fullLength = frameLength.plus(bumperThickness.times(2));
+        public static final Distance fullDiag = Inches.of(Math.sqrt(Math.pow(fullWidth.in(Inches),2)+Math.pow(fullLength.in(Inches),2)));
 
         public static final Distance moduleXOffset = frameLength.div(2).minus(wheelInset);
         public static final Distance moduleYOffset = frameWidth.div(2).minus(wheelInset);
