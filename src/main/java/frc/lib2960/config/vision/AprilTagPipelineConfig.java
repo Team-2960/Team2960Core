@@ -15,20 +15,27 @@ import edu.wpi.first.units.measure.Distance;
  * Apriltag Pipeline Settings
  */
 public class AprilTagPipelineConfig {
+
+    /** Name of the camera*/
+    public String cameraName;
+
+    /** Name of the tab the camera telemetry will be displayed on */
+    public String uiTabName;
+    
     /** < AprilTag Field Layout object */
-    public final AprilTagFields fieldLayout;
+    public AprilTagFields fieldLayout;
     /** < Robot to Camera transformation */
-    public final Transform3d robotToCamera;
+    public Transform3d robotToCamera;
     /** < Pose Estimation Strategy */
-    public final PoseStrategy poseStrategy;
+    public PoseStrategy poseStrategy;
 
     /** < Maximum acceptable target distance from camera in meters */
-    public final Distance maxDist;
+    public Distance maxDist;
     /** < Single tag standard deviation vector */
-    public final Vector<N3> singleTagSTD;
+    public Vector<N3> singleTagSTD;
     /** < Multi tag standard deviation vector */
-    public final Vector<N3> multiTagSTD;
-    public final double ambiguityThreshold;
+    public Vector<N3> multiTagSTD;
+    public double ambiguityThreshold;
 
     /**
      * Constructor

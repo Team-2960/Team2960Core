@@ -13,9 +13,11 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.lib2960.config.controller.AngularControllerConfig;
 
-public class AngularController {
+public class AngularController implements Sendable {
     public final AngularControllerConfig config;
     private final TrapezoidalProfile trapProfile;
     private final PIDController pid;
@@ -35,6 +37,20 @@ public class AngularController {
                 config.period.in(Seconds));
         pid = config.pidConfig.getPIDController();
         ff = config.ffConfig.getArmFF();
+    }
+
+    /**
+     * Implements sendable initialization
+     */
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        trapProfile.initSendable(builder);
+        pid.initSendable(builder);
+        builder.addDoubleProperty("FeedForward kS", ff::getKs, ff::setKs);
+        builder.addDoubleProperty("FeedForward kV", ff::getKv, ff::setKv);
+        builder.addDoubleProperty("FeedForward kG", ff::getKg, ff::setKg);
+        builder.addDoubleProperty("FeedForward kA", ff::getKa, ff::setKa);
+        builder.setSmartDashboardType("AngularController");
     }
 
     /**

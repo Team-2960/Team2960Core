@@ -15,6 +15,9 @@ public class LinearMotorMechConfig {
     /** Name of the mechanism */
     public String name;
 
+    /** Name of the tab the mechanism will be displayed on */
+    public String uiTabName = "Mechanisms";
+
     /** Diameter of the output pulley. */
     public Distance pulleyDiameter;
     /** Radius of the output pulley. */
@@ -52,6 +55,19 @@ public class LinearMotorMechConfig {
         this.pulleyDiameter = pulleyDiameter;
         this.pulleyRadius = pulleyDiameter.div(2);
         this.pulleyCircumference = pulleyDiameter.times(Math.PI);
+    }
+
+    /**
+     * Sets the name of the tab the telemetry of this mechanism will appears on.
+     * Defaults to "Mechanisms".
+     * 
+     * @param uiTabName name of the tab the telemetry of this mechanism will appears
+     *                  on
+     * @return current configuration object
+     */
+    public LinearMotorMechConfig setUITabName(String uiTabName) {
+        this.uiTabName = uiTabName;
+        return this;
     }
 
     /**

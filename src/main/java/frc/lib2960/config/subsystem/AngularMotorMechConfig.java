@@ -15,6 +15,9 @@ public class AngularMotorMechConfig {
     /** Name of the mechanism */
     public String name;
 
+    /** Name of the tab the mechanism will be displayed on */
+    public String uiTabName = "Mechanisms";
+
     /** Sets the maximum per motor current for the mechanism. Defaults to 80A. */
     public Current maxMotorCurrent = Amps.of(80);
 
@@ -42,6 +45,19 @@ public class AngularMotorMechConfig {
      */
     public AngularMotorMechConfig(String name) {
         this.name = name;
+    }
+
+    /**
+     * Sets the name of the tab the telemetry of this mechanism will appears on.
+     * Defaults to "Mechanisms".
+     * 
+     * @param uiTabName name of the tab the telemetry of this mechanism will appears
+     *                  on
+     * @return current configuration object
+     */
+    public AngularMotorMechConfig setUITabName(String uiTabName) {
+        this.uiTabName = uiTabName;
+        return this;
     }
 
     /**

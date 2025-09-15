@@ -12,9 +12,11 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.lib2960.config.controller.LinearControllerConfig;
 
-public class LinearController {
+public class LinearController implements Sendable {
     public final LinearControllerConfig config;
     private final TrapezoidalProfile trapProfile;
     private final PIDController pid;
@@ -34,6 +36,20 @@ public class LinearController {
                 config.period.in(Seconds));
         pid = config.pidConfig.getPIDController();
         ff = config.ffConfig.getElevatorFF();
+    }
+
+    /**
+     * Implements sendable initialization
+     */
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        trapProfile.initSendable(builder);
+        pid.initSendable(builder);
+        builder.addDoubleProperty("FeedForward kS", ff::getKs, ff::setKs);
+        builder.addDoubleProperty("FeedForward kV", ff::getKv, ff::setKv);
+        builder.addDoubleProperty("FeedForward kG", ff::getKg, ff::setKg);
+        builder.addDoubleProperty("FeedForward kA", ff::getKa, ff::setKa);
+        builder.setSmartDashboardType("LinearController");
     }
 
     /**

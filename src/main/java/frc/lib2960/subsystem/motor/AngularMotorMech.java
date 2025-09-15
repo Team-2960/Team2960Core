@@ -1,7 +1,7 @@
 package frc.lib2960.subsystem.motor;
 
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.BooleanSupplier;
@@ -13,6 +13,9 @@ import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -26,29 +29,30 @@ import frc.lib2960.helper.LimitTrim;
  * Manages a angular motor mechanism
  */
 public abstract class AngularMotorMech extends SubsystemBase {
-    // TODO Implement Telemetry
-    // TODO Implement Logging
     public final AngularMotorMechConfig config;
 
     private final AngularController controller;
 
-    private final MutAngle curPos = Radians.mutable(0);
-    private final MutAngularVelocity curVel = RadiansPerSecond.mutable(0);
+    private final MutAngle curPos = Degrees.mutable(0);
+    private final MutAngularVelocity curVel = DegreesPerSecond.mutable(0);
     private final MutVoltage curVolt = Volts.mutable(0);
-    private final MutAngularVelocity targetVel = RadiansPerSecond.mutable(0);
+    private final MutAngle targetPos = Degrees.mutable(0);
+    private final MutAngularVelocity targetVel = DegreesPerSecond.mutable(0);
     private final MutVoltage targetVolt = Volts.mutable(0);
 
     private final SysIdRoutine sysIdRoutine;
     private final MutVoltage sysIdVolt = Volts.mutable(0);
-    private final MutAngle sysIdPos = Radians.mutable(0);
-    private final MutAngularVelocity sysIdVel = RadiansPerSecond.mutable(0);
+    private final MutAngle sysIdPos = Degrees.mutable(0);
+    private final MutAngularVelocity sysIdVel = DegreesPerSecond.mutable(0);
+
+    private final ShuffleboardLayout layout;
 
     /**
      * Command to hold position the mechanism is at when the command is scheduled
      */
     private class HoldPosCmd extends Command {
         /** < Record of the current position of the mechanism */
-        private MutAngle curPos = Radians.mutable(0);
+        private MutAngle curPos = Degrees.mutable(0);
 
         /**
          * Captures the mechanism position when the command is scheduled
@@ -75,6 +79,8 @@ public abstract class AngularMotorMech extends SubsystemBase {
     public AngularMotorMech(AngularMotorMechConfig config) {
         this.config = config;
 
+        this.setName(config.name);
+
         controller = new AngularController(config.controlConfig);
 
         sysIdRoutine = new SysIdRoutine(
@@ -83,6 +89,20 @@ public abstract class AngularMotorMech extends SubsystemBase {
                         this::setVoltage,
                         this::sysIDLog,
                         this));
+
+        // Configure telemetry
+        layout =  Shuffleboard.getTab(config.uiTabName)
+            .getLayout(config.name, BuiltInLayouts.kList)
+            .withSize(2,6); // TODO Optimize
+        
+        layout.add("Controller", controller);
+        layout.add("Subsystem", this);
+        layout.add("Current Position", curPos);
+        layout.add("Current Velocity", curVel);
+        layout.add("Current Voltage", curVolt);
+        layout.add("Target Position", targetPos);
+        layout.add("Target Velocity", targetVel);
+        layout.add("Target Voltage", targetVolt);
     }
 
     /**
@@ -93,8 +113,10 @@ public abstract class AngularMotorMech extends SubsystemBase {
     public void gotoPosition(Angle target) {
         getPosition(curPos);
         getVelocity(curVel);
+        targetPos.mut_replace(target);
 
         controller.updateVelocity(curPos, curVel, target, targetVel);
+        gotoVelocity(targetVel, curPos, curVel);
     }
 
     /**
@@ -134,13 +156,20 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * Sets the motor voltage. If the current position is at a limit, the voltage is
      * trimmed so the mechanism won't exceed the limit.
      * 
-     * @param volts
+     * @param volts sets the target voltage
      */
     public void setVoltage(Voltage volts) {
         getPosition(curPos);
         setVoltage(volts, curPos);
     }
 
+    /**
+     * Sets the motor voltage. If the current position is at a limit, the voltage is
+     * trimmed so the mechanism won't exceed the limit.
+     * 
+     * @param volts sets the target voltage
+     * @param curPos current mechanism position
+     */
     public void setVoltage(Voltage volts, Angle curPos) {
         targetVolt.mut_replace(volts);
 
@@ -309,7 +338,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      */
     public Command getAtMinCmd() {
         return Commands.waitUntil(() -> {
-            MutAngle dist = Radians.mutable(0);
+            MutAngle dist = Degrees.mutable(0);
             getPosition(dist);
             return !controller.aboveMin(dist);
         });
@@ -322,7 +351,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      */
     public Command getAtMaxCmd() {
         return Commands.waitUntil(() -> {
-            MutAngle dist = Radians.mutable(0);
+            MutAngle dist = Degrees.mutable(0);
             getPosition(dist);
             return !controller.belowMax(dist);
         });

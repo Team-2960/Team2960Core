@@ -13,6 +13,9 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -26,8 +29,6 @@ import frc.lib2960.helper.LimitTrim;
  * Manages a linear motor mechanism
  */
 public abstract class LinearMotorMech extends SubsystemBase {
-    // TODO Implement Telemetry
-    // TODO Implement Logging
     public final LinearMotorMechConfig config;
 
     private final LinearController controller;
@@ -35,6 +36,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
     private final MutDistance curPos = Meters.mutable(0);
     private final MutLinearVelocity curVel = MetersPerSecond.mutable(0);
     private final MutVoltage curVolt = Volts.mutable(0);
+    private final MutDistance targetPos = Meters.mutable(0);
     private final MutLinearVelocity targetVel = MetersPerSecond.mutable(0);
     private final MutVoltage targetVolt = Volts.mutable(0);
 
@@ -42,6 +44,8 @@ public abstract class LinearMotorMech extends SubsystemBase {
     private final MutVoltage sysIdVolt = Volts.mutable(0);
     private final MutDistance sysIdPos = Meters.mutable(0);
     private final MutLinearVelocity sysIdVel = MetersPerSecond.mutable(0);
+
+    private final ShuffleboardLayout layout;
 
     /**
      * Command to hold position the mechanism is at when the command is scheduled
@@ -75,6 +79,8 @@ public abstract class LinearMotorMech extends SubsystemBase {
     public LinearMotorMech(LinearMotorMechConfig config) {
         this.config = config;
 
+        this.setName(config.name);
+
         controller = new LinearController(config.controlConfig);
 
         sysIdRoutine = new SysIdRoutine(
@@ -83,6 +89,20 @@ public abstract class LinearMotorMech extends SubsystemBase {
                         this::setVoltage,
                         this::sysIDLog,
                         this));
+
+        // Configure telemetry
+        layout =  Shuffleboard.getTab(config.uiTabName)
+            .getLayout(config.name, BuiltInLayouts.kList)
+            .withSize(2,6); // TODO Optimize
+        
+        layout.add("Controller", controller);
+        layout.add("Subsystem", this);
+        layout.add("Current Position", curPos);
+        layout.add("Current Velocity", curVel);
+        layout.add("Current Voltage", curVolt);
+        layout.add("Target Position", targetPos);
+        layout.add("Target Velocity", targetVel);
+        layout.add("Target Voltage", targetVolt);
     }
 
     /**
@@ -93,8 +113,10 @@ public abstract class LinearMotorMech extends SubsystemBase {
     public void gotoPosition(Distance target) {
         getPosition(curPos);
         getVelocity(curVel);
+        targetPos.mut_replace(target);
 
         controller.updateVelocity(curPos, curVel, target, targetVel);
+        gotoVelocity(targetVel, curPos, curVel);
     }
 
     /**
@@ -134,13 +156,20 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * Sets the motor voltage. If the current position is at a limit, the voltage is
      * trimmed so the mechanism won't exceed the limit.
      * 
-     * @param volts
+     * @param volts sets the target voltage
      */
     public void setVoltage(Voltage volts) {
         getPosition(curPos);
         setVoltage(volts, curPos);
     }
 
+    /**
+     * Sets the motor voltage. If the current position is at a limit, the voltage is
+     * trimmed so the mechanism won't exceed the limit.
+     * 
+     * @param volts sets the target voltage
+     * @param curPos current mechanism position
+     */
     public void setVoltage(Voltage volts, Distance curPos) {
         targetVolt.mut_replace(volts);
 
