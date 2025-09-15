@@ -43,13 +43,17 @@ public class LinearController implements Sendable {
      */
     @Override
     public void initSendable(SendableBuilder builder) {
-        trapProfile.initSendable(builder);
-        pid.initSendable(builder);
+        builder.setSmartDashboardType("LinearController");
+        builder.addDoubleProperty("Max Velocity", trapProfile::getMaxVel, trapProfile::setMaxVel);
+        builder.addDoubleProperty("Max Acceleration", trapProfile::getMaxAccel, trapProfile::setMaxAccel);
+        builder.addDoubleProperty("Max Deceleration", trapProfile::getMaxDecel, trapProfile::setMaxDecel);
+        builder.addDoubleProperty("PID kP", pid::getP, pid::setP);
+        builder.addDoubleProperty("PID kI", pid::getI, pid::setI);
+        builder.addDoubleProperty("PID kP", pid::getD, pid::setD);
         builder.addDoubleProperty("FeedForward kS", ff::getKs, ff::setKs);
         builder.addDoubleProperty("FeedForward kV", ff::getKv, ff::setKv);
         builder.addDoubleProperty("FeedForward kG", ff::getKg, ff::setKg);
         builder.addDoubleProperty("FeedForward kA", ff::getKa, ff::setKa);
-        builder.setSmartDashboardType("LinearController");
     }
 
     /**

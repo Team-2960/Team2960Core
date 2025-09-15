@@ -63,4 +63,31 @@ public class TrapezoidalProfile implements Sendable {
         builder.addDoubleProperty("Max Acceleration", () -> this.maxAccel, (maxAccel) -> this.maxAccel = maxAccel);
         builder.addDoubleProperty("Max Deceleration", () -> this.maxDecel, (maxDecel) -> this.maxDecel = maxDecel);
     }
+
+
+    public void setMaxVel(double maxVel) {
+        this.maxVel = maxVel;
+    }
+
+
+    public void setMaxAccel(double maxAccel) {
+        this.maxVel = maxAccel;
+    }
+
+
+    public void setMaxDecel(double maxDecel) {
+        this.maxDecel = maxDecel;
+    }
+
+    public double getMaxVel(){
+        return maxVel;
+    }
+
+    public double getMaxAccel(){
+        return maxAccel;
+    }
+
+    public double getMaxDecel(){
+        return maxDecel;
+    }
 }
