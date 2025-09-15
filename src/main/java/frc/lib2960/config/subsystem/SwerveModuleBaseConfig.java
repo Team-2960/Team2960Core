@@ -11,6 +11,9 @@ public class SwerveModuleBaseConfig {
     /** Swerve module name */
     public String name;
 
+    /** Name of the tab the mechanism will be displayed on */
+    public String uiTabName = "Drivetrain";
+
     /** Drive motor ID. */
     public int driveMotorID;
     /** Angle motor ID. */
@@ -57,6 +60,19 @@ public class SwerveModuleBaseConfig {
         this.angleEncoderID = angleEncoderID;
         this.xPos = xPos;
         this.yPos = yPos;
+    }
+
+    /**
+     * Sets the name of the tab the telemetry of this mechanism will appears on.
+     * Defaults to "Drivetrain".
+     * 
+     * @param uiTabName name of the tab the telemetry of this mechanism will appears
+     *                  on
+     * @return current configuration object
+     */
+    public SwerveModuleBaseConfig setUITabName(String uiTabName) {
+        this.uiTabName = uiTabName;
+        return this;
     }
 
     /**

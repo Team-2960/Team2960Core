@@ -20,6 +20,9 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.config.subsystem.SwerveModuleBaseConfig;
@@ -27,10 +30,6 @@ import frc.lib2960.config.subsystem.SwerveModuleCommonConfig;
 import frc.lib2960.helper.AngleUtil;
 
 public abstract class SwerveModuleBase {
-    // TODO Implement SysID
-    // TODO Implement Telemetry
-    // TODO Implement Logging
-
     /**********************/
     /* Config Variables */
     /**********************/
@@ -53,6 +52,8 @@ public abstract class SwerveModuleBase {
     private final LinearController driveCtrl;
     private final AngularController angleCtrl;
 
+    private final ShuffleboardLayout layout;
+
     /****************************/
     /* Driver Station Variables */
     /****************************/
@@ -72,6 +73,22 @@ public abstract class SwerveModuleBase {
 
         this.driveCtrl = commonConfig.driveCtrlConfig.getController();
         this.angleCtrl = commonConfig.angleCtrlConfig.getController();
+
+        layout = Shuffleboard.getTab(config.uiTabName)
+            .getLayout(config.name, BuiltInLayouts.kList)
+            .withSize(1,5);
+
+        layout.add("Drive Control", driveCtrl);
+        layout.add("Angle Control", angleCtrl);
+        layout.add("Drive Current Velocity", driveCurVel);
+        layout.add("Drive Target Velocity", driveTarget);
+        layout.add("Drive Target Voltage", driveVoltCalc);
+        layout.add("Angle Current Position", angleCurPos);
+        layout.add("Angle Current Velocity", angleCurVel);
+        layout.add("Angle Target Position", angleTarget);
+        layout.add("Angle Target Velocity", angleVelCalc);
+        layout.add("Angle Target Voltage", angleVoltCalc);
+
     }
 
     /*******************/
