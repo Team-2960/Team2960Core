@@ -17,6 +17,11 @@ public class NavXSwerveDrive extends RioSwerveDrive {
 
     public final MutAngularVelocity mutAngularVel = DegreesPerSecond.mutable(0);
 
+    /**
+     * Constructor
+     * @param config    Swerve drive configuration
+     * @param modules   Swerve module objects
+     */
     public NavXSwerveDrive(NavXSwerveDriveConfig config, SwerveModuleBase... modules) {
         super(config.common, modules);
         this.config = config;
