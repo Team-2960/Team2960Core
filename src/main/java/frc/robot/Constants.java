@@ -226,6 +226,7 @@ public class Constants {
             .setLimits(Degrees.of(0), Degrees.of(95));
 
     public static final AngularMotorMechConfig coralArmConfig = new AngularMotorMechConfig("Coral Arm")
+            .setUITabName("Coral")
             .setAngularControllerConfig(angleMotorCtrlConfig)
             .setLimitTrim(LimitTrim.Velocity)
             .addPreset("Intake", Degrees.of(85.5))
@@ -251,6 +252,7 @@ public class Constants {
 
     public static final LinearMotorMechConfig coralRollerMechConfig = new LinearMotorMechConfig("Coral Roller",
             Inches.of(2))
+            .setUITabName("Coral")
             .setLinearMotorMechConfig(coralRollerCtrlConfig);
 
     public static final MotorConfig coralRollerMotorConfig = new MotorConfig("Coral Roller Motor",
@@ -283,6 +285,7 @@ public class Constants {
     public static LinearMotorMechConfig elevatorConfig = new LinearMotorMechConfig(
             "Elevator",
             elevatorPulleyDiam)
+            .setUITabName("Coral")
             .setLinearMotorMechConfig(coralRollerCtrlConfig)
             .setLimitTrim(LimitTrim.Velocity)
             .addPreset("Intake", Inches.of(0))
@@ -307,6 +310,7 @@ public class Constants {
             .setLimits(Degrees.of(10), Degrees.of(88));
 
     public static final AngularMotorMechConfig algaeArmConfig = new AngularMotorMechConfig("Algae Arm")
+            .setUITabName("Algae")
             .setAngularControllerConfig(angleMotorCtrlConfig)
             .setLimitTrim(LimitTrim.Velocity)
             .addPreset("Home", Degrees.of(80))
@@ -322,7 +326,8 @@ public class Constants {
     public static final Voltage algaeEjectVolt = Volts.of(-1.7);
 
     public static final AngularMotorMechConfig algaeRollerMechConfig = new AngularMotorMechConfig(
-            "Algae Roller");
+            "Algae Roller")
+            .setUITabName("Algae");
 
     public static final MotorConfig algaeRollerMotorConfig = new MotorConfig(
             "Algae Roller Motor",
@@ -346,7 +351,8 @@ public class Constants {
     public static final Angle climberRetAngle = Rotations.of(.127);
 
     public static final AngularMotorMechConfig climberMechConfig = new AngularMotorMechConfig(
-            "Climber");
+            "Climber")
+            .setUITabName("Climber");
 
     public static final MotorConfig climberMotorConfig = new MotorConfig(
             "Climber Motor",

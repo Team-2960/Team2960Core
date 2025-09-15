@@ -16,12 +16,12 @@ import edu.wpi.first.units.measure.Distance;
  */
 public class AprilTagPipelineConfig {
 
-    /** Name of the camera*/
+    /** Name of the camera */
     public String cameraName;
 
     /** Name of the tab the camera telemetry will be displayed on */
     public String uiTabName;
-    
+
     /** < AprilTag Field Layout object */
     public AprilTagFields fieldLayout;
     /** < Robot to Camera transformation */
