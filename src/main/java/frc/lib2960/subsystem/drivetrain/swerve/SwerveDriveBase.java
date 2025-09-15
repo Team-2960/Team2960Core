@@ -414,7 +414,9 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
     /********************/
     /**
      * Sets if the robot defaults to field relative or robot relative drive
-     * @param isFieldRelative true to set to field relative drive, false for robot relative
+     * 
+     * @param isFieldRelative true to set to field relative drive, false for robot
+     *                        relative
      */
     public void setFieldRelative(boolean isFieldRelative) {
         this.isFieldRelative = isFieldRelative;
@@ -622,6 +624,43 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
     /*********************/
 
     /**
+     * Generates a velocity command
+     * 
+     * @param xVel x velocity
+     * @param yVel y velocity
+     * @param rVel angular velocity
+     * @return new velocity command
+     */
+    public Command getVelocityCmd(
+            LinearVelocity xVel,
+            LinearVelocity yVel,
+            AngularVelocity rVel) {
+
+        return getVelocityCmd(xVel, yVel, rVel, Meters.zero(), Meters.zero());
+    }
+
+    /**
+     * Generates a velocity command
+     * 
+     * @param xVel x velocity
+     * @param yVel y velocity
+     * @param rVel angular velocity
+     * @param xOffset robot coordinate x-offset for the center of rotation
+     * @param yOffset robot coordinate y-offset for the center of rotation
+     * 
+     * @return new velocity command
+     */
+    public Command getVelocityCmd(
+            LinearVelocity xVel,
+            LinearVelocity yVel,
+            AngularVelocity rVel,
+            Distance xOffset,
+            Distance yOffset) {
+
+        return this.run(() -> setChassisSpeeds(xVel, yVel, rVel, xOffset, yOffset));
+    }
+
+    /**
      * Generates a velocity control command
      * 
      * @param xVel Supplier for x velocity
@@ -655,13 +694,7 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
             Distance xOffset,
             Distance yOffset) {
 
-        return this.run(
-                () -> setChassisSpeeds(
-                        xVel.get(),
-                        yVel.get(),
-                        rVel.get(),
-                        xOffset,
-                        yOffset));
+        return this.run(() -> setChassisSpeeds(xVel.get(), yVel.get(), rVel.get(), xOffset, yOffset));
     }
 
     /**

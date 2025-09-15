@@ -201,7 +201,7 @@ public class CoralRoller extends LinearMotorMech {
      * 
      * @return new command to reverse the coral gripper
      */
-    public Command getReverseCommand() {
+    public Command getReverseCmd() {
         return this.runEnd(
             () -> setVoltage(config.reverseVolt),
             () -> setVoltage(Volts.zero()));

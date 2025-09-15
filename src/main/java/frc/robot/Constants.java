@@ -55,6 +55,8 @@ public class Constants {
         /* Auton Constants */
         /*******************/
         public static final Distance autoClearance = Inches.of(3);
+        public static final Distance autoAlignLinTol = Meters.of(.05);
+        public static final Angle autoAlignAngTol = Degrees.of(3);
 
         /*******************/
         /* Robot Constants */
