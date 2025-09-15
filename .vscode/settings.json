@@ -58,6 +58,7 @@
     "edu.wpi.first.math.**.struct.*",
   ],
   "cSpell.words": [
+    "Auton",
     "CANID",
     "Conv",
     "CTRE",
@@ -65,6 +66,7 @@
     "Feedforward",
     "feedforwards",
     "Holonomic",
-    "odometry"
+    "odometry",
+    "Teleop"
   ]
 }
