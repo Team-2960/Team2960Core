@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib2960.helper.PathPlanner;
 import frc.lib2960.subsystem.drivetrain.swerve.RevFlexMaxSwerveModule;
+import frc.lib2960.subsystem.vision.AprilTagPipeline;
 import frc.robot.FieldLayout.ReefBranchOffset;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.AlgaeRoller;
@@ -31,35 +32,40 @@ import frc.robot.subsystems.Elevator;
 public class RobotContainer {
 
     // Subsystems
-    public final RevFlexMaxSwerveModule[] swerveModules = {
+    private final RevFlexMaxSwerveModule[] swerveModules = {
             new RevFlexMaxSwerveModule(Constants.swerveModuleCommonConfig, Constants.lfConfig),
             new RevFlexMaxSwerveModule(Constants.swerveModuleCommonConfig, Constants.rfConfig),
             new RevFlexMaxSwerveModule(Constants.swerveModuleCommonConfig, Constants.lrConfig),
             new RevFlexMaxSwerveModule(Constants.swerveModuleCommonConfig, Constants.rrConfig),
     };
 
-    public final Drivetrain drivetrain = new Drivetrain(Constants.swerveDriveConfig,
+    private final Drivetrain drivetrain = new Drivetrain(Constants.swerveDriveConfig,
             swerveModules);
-    public final CoralArm coralArm = new CoralArm(Constants.coralArmConfig, Constants.coralArmMotorConfig);
-    public final CoralRoller coralRoller = new CoralRoller(Constants.coralRollerConfig);
-    public final Elevator elevator = new Elevator(Constants.elevatorConfig, Constants.elevatorMotorConfig);
-    public final ArmElevControl armElevCtrl = new ArmElevControl(coralArm, elevator,
+    private final CoralArm coralArm = new CoralArm(Constants.coralArmConfig, Constants.coralArmMotorConfig);
+    private final CoralRoller coralRoller = new CoralRoller(Constants.coralRollerConfig);
+    private final Elevator elevator = new Elevator(Constants.elevatorConfig, Constants.elevatorMotorConfig);
+    private final ArmElevControl armElevCtrl = new ArmElevControl(coralArm, elevator,
             Constants.coralArmPosTol,
             Constants.elevatorPosTol);
-    public final AlgaeArm algaeArm = new AlgaeArm(Constants.algaeArmConfig, Constants.algaeArmMotorConfig);
-    public final AlgaeRoller algaeRoller = new AlgaeRoller(Constants.algaeRollerConfig);
-    public final Climber climber = new Climber(Constants.climberConfig);
+    private final AlgaeArm algaeArm = new AlgaeArm(Constants.algaeArmConfig, Constants.algaeArmMotorConfig);
+    private final AlgaeRoller algaeRoller = new AlgaeRoller(Constants.algaeRollerConfig);
+    private final Climber climber = new Climber(Constants.climberConfig);
+
+    @SuppressWarnings("unused")
+    private final AprilTagPipeline leftCamera = new AprilTagPipeline(Constants.leftCameraConfig, drivetrain, "Camera03");
+    @SuppressWarnings("unused")
+    private final AprilTagPipeline frontCamera = new AprilTagPipeline(Constants.frontCameraConfig, drivetrain, "Camera01");
+    @SuppressWarnings("unused")
+    private final AprilTagPipeline rightCamera = new AprilTagPipeline(Constants.rightCameraConfig, drivetrain, "Camera02");
 
     // Joysticks
-    public final CommandXboxController driveCtrl = new CommandXboxController(Constants.driverCtrlID);
-    public final CommandXboxController opCtrl = new CommandXboxController(Constants.opCtrlID);
+    private final CommandXboxController driveCtrl = new CommandXboxController(Constants.driverCtrlID);
+    private final CommandXboxController opCtrl = new CommandXboxController(Constants.opCtrlID);
 
     // Helper Units
     private final MutLinearVelocity xTeleopVel = MetersPerSecond.mutable(0);
     private final MutLinearVelocity yTeleopVel = MetersPerSecond.mutable(0);
     private final MutAngularVelocity rTeleopVel = DegreesPerSecond.mutable(0);
-
-    // TODO Implement AprilTag vision
 
     /**
      * Constructor
@@ -74,7 +80,6 @@ public class RobotContainer {
         // Init PathPlanner
         initNamedCommands();
         initPathPlanner();
-
     }
 
     private final void initDrivetrainCtrl() {
@@ -180,7 +185,8 @@ public class RobotContainer {
                         Constants.coralYOffset,
                         Constants.coralROffset));
         NamedCommands.registerCommand("driveDoNothing",
-                drivetrain.getVelocityCmd(MetersPerSecond.zero(), MetersPerSecond.zero(), DegreesPerSecond.zero()));
+                drivetrain.getVelocityCmd(MetersPerSecond.zero(), MetersPerSecond.zero(),
+                        DegreesPerSecond.zero()));
         NamedCommands.registerCommand("rightBranchNoFinish",
                 drivetrain.getGotoReefCmd(
                         ReefBranchOffset.RIGHT,
@@ -204,13 +210,15 @@ public class RobotContainer {
         NamedCommands.registerCommand("goToHighAlgaeCommand", armElevCtrl.getGotoHighAlgae());
 
         // Coral Gripper Named Commands
-        NamedCommands.registerCommand("coralPresentCommand", coralRoller.getWaitForCoralAtIntakeCmd(Inches.zero()));
+        NamedCommands.registerCommand("coralPresentCommand",
+                coralRoller.getWaitForCoralAtIntakeCmd(Inches.zero()));
         NamedCommands.registerCommand("coralNotPresentCommand",
                 coralRoller.getWaitForCoralNotAtIntakeCmd(Inches.zero()));
-        NamedCommands.registerCommand("coralInEndEffector", coralRoller.getWaitForCoralInGripperCmd(Inches.zero()));
+        NamedCommands.registerCommand("coralInEndEffector",
+                coralRoller.getWaitForCoralInGripperCmd(Inches.zero()));
         NamedCommands.registerCommand("ejectCommand", coralRoller.getAutoEjectCmd(Inches.zero()));
         NamedCommands.registerCommand("intakeCommand", coralRoller.getAutoIntakeCmd(Inches.zero()));
-        
+
         // Elevator Name Commands
         NamedCommands.registerCommand("elevatorHoldCommand", elevator.getHoldPosCmd());
         NamedCommands.registerCommand("elevIntakePos", elevator.getPosPresetCmd("Intake"));
@@ -230,7 +238,8 @@ public class RobotContainer {
     }
 
     /**
-     * Gets the currently select auton command. If no command is selected, null is returned.
+     * Gets the currently select auton command. If no command is selected, null is
+     * returned.
      */
     public Command getSelectedAuton() {
         return PathPlanner.getAutoChooser().getSelected();

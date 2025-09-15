@@ -67,6 +67,8 @@
     "feedforwards",
     "Holonomic",
     "odometry",
+    "Reefscape",
+    "Stds",
     "Teleop"
   ]
 }
