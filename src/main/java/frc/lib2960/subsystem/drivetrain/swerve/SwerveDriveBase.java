@@ -63,7 +63,7 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
 
     private final ChassisSpeeds targetSpeeds = new ChassisSpeeds();
 
-    private final ShuffleboardLayout layout;
+    protected final ShuffleboardLayout layout;
 
     /*************************/
     /* Suffleboard Variables */
@@ -97,6 +97,8 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
         layout.add("Angle Target Position", xVelCalc);
         layout.add("Angle Target Velocity", angleVelCalc);
         layout.add("Chassis Speeds", targetSpeeds);
+
+        // TODO Enable telemetry for when methods are overloaded
         
     }
 
