@@ -1,10 +1,7 @@
 package frc.lib2960.config.subsystem;
 
-import static edu.wpi.first.units.Units.Amps;
-
 import java.util.HashMap;
 
-import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import frc.lib2960.config.controller.LinearControllerConfig;
@@ -24,9 +21,6 @@ public class LinearMotorMechConfig {
     public Distance pulleyRadius;
     /** Circumfrance of the output pulley. */
     public Distance pulleyCircumference;
-
-    /** Sets the maximum per motor current for the mechanism. Defaults to 80A. */
-    public Current maxMotorCurrent = Amps.of(80);
 
     /**
      * Sets method for keeping mechanism from exceeding its limits if they are set.
@@ -67,17 +61,6 @@ public class LinearMotorMechConfig {
      */
     public LinearMotorMechConfig setUITabName(String uiTabName) {
         this.uiTabName = uiTabName;
-        return this;
-    }
-
-    /**
-     * Sets the maximum per motor current. Defaults to 80A.
-     * 
-     * @param current maximum per motor current.
-     * @return current configuration object
-     */
-    public LinearMotorMechConfig setMaxCurrent(Current current) {
-        this.maxMotorCurrent = current;
         return this;
     }
 

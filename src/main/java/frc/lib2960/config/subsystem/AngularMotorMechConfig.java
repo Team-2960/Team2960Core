@@ -1,12 +1,9 @@
 package frc.lib2960.config.subsystem;
 
-import static edu.wpi.first.units.Units.Amps;
-
 import java.util.HashMap;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
 import frc.lib2960.config.controller.AngularControllerConfig;
 import frc.lib2960.helper.LimitTrim;
 
@@ -17,9 +14,6 @@ public class AngularMotorMechConfig {
 
     /** Name of the tab the mechanism will be displayed on */
     public String uiTabName = "Mechanisms";
-
-    /** Sets the maximum per motor current for the mechanism. Defaults to 80A. */
-    public Current maxMotorCurrent = Amps.of(80);
 
     /**
      * Sets method for keeping mechanism from exceeding its limits if they are set.
@@ -57,17 +51,6 @@ public class AngularMotorMechConfig {
      */
     public AngularMotorMechConfig setUITabName(String uiTabName) {
         this.uiTabName = uiTabName;
-        return this;
-    }
-
-    /**
-     * Sets the maximum per motor current. Defaults to 80A.
-     * 
-     * @param current maximum per motor current.
-     * @return current configuration object
-     */
-    public AngularMotorMechConfig setMaxCurrent(Current current) {
-        this.maxMotorCurrent = current;
         return this;
     }
 
