@@ -87,16 +87,16 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
             .getLayout(config.name, BuiltInLayouts.kList)
             .withSize(1,6);
 
-        layout.add("Subsystem", this);
-        layout.add("Linear Controller", linearCtrl);
-        layout.add("Angular Controller", angleCtrl);
-        layout.add("Position Error", posErrorCalc);
-        layout.add("Target Velocity Magnetude", velMagCalc);
-        layout.add("X Target Velocity", xVelCalc);
-        layout.add("Y Target Velocity", yVelCalc);
-        layout.add("Angle Target Position", xVelCalc);
-        layout.add("Angle Target Velocity", angleVelCalc);
-        layout.add("Chassis Speeds", targetSpeeds);
+        layout.add("Subsystem", this.getName());
+        layout.add("Linear Controller", linearCtrl.toString());
+        layout.add("Angular Controller", angleCtrl.toString());
+        layout.add("Position Error", posErrorCalc.toString());
+        layout.add("Target Velocity Magnetude", velMagCalc.toString());
+        layout.add("X Target Velocity", xVelCalc.toString());
+        layout.add("Y Target Velocity", yVelCalc.toString());
+        layout.add("Angle Target Position", xVelCalc.toString());
+        layout.add("Angle Target Velocity", angleVelCalc.toString());
+        layout.add("Chassis Speeds", targetSpeeds.toString());
 
         // TODO Enable telemetry for when methods are overloaded
         

@@ -31,7 +31,7 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
 
     private final RelativeEncoder driveEncoder;
     private final AbsoluteEncoder angleAbsEncoder;
-    private final RelativeEncoder angleVelEncoder;
+    private final MutAngularVelocity angleVelEncoder;
 
     /**
      * Constructor
@@ -44,7 +44,7 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
 
         // Create motors
         driveMotor = new SparkFlex(config.driveMotorID, MotorType.kBrushless);
-        angleMotor = new SparkMax(config.driveMotorID, MotorType.kBrushless);
+        angleMotor = new SparkMax(config.angleMotorID, MotorType.kBrushless);
 
         // Configure Drive Motor
         var driveConfig = new SparkFlexConfig();
@@ -63,14 +63,16 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
         angleConfig.inverted(config.invertAngleMotor);
         angleConfig.absoluteEncoder.inverted(config.invertAngleEncoder)
                 .zeroOffset(config.angleEncoderOffset.in(Rotations));
-        angleConfig.alternateEncoder.inverted(config.invertAngleEncoder);
+       // angleConfig.alternateEncoder.inverted(config.invertAngleEncoder);
+
+       // Can't configure both an alternate encoder and absolute encoder on a spark max
 
         angleMotor.configure(angleConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         driveEncoder = driveMotor.getEncoder();
 
         angleAbsEncoder = angleMotor.getAbsoluteEncoder();
-        angleVelEncoder = angleMotor.getAlternateEncoder();
+        angleVelEncoder = RotationsPerSecond.mutable(angleAbsEncoder.getVelocity());
     }
 
     /**
@@ -140,7 +142,7 @@ public class RevFlexMaxSwerveModule extends SwerveModuleBase {
      */
     @Override
     public void getAngleVel(MutAngularVelocity result) {
-        result.mut_replace(angleVelEncoder.getVelocity(), RotationsPerSecond);
+        result.mut_replace(angleVelEncoder.magnitude(), RotationsPerSecond);
     }
 
     /**

@@ -80,14 +80,14 @@ public abstract class SwerveModuleBase {
 
         layout.add("Drive Control", driveCtrl);
         layout.add("Angle Control", angleCtrl);
-        layout.add("Drive Current Velocity", driveCurVel);
-        layout.add("Drive Target Velocity", driveTarget);
-        layout.add("Drive Target Voltage", driveVoltCalc);
-        layout.add("Angle Current Position", angleCurPos);
-        layout.add("Angle Current Velocity", angleCurVel);
-        layout.add("Angle Target Position", angleTarget);
-        layout.add("Angle Target Velocity", angleVelCalc);
-        layout.add("Angle Target Voltage", angleVoltCalc);
+        layout.add("Drive Current Velocity", driveCurVel.toString());
+        layout.add("Drive Target Velocity", driveTarget.toString());
+        layout.add("Drive Target Voltage", driveVoltCalc.toString());
+        layout.add("Angle Current Position", angleCurPos.toString());
+        layout.add("Angle Current Velocity", angleCurVel.toString());
+        layout.add("Angle Target Position", angleTarget.toString());
+        layout.add("Angle Target Velocity", angleVelCalc.toString());
+        layout.add("Angle Target Voltage", angleVoltCalc.toString());
 
     }
 

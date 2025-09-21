@@ -103,7 +103,7 @@ public class Constants {
 
     public static final int climberMotorID = 14;
 
-    public static final int coralIntakePEID = 9;
+    public static final int coralIntakePEID = 15;
 
     /**********************/
     /* Drivetrain Configs */

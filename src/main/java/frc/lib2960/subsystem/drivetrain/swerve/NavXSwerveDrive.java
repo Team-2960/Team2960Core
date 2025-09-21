@@ -25,8 +25,7 @@ public class NavXSwerveDrive extends RioSwerveDrive {
     public NavXSwerveDrive(NavXSwerveDriveConfig config, SwerveModuleBase... modules) {
         super(config.common, modules);
         this.config = config;
-
-        navx = new AHRS(NavXComType.kMXP_SPI);
+        navx = new AHRS(this.config.comType);
         navx.reset();
     }
 
