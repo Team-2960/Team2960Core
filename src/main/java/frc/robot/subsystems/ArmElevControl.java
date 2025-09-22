@@ -94,7 +94,7 @@ public class ArmElevControl {
         return Commands.sequence(
             getPrepareTravelCmd(),
             getElevMoveCmd("Low Algae"),
-            getEndTravelCmd("Remove Algae", "LowAlgae")
+            getEndTravelCmd("Remove Algae", "Low Algae")
         );
     }
 
@@ -106,7 +106,7 @@ public class ArmElevControl {
         return Commands.sequence(
             getPrepareTravelCmd(),
             getElevMoveCmd("High Algae"),
-            getEndTravelCmd("Remove Algae", "HighAlgae")
+            getEndTravelCmd("Remove Algae", "High Algae")
         );
     }
 
