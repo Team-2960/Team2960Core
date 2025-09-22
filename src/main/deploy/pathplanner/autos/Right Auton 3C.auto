@@ -86,7 +86,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "elevIntakeCommand"
+                  "name": "elevIntakePos"
                 }
               },
               {
@@ -136,7 +136,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "elevIntakeCommand"
+                  "name": "elevIntakePos"
                 }
               }
             ]
@@ -224,7 +224,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "elevIntakeCommand"
+                  "name": "elevIntakePos"
                 }
               },
               {
@@ -280,7 +280,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "elevIntakeCommand"
+                  "name": "elevIntakePos"
                 }
               }
             ]
