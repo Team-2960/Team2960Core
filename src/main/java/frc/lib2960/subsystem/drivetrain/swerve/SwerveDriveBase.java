@@ -24,10 +24,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
+import frc.lib2960.telemetry.SendableChassisSpeeds;
+import frc.lib2960.telemetry.SendableMeasure;
 import frc.lib2960.config.controller.PIDConfig;
 import frc.lib2960.config.subsystem.SwerveDriveCommonConfig;
 import frc.lib2960.helper.AngleUtil;
@@ -35,11 +38,7 @@ import frc.lib2960.helper.AngleUtil;
 /**
  * Defines core capabilities of a swerve drive
  */
-public abstract class SwerveDriveBase implements HolonomicDrivetrain {
-    // TODO Implement SysID
-    // TODO Implement Telemetry
-    // TODO Implement Logging
-
+public abstract class SwerveDriveBase extends SubsystemBase implements HolonomicDrivetrain {
     /**********************/
     /* Config Variables */
     /**********************/
@@ -87,16 +86,16 @@ public abstract class SwerveDriveBase implements HolonomicDrivetrain {
             .getLayout(config.name, BuiltInLayouts.kList)
             .withSize(1,6);
 
-        layout.add("Subsystem", this.getName());
-        layout.add("Linear Controller", linearCtrl.toString());
-        layout.add("Angular Controller", angleCtrl.toString());
-        layout.add("Position Error", posErrorCalc.toString());
-        layout.add("Target Velocity Magnetude", velMagCalc.toString());
-        layout.add("X Target Velocity", xVelCalc.toString());
-        layout.add("Y Target Velocity", yVelCalc.toString());
-        layout.add("Angle Target Position", xVelCalc.toString());
-        layout.add("Angle Target Velocity", angleVelCalc.toString());
-        layout.add("Chassis Speeds", targetSpeeds.toString());
+        layout.add("Subsystem", this);
+        layout.add("Linear Controller", linearCtrl);
+        layout.add("Angular Controller", angleCtrl);
+        layout.add("Position Error", new SendableMeasure<>(posErrorCalc));
+        layout.add("Target Velocity Magnitude", new SendableMeasure<>(velMagCalc));
+        layout.add("X Target Velocity", new SendableMeasure<>(xVelCalc));
+        layout.add("Y Target Velocity", new SendableMeasure<>(yVelCalc));
+        layout.add("Angle Target Position", new SendableMeasure<>(xVelCalc));
+        layout.add("Angle Target Velocity", new SendableMeasure<>(angleVelCalc));
+        layout.add("Chassis Speeds", new SendableChassisSpeeds(targetSpeeds));
 
         // TODO Enable telemetry for when methods are overloaded
         
