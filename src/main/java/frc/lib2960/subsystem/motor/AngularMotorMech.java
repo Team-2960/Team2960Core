@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.config.subsystem.AngularMotorMechConfig;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.helper.LimitTrim;
+import frc.lib2960.telemetry.SendableMeasure;
 
 /**
  * Manages a angular motor mechanism
@@ -97,12 +98,12 @@ public abstract class AngularMotorMech extends SubsystemBase {
         
         layout.add("Controller", controller);
         layout.add("Subsystem", this);
-        layout.add("Current Position", curPos);
-        layout.add("Current Velocity", curVel);
-        layout.add("Current Voltage", curVolt);
-        layout.add("Target Position", targetPos);
-        layout.add("Target Velocity", targetVel);
-        layout.add("Target Voltage", targetVolt);
+        layout.add("Current Position", new SendableMeasure<>(curPos));
+        layout.add("Current Velocity", new SendableMeasure<>(curVel));
+        layout.add("Current Voltage", new SendableMeasure<>(curVolt));
+        layout.add("Target Position", new SendableMeasure<>(targetPos));
+        layout.add("Target Velocity", new SendableMeasure<>(targetVel));
+        layout.add("Target Voltage", new SendableMeasure<>(targetVolt));
     }
 
     /**
