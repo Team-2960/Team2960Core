@@ -1,0 +1,73 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3374177631578945,
+        "y": 5.785773026315789
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.020776495402742,
+        "y": 6.2017242757164555
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.31,
+        "y": 6.96
+      },
+      "prevControl": {
+        "x": 2.043401170820008,
+        "y": 5.98059889690679
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LA HP Station End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.22682445759368763,
+      "rotationDegrees": -54.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 7.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 9.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -54.0
+  },
+  "reversed": false,
+  "folder": "Teleop Paths",
+  "idealStartingState": {
+    "velocity": 1.5,
+    "rotation": -54.0
+  },
+  "useDefaultConstraints": true
+}

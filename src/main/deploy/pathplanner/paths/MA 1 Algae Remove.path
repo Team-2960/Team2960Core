@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.801891447368421,
+        "y": 4.678617294520548
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.78330475670523,
+        "y": 4.429309182076948
+      },
+      "isLocked": false,
+      "linkedName": "MA Algae Remove Setup End"
+    },
+    {
+      "anchor": {
+        "x": 5.801891447368421,
+        "y": 3.5366652397260276
+      },
+      "prevControl": {
+        "x": 5.812255498907419,
+        "y": 3.896840047214117
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 9.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Middle Auton",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}
