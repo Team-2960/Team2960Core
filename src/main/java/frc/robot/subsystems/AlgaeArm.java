@@ -38,17 +38,17 @@ public class AlgaeArm extends AngularMotorMech {
         motor = new SparkMax(motorConfig.id, MotorType.kBrushless);
 
         // Configure motor controller
-        SparkMaxConfig flexConfig = new SparkMaxConfig();
-        flexConfig.inverted(motorConfig.invert);
-        flexConfig.alternateEncoder.velocityConversionFactor(1 / 60);
+        SparkMaxConfig maxConfig = new SparkMaxConfig();
+        maxConfig.inverted(motorConfig.invert);
+                maxConfig.encoder.velocityConversionFactor(motorConfig.gearRatio / 60);
 
         // TODO Add motor controller based soft limits
 
-        motor.configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        motor.configure(maxConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         // Get encoders
         absEncoder = motor.getAbsoluteEncoder();
-        encoder = motor.getAlternateEncoder();
+        encoder = motor.getEncoder();
 
         // Set Default Command 
         setDefaultCommand(getHoldPosCmd());
