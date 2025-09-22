@@ -46,6 +46,7 @@ public class LinearMotorMechConfig {
     public LinearMotorMechConfig(
             String name,
             Distance pulleyDiameter) {
+        this.name = name;
         this.pulleyDiameter = pulleyDiameter;
         this.pulleyRadius = pulleyDiameter.div(2);
         this.pulleyCircumference = pulleyDiameter.times(Math.PI);
