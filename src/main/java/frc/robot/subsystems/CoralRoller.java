@@ -214,7 +214,7 @@ public class CoralRoller extends LinearMotorMech {
      * @return new command to reset the mechanism position
      */
     public Command getResetPosCmd(Distance distance) {
-        return this.runOnce(() -> resetPosition(distance));
+        return Commands.runOnce(() -> resetPosition(distance));
     }
 
     /**
