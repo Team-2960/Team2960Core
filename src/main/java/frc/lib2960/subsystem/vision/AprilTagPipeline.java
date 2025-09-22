@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.config.vision.AprilTagPipelineConfig;
 import frc.lib2960.subsystem.drivetrain.Drivetrain;
+import frc.lib2960.telemetry.SendableMeasure;
+import frc.lib2960.telemetry.SendablePose2d;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -49,10 +51,6 @@ public class AprilTagPipeline extends SubsystemBase {
     private final MutDistance tagDist = Meters.mutable(0);
 
     // Shuffleboard
-    @SuppressWarnings("unused")
-    private final GenericEntry sb_Pose;
-    @SuppressWarnings("unused")
-    private final GenericEntry sb_lastTimestamp;
     private final GenericEntry sb_aprilTagSeen;
 
     // Advantage Scope
@@ -92,9 +90,9 @@ public class AprilTagPipeline extends SubsystemBase {
                 .getLayout(cameraName, BuiltInLayouts.kList)
                 .withSize(1, 4);
 
-        sb_Pose = layout.add("Pose" + cameraName, last_pose).getEntry();
-        sb_lastTimestamp = layout.add("Last Timestamp" + cameraName, last_timestamp).getEntry();
-        sb_aprilTagSeen = layout.add(cameraName + "April Tag Read", false).getEntry();
+        layout.add("Pose" + cameraName, new SendablePose2d(last_pose));
+        layout.add("Last Timestamp" + cameraName, new SendableMeasure<>(last_timestamp));
+        sb_aprilTagSeen = layout.add(cameraName + " April Tag Read", false).getEntry();
 
         // Advantage Scope
         as_aprilTags = NetworkTableInstance.getDefault()
