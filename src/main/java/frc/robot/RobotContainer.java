@@ -147,7 +147,7 @@ public class RobotContainer {
      */
     private final void initAlgaeCtrl() {
         // Map Algae arm controls
-        opCtrl.pov(0).onTrue(algaeArm.getPosPresetCmd("Extend"));
+        opCtrl.pov(0).onTrue(algaeArm.getPosPresetCmd("Extended"));
         opCtrl.pov(180).onTrue(algaeArm.getPosPresetCmd("Home"));
 
         // Map Algae Roller Controls
