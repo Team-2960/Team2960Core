@@ -58,6 +58,7 @@
     "edu.wpi.first.math.**.struct.*",
   ],
   "cSpell.words": [
+    "AHRS",
     "Auton",
     "CANID",
     "Conv",
@@ -66,6 +67,7 @@
     "Feedforward",
     "feedforwards",
     "Holonomic",
+    "navx",
     "odometry",
     "Reefscape",
     "Stds",
