@@ -191,7 +191,11 @@ public class AprilTagPipeline extends SubsystemBase {
         sb_aprilTagSeen.setBoolean(aprilTagList.size() > 0);
 
         // Advantage Scope
-        as_aprilTags.set((Pose3d[]) aprilTagList.toArray());
+        Pose3d[] aprilTagPoses = new Pose3d[aprilTagList.size()];
+
+        for(int i = 0; i < aprilTagList.size(); i++) aprilTagPoses[i] = aprilTagList.get(i);
+
+        as_aprilTags.set(aprilTagPoses);
         as_cameraPose.set(getRobotRelativeCamPos());
         as_estimatedCameraPose.set(last_pose);
     }
