@@ -78,7 +78,7 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
         // Initialize Pose Estimator
         poseEst = new SwerveDrivePoseEstimator(
                 kinematics,
-                getRotation(),
+                new Rotation2d(),
                 SwerveModuleBase.getPositions(modules),
                 new Pose2d(),
                 config.stateStd,
