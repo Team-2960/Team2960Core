@@ -56,6 +56,13 @@ public abstract class LinearMotorMech extends SubsystemBase {
         private MutDistance curPos = Meters.mutable(0);
 
         /**
+         * Constructor
+         */
+        public HoldPosCmd() {
+            addRequirements(LinearMotorMech.this);
+        }
+
+        /**
          * Captures the mechanism position when the command is scheduled
          */
         @Override

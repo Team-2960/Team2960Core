@@ -56,6 +56,13 @@ public abstract class AngularMotorMech extends SubsystemBase {
         private MutAngle curPos = Degrees.mutable(0);
 
         /**
+         * Constructor
+         */
+        public HoldPosCmd() {
+            addRequirements(AngularMotorMech.this);
+        }
+
+        /**
          * Captures the mechanism position when the command is scheduled
          */
         @Override
