@@ -52,11 +52,11 @@ public class RobotContainer {
     private final Climber climber = new Climber(Constants.climberConfig);
 
     @SuppressWarnings("unused")
-    private final AprilTagPipeline leftCamera = new AprilTagPipeline(Constants.leftCameraConfig, drivetrain, "Camera03");
+    private final AprilTagPipeline leftCamera = new AprilTagPipeline(Constants.leftCameraConfig, drivetrain);
     @SuppressWarnings("unused")
-    private final AprilTagPipeline frontCamera = new AprilTagPipeline(Constants.frontCameraConfig, drivetrain, "Camera01");
+    private final AprilTagPipeline frontCamera = new AprilTagPipeline(Constants.frontCameraConfig, drivetrain);
     @SuppressWarnings("unused")
-    private final AprilTagPipeline rightCamera = new AprilTagPipeline(Constants.rightCameraConfig, drivetrain, "Camera02");
+    private final AprilTagPipeline rightCamera = new AprilTagPipeline(Constants.rightCameraConfig, drivetrain);
 
     // Joysticks
     private final CommandXboxController driveCtrl = new CommandXboxController(Constants.driverCtrlID);

@@ -32,8 +32,8 @@ import org.photonvision.targeting.PhotonTrackedTarget;
  */
 public class AprilTagPipeline extends SubsystemBase {
 
-    /** < Pipeline Settings */
-    private final AprilTagPipelineConfig settings;
+    /** < Pipeline Config */
+    private final AprilTagPipelineConfig config;
 
     /** < Drivetrain object to update */
     private final Drivetrain drivetrain;
@@ -65,44 +65,44 @@ public class AprilTagPipeline extends SubsystemBase {
      * Constructor
      * 
      * @param drivetrain Drivetrain object to update with vision measurements
-     * @param settings   AprilTagPipeline settings
+     * @param config   AprilTagPipeline config
      * @param cameraName name of the camera
      * @param name
      */
-    public AprilTagPipeline(AprilTagPipelineConfig settings, Drivetrain drivetrain, String cameraName) {
-        // Initialize settings
-        this.settings = settings;
+    public AprilTagPipeline(AprilTagPipelineConfig config, Drivetrain drivetrain) {
+        // Initialize config
+        this.config = config;
 
         // Initialize drivetrain
         this.drivetrain = drivetrain;
 
         // Create Camera
-        camera = new PhotonCamera(cameraName);
+        camera = new PhotonCamera(config.cameraName);
 
         // Create pose estimator
         pose_est = new PhotonPoseEstimator(
-                AprilTagFieldLayout.loadField(settings.fieldLayout),
-                settings.poseStrategy,
-                settings.robotToCamera);
+                AprilTagFieldLayout.loadField(config.fieldLayout),
+                config.poseStrategy,
+                config.robotToCamera);
 
         // Setup Shuffleboard
         var layout = Shuffleboard.getTab("AprilTags")
-                .getLayout(cameraName, BuiltInLayouts.kList)
+                .getLayout(config.cameraName, BuiltInLayouts.kList)
                 .withSize(1, 4);
 
-        layout.add("Pose" + cameraName, new SendablePose2d(last_pose));
-        layout.add("Last Timestamp" + cameraName, new SendableMeasure<>(last_timestamp));
-        sb_aprilTagSeen = layout.add(cameraName + " April Tag Read", false).getEntry();
+        layout.add("Pose" + config.cameraName, new SendablePose2d(last_pose));
+        layout.add("Last Timestamp" + config.cameraName, new SendableMeasure<>(last_timestamp));
+        sb_aprilTagSeen = layout.add(config.cameraName + " April Tag Read", false).getEntry();
 
         // Advantage Scope
         as_aprilTags = NetworkTableInstance.getDefault()
-                .getStructArrayTopic(cameraName, Pose3d.struct).publish();
+                .getStructArrayTopic(config.cameraName, Pose3d.struct).publish();
 
         as_cameraPose = NetworkTableInstance.getDefault()
-                .getStructTopic(cameraName + " pose", Pose3d.struct).publish();
+                .getStructTopic(config.cameraName + " pose", Pose3d.struct).publish();
 
         as_estimatedCameraPose = NetworkTableInstance.getDefault()
-                .getStructTopic(cameraName + " Estimated Pose", Pose2d.struct).publish();
+                .getStructTopic(config.cameraName + " Estimated Pose", Pose2d.struct).publish();
     }
 
     /**
@@ -144,7 +144,7 @@ public class AprilTagPipeline extends SubsystemBase {
                     var tag_pose3d = PhotonUtils.estimateFieldToRobotAprilTag(
                             tag.bestCameraToTarget,
                             pose_est.getFieldTags().getTagPose(tag.fiducialId).get(),
-                            settings.robotToCamera.inverse());
+                            config.robotToCamera.inverse());
 
                     // Get ambiguity
                     double ambiguity = tag.getPoseAmbiguity();
@@ -155,9 +155,9 @@ public class AprilTagPipeline extends SubsystemBase {
                             Meters);
 
                     // Check limits
-                    if (ambiguity <= settings.ambiguityThreshold && tagDist.lte(settings.maxDist)) {
+                    if (ambiguity <= config.ambiguityThreshold && tagDist.lte(config.maxDist)) {
                         // Calculate the current standard deviations
-                        Vector<N3> est_std = settings.singleTagSTD;
+                        Vector<N3> est_std = config.singleTagSTD;
                         est_std = est_std.times(1 + (tagDist.in(Meters) * tagDist.in(Meters) / 30));
 
                         // Update last pose
@@ -181,7 +181,7 @@ public class AprilTagPipeline extends SubsystemBase {
      * @return  camera pose
      */
     public Pose3d getRobotRelativeCamPos() {
-        return new Pose3d(drivetrain.getPoseEst()).transformBy(settings.robotToCamera);
+        return new Pose3d(drivetrain.getPoseEst()).transformBy(config.robotToCamera);
     }
 
     /**

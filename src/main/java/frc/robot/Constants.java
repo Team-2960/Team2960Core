@@ -378,52 +378,63 @@ public class Constants {
     public static final Distance maxTagDist = Meters.of(3);
     public static final double ambiguityThreshold = .2;
 
+    public static final Transform3d leftCameraPose = new Transform3d(
+            Inches.of(0.876 + 0.125),
+            Inches.of(12.357),
+            Inches.of(11.068),
+            new Rotation3d(
+                    Math.toRadians(0),
+                    Math.toRadians(0),
+                    Math.toRadians(0)));
+
+    public static final Transform3d frontCameraPose = new Transform3d(
+            Inches.of(14),
+            Inches.of(0.125),
+            Inches.of(8.875),
+            new Rotation3d(
+                    Math.toRadians(0),
+                    Math.toRadians(-10),
+                    Math.toRadians(0)));
+
+    public static final Transform3d rightCameraPose = new Transform3d(
+            Inches.of(13.1),
+            Inches.of(-12.614),
+            Inches.of(11.068),
+            new Rotation3d(
+                    Math.toRadians(0),
+                    Math.toRadians(0),
+                    Math.toRadians(65)));
+
+            
+
     public static final AprilTagPipelineConfig leftCameraConfig = new AprilTagPipelineConfig(
-            AprilTagFields.k2025ReefscapeWelded,
-            new Transform3d(
-                    Inches.of(0.876 + 0.125),
-                    Inches.of(12.357),
-                    Inches.of(11.068),
-                    new Rotation3d(
-                            Math.toRadians(0),
-                            Math.toRadians(0),
-                            Math.toRadians(0))),
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-            maxTagDist,
-            singleStds,
-            multiStds,
-            ambiguityThreshold);
+            "Camera03", 
+            leftCameraPose)
+        .setFieldLayout(AprilTagFields.k2025ReefscapeWelded)
+        .setPoseStrategy(PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+        .setSingleTagSTD(singleStds)
+        .setMultiTagSTD(multiStds)
+        .setMaxDist(maxTagDist)
+        .setAmbiguityThreshold(ambiguityThreshold);
 
     public static final AprilTagPipelineConfig frontCameraConfig = new AprilTagPipelineConfig(
-            AprilTagFields.k2025ReefscapeWelded,
-            new Transform3d(
-                    Inches.of(14),
-                    Inches.of(0.125),
-                    Inches.of(8.875),
-                    new Rotation3d(
-                            Math.toRadians(0),
-                            Math.toRadians(-10),
-                            Math.toRadians(0))),
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-            maxTagDist,
-            VecBuilder.fill(.5, .5, 16),
-            multiStds,
-            ambiguityThreshold);
+            "Camera01", 
+            frontCameraPose)
+        .setFieldLayout(AprilTagFields.k2025ReefscapeWelded)
+        .setPoseStrategy(PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+        .setSingleTagSTD(VecBuilder.fill(.5, .5, 16))
+        .setMultiTagSTD(multiStds)
+        .setMaxDist(maxTagDist)
+        .setAmbiguityThreshold(ambiguityThreshold);
 
     public static final AprilTagPipelineConfig rightCameraConfig = new AprilTagPipelineConfig(
-            AprilTagFields.k2025ReefscapeWelded,
-            new Transform3d(
-                    Inches.of(13.1),
-                    Inches.of(-12.614),
-                    Inches.of(11.068),
-                    new Rotation3d(
-                            Math.toRadians(0),
-                            Math.toRadians(0),
-                            Math.toRadians(65))),
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-            maxTagDist,
-            singleStds,
-            multiStds,
-            ambiguityThreshold);
+            "Camera02", 
+            rightCameraPose)
+        .setFieldLayout(AprilTagFields.k2025ReefscapeWelded)
+        .setPoseStrategy(PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+        .setSingleTagSTD(singleStds)
+        .setMultiTagSTD(multiStds)
+        .setMaxDist(maxTagDist)
+        .setAmbiguityThreshold(ambiguityThreshold);
 
 }

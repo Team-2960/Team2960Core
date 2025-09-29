@@ -19,108 +19,121 @@ public class AprilTagPipelineConfig {
     /** Name of the camera */
     public String cameraName;
 
-    /** Name of the tab the camera telemetry will be displayed on */
-    public String uiTabName;
+    /**
+     * Name of the tab the camera telemetry will be displayed on. Defaults to
+     * "Vision"
+     */
+    public String uiTabName = "Vision";
 
-    /** < AprilTag Field Layout object */
-    public AprilTagFields fieldLayout;
     /** < Robot to Camera transformation */
     public Transform3d robotToCamera;
+
+    /** < AprilTag Field Layout object */
+    public AprilTagFields fieldLayout = AprilTagFields.kDefaultField;
+
     /** < Pose Estimation Strategy */
-    public PoseStrategy poseStrategy;
+    public PoseStrategy poseStrategy = PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR;
+
+    /** < Single tag standard deviation vector */
+    public Vector<N3> singleTagSTD = VecBuilder.fill(4, 4, 8);
+
+    /** < Multi tag standard deviation vector */
+    public Vector<N3> multiTagSTD = VecBuilder.fill(0.5, 0.5, 1);
 
     /** < Maximum acceptable target distance from camera in meters */
-    public Distance maxDist;
-    /** < Single tag standard deviation vector */
-    public Vector<N3> singleTagSTD;
-    /** < Multi tag standard deviation vector */
-    public Vector<N3> multiTagSTD;
-    public double ambiguityThreshold;
+    public Distance maxDist = Meters.of(4);
 
-    /**
-     * Constructor
-     * 
-     * @param fieldLayout        AprilTag Field Layout object
-     * @param robotToCamera      Robot to Camera transformation
-     * @param poseStrategy       Pose Estimation Strategy
-     * @param maxDist            Maximum acceptable target distance from camera in
-     *                           meters
-     * @param singleTagSTD       Single tag standard deviation vector
-     * @param multiTagSTD        Multi tag standard deviation vector
-     * @param ambiguityThreshold The max april tag ambiguity the camera will accept
-     */
-    public AprilTagPipelineConfig(
-            AprilTagFields fieldLayout,
-            Transform3d robotToCamera,
-            PoseStrategy poseStrategy,
-            Distance maxDist,
-            Vector<N3> singleTagSTD,
-            Vector<N3> multiTagSTD,
-            double ambiguityThreshold) {
-        this.fieldLayout = fieldLayout;
-        this.robotToCamera = robotToCamera;
-        this.poseStrategy = poseStrategy;
-        this.maxDist = maxDist;
-        this.singleTagSTD = singleTagSTD;
-        this.multiTagSTD = multiTagSTD;
-        this.ambiguityThreshold = ambiguityThreshold;
-    }
+    /** < Maximum acceptable ambiguity value */
+    public double ambiguityThreshold = 0;
 
     /**
      * Constructor.
-     * - name is set to camera_name
-     * - fieldlayout is set to AprilTagFields.kDefault (current season)
-     * - poseStrategy is set to PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSO
-     * 
-     * @param camera_name        Camera name for the pipeline as configured in
-     *                           PhotoVision
-     * @param robottocamera      Robot to Camera transformation
-     * @param maxDist            Maximum acceptable target distance from camera in
-     *                           meters
-     * @param singleTagSTD       Single tag standard deviation vector
-     * @param multiTagSTD        Multi tag standard deviation vector
-     * @param ambiguityThreshold The max april tag ambiguity the camera will accept
-     */
-    public AprilTagPipelineConfig(
-            Transform3d robotToCamera,
-            Distance maxDist,
-            Vector<N3> singleTagSTD,
-            Vector<N3> multiTagSTD,
-            double ambiguityThreshold) {
-
-        this(
-                AprilTagFields.kDefaultField,
-                robotToCamera,
-                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                maxDist,
-                singleTagSTD,
-                multiTagSTD,
-                ambiguityThreshold);
-    }
-
-    /**
-     * Constructor.
-     * - name is set to camera_name
-     * - fieldlayout is set to AprilTagFields.kDefault (current season)
-     * - poseStrategy is set to PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR
-     * - maxDist is set to 4 meters
-     * - singleTagSTD is set to VecBuilder.fill(4, 4, 8)
-     * - multiTagSTD is set to VecBuilder.fill(0.5, 0.5, 1)
-     * - ambiguityThreshold is set to 0
      * 
      * @param camera_name   Camera name for the pipeline as configured in
      *                      PhotoVision
      * @param robotToCamera Robot to Camera transformation
      */
-    public AprilTagPipelineConfig(Transform3d robotToCamera) {
+    public AprilTagPipelineConfig(String cameraName, Transform3d robotToCamera) {
+        this.cameraName = cameraName;
+        this.robotToCamera = robotToCamera;
+    }
 
-        this(
-                AprilTagFields.kDefaultField,
-                robotToCamera,
-                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                Meters.of(4),
-                VecBuilder.fill(4, 4, 8),
-                VecBuilder.fill(0.5, 0.5, 1),
-                0);
+    /**
+     * Set the UI Tab Name. Defaults to "Vision"
+     * @param uiTabName UI Tab Name
+     * @return Current configuration object
+     */
+    public AprilTagPipelineConfig setUITabName(String uiTabName) {
+        this.uiTabName = uiTabName;
+        return this;
+    }
+
+    /**
+     * Set the AprilTag Field Layout. Defaults to AprilTagFields.kDefaultField
+     * 
+     * @param fieldLayout april tag field layout
+     * @return Current configuration object
+     */
+    public AprilTagPipelineConfig setFieldLayout(AprilTagFields fieldLayout) {
+        this.fieldLayout = fieldLayout;
+        return this;
+    }
+
+    /**
+     * Set the Pose estimation strategy. Defaults to
+     * PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR
+     * 
+     * @param poseStrategy pose strategy
+     * @return Current configuration object
+     */
+    public AprilTagPipelineConfig setPoseStrategy(PoseStrategy poseStrategy) {
+        this.poseStrategy = poseStrategy;
+        return this;
+    }
+
+    /**
+     * Set the seed standard deviations used for a single tag detection. Defaults to
+     * [4.0, 4.0, 8.0]
+     * 
+     * @param singleTagSTD seed standard deviations for a single tag detection
+     * @return Current configuration object
+     */
+    public AprilTagPipelineConfig setSingleTagSTD(Vector<N3> singleTagSTD) {
+        this.singleTagSTD = singleTagSTD;
+        return this;
+    }
+
+    /**
+     * Set the seed standard deviations used for a multi tag detection. Defaults to
+     * [4.0, 4.0, 8.0]
+     * 
+     * @param multiTagSTD seed standard deviations for a multi tag detection
+     * @return Current configuration object
+     */
+    public AprilTagPipelineConfig setMultiTagSTD(Vector<N3> multiTagSTD) {
+        this.multiTagSTD = multiTagSTD;
+        return this;
+    }
+
+    /**
+     * Set the maximum detection distance for april tags. Defaults to 4 meters
+     * 
+     * @param maxDist maximum detection distance for April Tags
+     * @return Current configuration object
+     */
+    public AprilTagPipelineConfig setMaxDist(Distance maxDist) {
+        this.maxDist = maxDist;
+        return this;
+    }
+
+    /**
+     * Set the maximum acceptable ambiguity value. Defaults to 0.
+     * 
+     * @param ambiguityThreshold Maximum acceptable ambiguity value
+     * @return Current configuration object
+     */
+    public AprilTagPipelineConfig setAmbiguityThreshold(double ambiguityThreshold) {
+        this.ambiguityThreshold = ambiguityThreshold;
+        return this;
     }
 }
