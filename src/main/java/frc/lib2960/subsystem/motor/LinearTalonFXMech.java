@@ -243,7 +243,7 @@ public class LinearTalonFXMech extends LinearMotorMech {
      */
     public void linToAng(Distance linear, MutAngle result) {
         result.mut_replace(
-                linear.in(Meters) / config.pulleyCircumference.in(Meters), Rotations);
+                linear.in(Meters) / config.distPerRev.in(Meters), Rotations);
     }
 
     /**
@@ -255,7 +255,7 @@ public class LinearTalonFXMech extends LinearMotorMech {
      */
     public void linToAng(LinearVelocity linear, MutAngularVelocity result) {
         result.mut_replace(
-                linear.in(MetersPerSecond) / config.pulleyCircumference.in(Meters),
+                linear.in(MetersPerSecond) / config.distPerRev.in(Meters),
                 RotationsPerSecond);
     }
 
@@ -268,7 +268,7 @@ public class LinearTalonFXMech extends LinearMotorMech {
      */
     public void linToAng(LinearAcceleration linear, MutAngularAcceleration result) {
         result.mut_replace(
-                linear.in(MetersPerSecondPerSecond) / config.pulleyCircumference.in(Meters),
+                linear.in(MetersPerSecondPerSecond) / config.distPerRev.in(Meters),
                 RotationsPerSecondPerSecond);
     }
 
@@ -280,7 +280,7 @@ public class LinearTalonFXMech extends LinearMotorMech {
      */
     public void angToLin(Angle angular, MutDistance result) {
         result.mut_replace(
-                angular.in(Rotations) * config.pulleyCircumference.in(Meters), Meters);
+                angular.in(Rotations) * config.distPerRev.in(Meters), Meters);
     }
 
     /**
@@ -291,7 +291,7 @@ public class LinearTalonFXMech extends LinearMotorMech {
      */
     public void angToLin(AngularVelocity angular, MutLinearVelocity result) {
         result.mut_replace(
-                angular.in(RotationsPerSecond) * config.pulleyCircumference.in(Meters), MetersPerSecond);
+                angular.in(RotationsPerSecond) * config.distPerRev.in(Meters), MetersPerSecond);
     }
 
     /**
@@ -303,7 +303,7 @@ public class LinearTalonFXMech extends LinearMotorMech {
      */
     public void angToLin(AngularAcceleration angular, MutLinearAcceleration result) {
         result.mut_replace(
-                angular.in(RotationsPerSecondPerSecond) * config.pulleyCircumference.in(Meters),
+                angular.in(RotationsPerSecondPerSecond) * config.distPerRev.in(Meters),
                 MetersPerSecondPerSecond);
     }
 

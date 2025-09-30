@@ -15,12 +15,8 @@ public class LinearMotorMechConfig {
     /** Name of the tab the mechanism will be displayed on */
     public String uiTabName = "Mechanisms";
 
-    /** Diameter of the output pulley. */
-    public Distance pulleyDiameter;
-    /** Radius of the output pulley. */
-    public Distance pulleyRadius;
-    /** Circumfrance of the output pulley. */
-    public Distance pulleyCircumference;
+    /** Distance traveled per revolution of the motor */
+    public Distance distPerRev;
 
     /**
      * Sets method for keeping mechanism from exceeding its limits if they are set.
@@ -45,11 +41,9 @@ public class LinearMotorMechConfig {
      */
     public LinearMotorMechConfig(
             String name,
-            Distance pulleyDiameter) {
+            Distance distPerRev) {
         this.name = name;
-        this.pulleyDiameter = pulleyDiameter;
-        this.pulleyRadius = pulleyDiameter.div(2);
-        this.pulleyCircumference = pulleyDiameter.times(Math.PI);
+        this.distPerRev = distPerRev;
     }
 
     /**

@@ -44,13 +44,10 @@ public class Elevator extends LinearMotorMech {
         // Create motor controller
         motor = new SparkFlex(motorConfig.id, MotorType.kBrushless);
 
-        // Configure motor controller
-        double posConv = config.pulleyCircumference.in(Meters) * motorConfig.gearRatio;
-
         SparkFlexConfig flexConfig = new SparkFlexConfig();
         flexConfig.inverted(motorConfig.invert);
-        flexConfig.encoder.positionConversionFactor(posConv);
-        flexConfig.encoder.velocityConversionFactor(posConv / 60);
+        flexConfig.encoder.positionConversionFactor(config.distPerRev.in(Meters));
+        flexConfig.encoder.velocityConversionFactor(config.distPerRev.in(Meters) / 60);
 
         // TODO Add motor controller based soft limits
 
