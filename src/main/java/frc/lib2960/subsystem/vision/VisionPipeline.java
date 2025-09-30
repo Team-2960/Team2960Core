@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib2960.config.vision.VisionPipelineConfig;
@@ -30,6 +31,9 @@ public class VisionPipeline extends SubsystemBase {
      * Class for storing target results
      */
     public class TargetResults {
+
+        private final Angle camYaw;
+        private final Angle camPitch;
 
         /** Target to Camera transform */
         private final Transform3d targetToCamera;
@@ -46,6 +50,9 @@ public class VisionPipeline extends SubsystemBase {
          * @param target PhotonVision target result
          */
         public TargetResults(PhotonTrackedTarget target, Time timestamp) {
+            this.camYaw = Radians.of(target.getYaw());
+            this.camPitch = Radians.of(target.getPitch());
+
             targetToCamera = new Transform3d(
                     0, 0, 0,
                     new Rotation3d(
@@ -152,7 +159,8 @@ public class VisionPipeline extends SubsystemBase {
 
         /**
          * Gets the timestamp the target was found
-         * @return  timestamp the target was found
+         * 
+         * @return timestamp the target was found
          */
         public Time getTimestamp() {
             return timestamp;
@@ -160,7 +168,8 @@ public class VisionPipeline extends SubsystemBase {
 
         /**
          * Gets the time since the target was found
-         * @return  time since the target was found
+         * 
+         * @return time since the target was found
          */
         public Time getAge() {
             return Seconds.of(Timer.getFPGATimestamp()).minus(timestamp);
@@ -207,9 +216,26 @@ public class VisionPipeline extends SubsystemBase {
         this.camera = new PhotonCamera(config.cameraName);
     }
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addBooleanProperty("Target Present", targetResults::isPresent, null);
+        builder.addStringProperty("Target Yaw",
+                () -> targetResults.isPresent() ? targetResults.get().camYaw.toShortString() : "N/A", null);
+        builder.addStringProperty("Target Pitch",
+                () -> targetResults.isPresent() ? targetResults.get().camPitch.toShortString() : "N/A", null);
+        builder.addStringProperty("Last Target Yaw",
+                () -> lastTargetResults.isPresent() ? lastTargetResults.get().camYaw.toShortString() : "N/A", null);
+        builder.addStringProperty("Last Target Pitch",
+                () -> lastTargetResults.isPresent() ? lastTargetResults.get().camPitch.toShortString() : "N/A", null);
+        
+        // TODO Return robot relative results
+    }
+
     /**
      * Updates camera tracking results
      */
+    @Override
     public void periodic() {
         List<PhotonPipelineResult> results = camera.getAllUnreadResults();
         Optional<PhotonPipelineResult> latestResult = Optional.empty();
