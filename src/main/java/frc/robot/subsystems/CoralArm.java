@@ -17,8 +17,8 @@ import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.config.device.MotorConfig;
-import frc.lib2960.config.subsystem.AngularMotorMechConfig;
 import frc.lib2960.subsystem.motor.AngularMotorMech;
+import frc.lib2960.subsystem.motor.AngularMotorMechConfig;
 
 public class CoralArm extends AngularMotorMech {
     private final SparkFlex motor;

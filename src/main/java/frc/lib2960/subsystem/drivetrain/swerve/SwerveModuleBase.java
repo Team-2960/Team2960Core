@@ -25,8 +25,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
-import frc.lib2960.config.subsystem.SwerveModuleBaseConfig;
-import frc.lib2960.config.subsystem.SwerveModuleCommonConfig;
 import frc.lib2960.helper.AngleUtil;
 
 public abstract class SwerveModuleBase {

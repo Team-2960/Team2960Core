@@ -20,8 +20,8 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib2960.config.device.MotorConfig;
-import frc.lib2960.config.subsystem.LinearMotorMechConfig;
 import frc.lib2960.subsystem.motor.LinearMotorMech;
+import frc.lib2960.subsystem.motor.LinearMotorMechConfig;
 
 public class Elevator extends LinearMotorMech {
     private final SparkFlex motor;

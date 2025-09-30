@@ -16,7 +16,6 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutTime;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib2960.config.vision.AprilTagPipelineConfig;
 import frc.lib2960.subsystem.drivetrain.Drivetrain;
 import frc.lib2960.telemetry.SendableMeasure;
 import frc.lib2960.telemetry.SendablePose2d;

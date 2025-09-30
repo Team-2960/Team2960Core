@@ -1,4 +1,4 @@
-package frc.lib2960.config.vision;
+package frc.lib2960.subsystem.vision;
 
 import static edu.wpi.first.units.Units.Seconds;
 

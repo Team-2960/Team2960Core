@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.lib2960.config.subsystem.AngularMotorMechConfig;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.helper.LimitTrim;
 import frc.lib2960.telemetry.SendableMeasure;

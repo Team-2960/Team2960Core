@@ -10,9 +10,6 @@ import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.lib2960.config.subsystem.CTRESwerveDriveConfig;
-import frc.lib2960.config.subsystem.SwerveModuleBaseConfig;
-import frc.lib2960.config.subsystem.SwerveModuleCommonConfig;
 
 import static edu.wpi.first.units.Units.Hertz;
 import static edu.wpi.first.units.Units.Second;

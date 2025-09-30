@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib2960.config.device.EncoderConfig;
 import frc.lib2960.config.device.MotorConfig;
-import frc.lib2960.config.subsystem.AngularMotorMechConfig;
 
 public class AngularTalonFXMech extends AngularMotorMech {
 

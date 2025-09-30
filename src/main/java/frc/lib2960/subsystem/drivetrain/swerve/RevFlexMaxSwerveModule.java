@@ -22,8 +22,6 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib2960.config.subsystem.SwerveModuleBaseConfig;
-import frc.lib2960.config.subsystem.SwerveModuleCommonConfig;
 
 public class RevFlexMaxSwerveModule extends SwerveModuleBase {
     private final SparkFlex driveMotor;

@@ -29,7 +29,6 @@ import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.lib2960.config.subsystem.SwerveDriveCommonConfig;
 import frc.lib2960.helper.AngleUtil;
 
 /**

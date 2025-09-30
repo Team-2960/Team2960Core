@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.config.device.MotorConfig;
-import frc.lib2960.config.subsystem.AngularMotorMechConfig;
+import frc.lib2960.subsystem.motor.AngularMotorMechConfig;
 
 public class ClimberConfig {
     public AngularMotorMechConfig motorMechConfig;

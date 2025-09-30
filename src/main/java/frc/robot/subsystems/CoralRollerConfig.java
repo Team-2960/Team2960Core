@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.config.device.MotorConfig;
-import frc.lib2960.config.subsystem.LinearMotorMechConfig;
+import frc.lib2960.subsystem.motor.LinearMotorMechConfig;
 
 public class CoralRollerConfig {
     public LinearMotorMechConfig motorMechConfig;

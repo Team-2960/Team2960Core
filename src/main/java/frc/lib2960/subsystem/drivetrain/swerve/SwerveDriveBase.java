@@ -32,7 +32,6 @@ import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
 import frc.lib2960.telemetry.SendableChassisSpeeds;
 import frc.lib2960.telemetry.SendableMeasure;
 import frc.lib2960.config.controller.PIDConfig;
-import frc.lib2960.config.subsystem.SwerveDriveCommonConfig;
 import frc.lib2960.helper.AngleUtil;
 
 /**

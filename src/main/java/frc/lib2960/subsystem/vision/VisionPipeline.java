@@ -22,7 +22,6 @@ import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib2960.config.vision.VisionPipelineConfig;
 import frc.lib2960.helper.AngleUtil;
 
 public class VisionPipeline extends SubsystemBase {

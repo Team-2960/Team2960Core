@@ -1,13 +1,13 @@
-package frc.lib2960.config.subsystem;
+package frc.lib2960.subsystem.motor;
 
 import java.util.HashMap;
 
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
-import frc.lib2960.config.controller.LinearControllerConfig;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import frc.lib2960.config.controller.AngularControllerConfig;
 import frc.lib2960.helper.LimitTrim;
 
-public class LinearMotorMechConfig {
+public class AngularMotorMechConfig {
 
     /** Name of the mechanism */
     public String name;
@@ -15,35 +15,30 @@ public class LinearMotorMechConfig {
     /** Name of the tab the mechanism will be displayed on */
     public String uiTabName = "Mechanisms";
 
-    /** Distance traveled per revolution of the motor */
-    public Distance distPerRev;
-
     /**
      * Sets method for keeping mechanism from exceeding its limits if they are set.
      * Defaults to LimitTrim.Voltage.
      */
     public LimitTrim limitTrim = LimitTrim.Voltage;
 
-    /** Motion control configruation */
-    public LinearControllerConfig controlConfig = new LinearControllerConfig();
+    /** Motion control configuration */
+    public AngularControllerConfig controlConfig = new AngularControllerConfig();
 
     /** Preset position list */
-    public final HashMap<String, Distance> presetPos = new HashMap<>();
+    public final HashMap<String, Angle> presetPos = new HashMap<>();
 
     /** Preset velocity list */
-    public final HashMap<String, LinearVelocity> presetVel = new HashMap<>();
+    public final HashMap<String, AngularVelocity> presetVel = new HashMap<>();
 
     /**
      * Constructor
      * 
      * @param name           name of the mechanism
      * @param pulleyDiameter diameter of the output pulley
+     * @param motorConfigs   motor configurations
      */
-    public LinearMotorMechConfig(
-            String name,
-            Distance distPerRev) {
+    public AngularMotorMechConfig(String name) {
         this.name = name;
-        this.distPerRev = distPerRev;
     }
 
     /**
@@ -54,7 +49,7 @@ public class LinearMotorMechConfig {
      *                  on
      * @return current configuration object
      */
-    public LinearMotorMechConfig setUITabName(String uiTabName) {
+    public AngularMotorMechConfig setUITabName(String uiTabName) {
         this.uiTabName = uiTabName;
         return this;
     }
@@ -66,19 +61,19 @@ public class LinearMotorMechConfig {
      * @param limitTrim mechanism limit trimming method
      * @return current configuration object
      */
-    public LinearMotorMechConfig setLimitTrim(LimitTrim limitTrim) {
+    public AngularMotorMechConfig setLimitTrim(LimitTrim limitTrim) {
         this.limitTrim = limitTrim;
         return this;
     }
 
     /**
-     * Sets the linear control configuration. Defaults to new
-     * LinearControllerConfig().
+     * Sets the angular control configuration. Defaults to new
+     * AngularControllerConfig().
      * 
-     * @param controlConfig LinearControllerConfig object
+     * @param controlConfig AngularControllerConfig object
      * @return current configuration object
      */
-    public LinearMotorMechConfig setLinearMotorMechConfig(LinearControllerConfig controlConfig) {
+    public AngularMotorMechConfig setAngularControllerConfig(AngularControllerConfig controlConfig) {
         this.controlConfig = controlConfig;
         return this;
     }
@@ -90,7 +85,7 @@ public class LinearMotorMechConfig {
      * @param position target position
      * @return current configuration object
      */
-    public LinearMotorMechConfig addPreset(String name, Distance preset) {
+    public AngularMotorMechConfig addPreset(String name, Angle preset) {
         presetPos.put(name, preset);
         return this;
     }
@@ -102,7 +97,7 @@ public class LinearMotorMechConfig {
      * @param position target position
      * @return current configuration object
      */
-    public LinearMotorMechConfig addPreset(String name, LinearVelocity preset) {
+    public AngularMotorMechConfig addPreset(String name, AngularVelocity preset) {
         presetVel.put(name, preset);
         return this;
     }

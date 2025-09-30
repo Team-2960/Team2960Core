@@ -7,7 +7,6 @@ import com.studica.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.MutAngularVelocity;
-import frc.lib2960.config.subsystem.NavXSwerveDriveConfig;
 
 public class NavXSwerveDrive extends RioSwerveDrive {
     private final AHRS navx;
