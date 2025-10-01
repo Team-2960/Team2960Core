@@ -20,13 +20,14 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.helper.AngleUtil;
-import frc.lib2960.telemetry.SendableMeasure;
 
 public abstract class SwerveModuleBase {
     /**********************/
@@ -82,15 +83,42 @@ public abstract class SwerveModuleBase {
         driveCtrl.addToLayout("Drive Ctrl", layout);
         angleCtrl.addToLayout("Angle Ctrl", layout);
 
-        layout.add("Drive Current Velocity", new SendableMeasure<>(driveCurVel));
-        layout.add("Drive Target Velocity", new SendableMeasure<>(driveTarget));
-        layout.add("Drive Target Voltage", new SendableMeasure<>(driveVoltCalc));
-        layout.add("Angle Current Position", new SendableMeasure<>(angleCurPos));
-        layout.add("Angle Current Velocity", new SendableMeasure<>(angleCurVel));
-        layout.add("Angle Target Position", new SendableMeasure<>(angleTarget));
-        layout.add("Angle Target Velocity", new SendableMeasure<>(angleVelCalc));
-        layout.add("Angle Target Voltage", new SendableMeasure<>(angleVoltCalc));
+        layout.add("Drive Status", getDriveStatusSendable());
+        layout.add("Angle Status", getAngleStatusSendable());
+    }
 
+    /**
+     * Generates a sendable for the drive status
+     * @return sendable for the drive status
+     */
+    public Sendable getDriveStatusSendable() {
+        return new Sendable() {
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.setSmartDashboardType("List Widget");
+                builder.addStringProperty("Current Velocity", () -> getDriveVel().toShortString(), null);
+                builder.addStringProperty("Target Velocity", () -> driveTarget.toShortString(), null);
+                builder.addStringProperty("Current Voltage", () -> getDriveVolt().toShortString(), null);
+            }
+        };
+    }
+
+    /**
+     * Generates a sendable for the angle status
+     * @return sendable for the angle status
+     */
+    public Sendable getAngleStatusSendable() {
+        return new Sendable() {
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.setSmartDashboardType("List Widget");
+                builder.addStringProperty("Current Position", () -> getAnglePos().toShortString(), null);
+                builder.addStringProperty("Target Position", () -> angleTarget.toShortString(), null);
+                builder.addStringProperty("Current Velocity", () -> getAngleVel().toShortString(), null);
+                builder.addStringProperty("Target Velocity", () -> angleVelCalc.toShortString(), null);
+                builder.addStringProperty("Current Voltage", () -> getAngleVolt().toShortString(), null);
+            }
+        };
     }
 
     /*******************/
