@@ -11,8 +11,8 @@ public class SwerveModuleBaseConfig {
     /** Swerve module name */
     public String name;
 
-    /** Name of the tab the mechanism will be displayed on */
-    public String uiTabName = "Drivetrain";
+    /** Name of the tab the mechanism will be displayed on. Defaults to Module Name*/
+    public String uiTabName;
 
     /** Drive motor ID. */
     public int driveMotorID;
@@ -55,6 +55,7 @@ public class SwerveModuleBaseConfig {
             Distance yPos) {
 
         this.name = name;
+        this.uiTabName = name;
         this.driveMotorID = driveMotorID;
         this.angleMotorID = angleMotorID;
         this.angleEncoderID = angleEncoderID;

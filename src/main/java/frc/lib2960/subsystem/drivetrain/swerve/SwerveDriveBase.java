@@ -21,9 +21,9 @@ import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,8 +31,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
-import frc.lib2960.telemetry.SendableChassisSpeeds;
-import frc.lib2960.telemetry.SendableMeasure;
 import frc.lib2960.config.controller.PIDConfig;
 import frc.lib2960.helper.AngleUtil;
 
@@ -63,7 +61,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
 
     private final ChassisSpeeds targetSpeeds = new ChassisSpeeds();
 
-    protected final ShuffleboardLayout layout;
+    protected final ShuffleboardTab tab;
 
     /****************/
     /* Constructors */
@@ -79,21 +77,13 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
         this.linearCtrl = new LinearController(config.linearCtrlConfig);
         this.angleCtrl = new AngularController(config.angularCtrlConfig);
 
-        layout = Shuffleboard.getTab(config.uiTabName)
-                .getLayout(config.name, BuiltInLayouts.kList)
-                .withSize(1, 6);
+        tab = Shuffleboard.getTab(config.uiTabName);
 
-        layout.add("Subsystem", this);
-        linearCtrl.addToLayout("Linear Controller", layout);
-        angleCtrl.addToLayout("Angular Controller", layout);
-        layout.add("Swerve Drive", getSwerveSendable());
-        layout.add("Position Error", new SendableMeasure<>(posErrorCalc));
-        layout.add("Target Velocity Magnitude", new SendableMeasure<>(velMagCalc));
-        layout.add("X Target Velocity", new SendableMeasure<>(xVelCalc));
-        layout.add("Y Target Velocity", new SendableMeasure<>(yVelCalc));
-        layout.add("Angle Target Position", new SendableMeasure<>(xVelCalc));
-        layout.add("Angle Target Velocity", new SendableMeasure<>(angleVelCalc));
-        layout.add("Chassis Speeds", new SendableChassisSpeeds(targetSpeeds));
+        tab.add("Subsystem", this);
+        linearCtrl.addToUI("Linear Controller", tab);
+        angleCtrl.addToUI("Angular Controller", tab);
+        tab.add("Swerve Drive", getSwerveSendable());
+        tab.add("Status", getStatusSendable());
 
         // TODO Enable telemetry for when methods are overloaded
 
@@ -109,6 +99,25 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @return sendable to for showing the current status of the swerve drive
      */
     public abstract Sendable getSwerveSendable();
+
+    /**
+     * Generates a sendable with swerve drive status
+     * @return
+     */
+    public Sendable getStatusSendable() {
+        return new Sendable() {
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.addStringProperty("Position Error", () -> posErrorCalc.toShortString(), null);
+                builder.addStringProperty("Target Vel Mag", () -> velMagCalc.toShortString(), null);
+                builder.addStringProperty("Target X Vel", () -> xVelCalc.toShortString(), null);
+                builder.addStringProperty("Target Y Vel", () -> yVelCalc.toShortString(), null);
+                builder.addStringProperty("Target Angle Pos", () -> angleTarget.toShortString(), null);
+                builder.addStringProperty("Target Angle Vel", () -> angleCalc.toShortString(), null);
+
+            }
+        };
+    }
 
     /*******************/
     /* Control Methods */

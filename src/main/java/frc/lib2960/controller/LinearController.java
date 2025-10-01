@@ -13,6 +13,7 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.lib2960.config.controller.LinearControllerConfig;
 import frc.lib2960.telemetry.SendableElevatorFeedForward;
 
@@ -40,10 +41,23 @@ public class LinearController {
 
     /**
      * Adds controller objects to a ShuffleboardLayout
-     * @param name      name of the controller for shuffleboard
-     * @param layout    shuffle board layout to add controller objects to
+     * 
+     * @param name name of the controller for shuffleboard
+     * @param tab  shuffle board tab to add controller objects to
      */
-    public void addToLayout(String name, ShuffleboardLayout layout) {
+    public void addToUI(String name, ShuffleboardTab tab) {
+        tab.add(name + " PID", pid);
+        tab.add(name + " FeedForward", new SendableElevatorFeedForward(ff));
+        tab.add(name + " Profile", trapProfile);
+    }
+
+    /**
+     * Adds controller objects to a ShuffleboardLayout
+     * 
+     * @param name   name of the controller for shuffleboard
+     * @param layout shuffle board layout to add controller objects to
+     */
+    public void addToUI(String name, ShuffleboardLayout layout) {
         layout.add(name + " PID", pid);
         layout.add(name + " FeedForward", new SendableElevatorFeedForward(ff));
         layout.add(name + " Profile", trapProfile);

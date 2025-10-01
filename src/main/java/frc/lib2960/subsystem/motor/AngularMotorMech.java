@@ -13,9 +13,10 @@ import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -23,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.helper.LimitTrim;
-import frc.lib2960.telemetry.SendableMeasure;
 
 /**
  * Manages a angular motor mechanism
@@ -45,7 +45,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
     private final MutAngle sysIdPos = Degrees.mutable(0);
     private final MutAngularVelocity sysIdVel = DegreesPerSecond.mutable(0);
 
-    private final ShuffleboardLayout layout;
+    private final ShuffleboardTab tab;
 
     /**
      * Command to hold position the mechanism is at when the command is scheduled
@@ -99,18 +99,32 @@ public abstract class AngularMotorMech extends SubsystemBase {
                         this));
 
         // Configure telemetry
-        layout =  Shuffleboard.getTab(config.uiTabName)
-            .getLayout(config.name, BuiltInLayouts.kList)
-            .withSize(2,6); // TODO Optimize
-        
-        controller.addToLayout("Controller", layout);
-        layout.add("Subsystem", this);
-        layout.add("Current Position", new SendableMeasure<>(curPos));
-        layout.add("Current Velocity", new SendableMeasure<>(curVel));
-        layout.add("Current Voltage", new SendableMeasure<>(curVolt));
-        layout.add("Target Position", new SendableMeasure<>(targetPos));
-        layout.add("Target Velocity", new SendableMeasure<>(targetVel));
-        layout.add("Target Voltage", new SendableMeasure<>(targetVolt));
+        tab = Shuffleboard.getTab(config.uiTabName);
+
+        controller.addToUI(config.name + " Controller", tab);
+        tab.add(config.name + " Subsystem", this);
+        tab.add(config.name + " Status", getStatusSendable());
+    }
+
+    /**
+     * Creates a sendable with the mechanism status
+     * 
+     * @return sendable with the mechanism status
+     */
+    public Sendable getStatusSendable() {
+        return new Sendable() {
+
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.addStringProperty("Current Position", () -> getPosition().toShortString(), null);
+                builder.addStringProperty("Current Velocity", () -> getVelocity().toShortString(), null);
+                builder.addStringProperty("Current Voltage", () -> getVoltage().toShortString(), null);
+                builder.addStringProperty("Target Position", () -> targetPos.toShortString(), null);
+                builder.addStringProperty("Target Velocity", () -> targetVel.toShortString(), null);
+                builder.addStringProperty("Target Voltage", () -> targetVolt.toShortString(), null);
+            }
+
+        };
     }
 
     /**
@@ -175,7 +189,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * Sets the motor voltage. If the current position is at a limit, the voltage is
      * trimmed so the mechanism won't exceed the limit.
      * 
-     * @param volts sets the target voltage
+     * @param volts  sets the target voltage
      * @param curPos current mechanism position
      */
     public void setVoltage(Voltage volts, Angle curPos) {
@@ -193,6 +207,39 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @param volts output voltage for all the motors
      */
     public abstract void setMotorVoltage(Voltage volts);
+
+    /**
+     * Gets the current position of the mechanism.
+     * 
+     * @Position current position of the mechanism.
+     */
+    public Angle getPosition() {
+        MutAngle result = Degrees.mutable(0);
+        getPosition(result);
+        return result;
+    }
+
+    /**
+     * Gets the current velocity of the mechanism.
+     * 
+     * @Position current velocity of the mechanism.
+     */
+    public AngularVelocity getVelocity() {
+        MutAngularVelocity result = DegreesPerSecond.mutable(0);
+        getVelocity(result);
+        return result;
+    }
+
+    /**
+     * Gets the current voltage of the mechanism.
+     * 
+     * @Position current voltage of the mechanism.
+     */
+    public Voltage getVoltage() {
+        MutVoltage result = Volts.mutable(0);
+        getVoltage(result);
+        return result;
+    }
 
     /**
      * Gets the current position of the mechanism.
@@ -240,10 +287,10 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @return new command to move to a target position
      */
     public Command getPositionCmd(Angle target, Angle tolerance) {
-        Command cmd =  Commands.deadline(
+        Command cmd = Commands.deadline(
                 getAtTargetCmd(target, tolerance),
                 getPositionCmd(target));
-        
+
         cmd.setName(String.format("Pos and End Cmd: %.0f\u00B0C", target.in(Degrees)));
 
         return cmd;
@@ -359,7 +406,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
                     getVelocity(curVel);
                     return target.isNear(curVel, tolerance);
                 });
-        
+
         cmd.setName("At Target Vel Cmd");
 
         return cmd;
@@ -377,7 +424,6 @@ public abstract class AngularMotorMech extends SubsystemBase {
             return !controller.aboveMin(dist);
         });
 
-        
         cmd.setName("At Min Pos Cmd");
 
         return cmd;
@@ -395,7 +441,6 @@ public abstract class AngularMotorMech extends SubsystemBase {
             return !controller.belowMax(dist);
         });
 
-        
         cmd.setName("At Max Pos Cmd");
 
         return cmd;
@@ -540,7 +585,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
                                 Commands.waitUntil(nextTrigger),
                                 getAtMinCmd()),
                         getSysIdCmd(SysIdRoutine.Direction.kReverse, false)));
-        
+
         cmd.setName("SysID Full Sequence Cmd");
 
         return cmd;

@@ -22,9 +22,8 @@ import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.helper.AngleUtil;
@@ -52,7 +51,7 @@ public abstract class SwerveModuleBase {
     private final LinearController driveCtrl;
     private final AngularController angleCtrl;
 
-    private final ShuffleboardLayout layout;
+    private final ShuffleboardTab tab;
 
     /****************************/
     /* Driver Station Variables */
@@ -74,28 +73,24 @@ public abstract class SwerveModuleBase {
         this.driveCtrl = commonConfig.driveCtrlConfig.getController();
         this.angleCtrl = commonConfig.angleCtrlConfig.getController();
 
+        tab = Shuffleboard.getTab(config.uiTabName);
 
-        
-        layout = Shuffleboard.getTab(config.uiTabName)
-                .getLayout(config.name, BuiltInLayouts.kList)
-                .withSize(1, 5);
+        driveCtrl.addToUI("Drive Ctrl", tab);
+        angleCtrl.addToUI("Angle Ctrl", tab);
 
-        driveCtrl.addToLayout("Drive Ctrl", layout);
-        angleCtrl.addToLayout("Angle Ctrl", layout);
-
-        layout.add("Drive Status", getDriveStatusSendable());
-        layout.add("Angle Status", getAngleStatusSendable());
+        tab.add("Drive Status", getDriveStatusSendable());
+        tab.add("Angle Status", getAngleStatusSendable());
     }
 
     /**
      * Generates a sendable for the drive status
+     * 
      * @return sendable for the drive status
      */
     public Sendable getDriveStatusSendable() {
         return new Sendable() {
             @Override
             public void initSendable(SendableBuilder builder) {
-                builder.setSmartDashboardType("List Widget");
                 builder.addStringProperty("Current Velocity", () -> getDriveVel().toShortString(), null);
                 builder.addStringProperty("Target Velocity", () -> driveTarget.toShortString(), null);
                 builder.addStringProperty("Current Voltage", () -> getDriveVolt().toShortString(), null);
@@ -105,13 +100,13 @@ public abstract class SwerveModuleBase {
 
     /**
      * Generates a sendable for the angle status
+     * 
      * @return sendable for the angle status
      */
     public Sendable getAngleStatusSendable() {
         return new Sendable() {
             @Override
             public void initSendable(SendableBuilder builder) {
-                builder.setSmartDashboardType("List Widget");
                 builder.addStringProperty("Current Position", () -> getAnglePos().toShortString(), null);
                 builder.addStringProperty("Target Position", () -> angleTarget.toShortString(), null);
                 builder.addStringProperty("Current Velocity", () -> getAngleVel().toShortString(), null);

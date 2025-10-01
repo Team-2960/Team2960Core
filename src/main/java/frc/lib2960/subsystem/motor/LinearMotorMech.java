@@ -13,9 +13,10 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -23,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.helper.LimitTrim;
-import frc.lib2960.telemetry.SendableMeasure;
 
 /**
  * Manages a linear motor mechanism
@@ -45,7 +45,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
     private final MutDistance sysIdPos = Meters.mutable(0);
     private final MutLinearVelocity sysIdVel = MetersPerSecond.mutable(0);
 
-    private final ShuffleboardLayout layout;
+    private final ShuffleboardTab tab;
 
     /**
      * Command to hold position the mechanism is at when the command is scheduled
@@ -98,18 +98,32 @@ public abstract class LinearMotorMech extends SubsystemBase {
                         this));
 
         // Configure telemetry
-        layout = Shuffleboard.getTab(config.uiTabName)
-                .getLayout(config.name, BuiltInLayouts.kList)
-                .withSize(2, 6); // TODO Optimize
+        tab = Shuffleboard.getTab(config.uiTabName);
 
-        controller.addToLayout("Controller", layout);
-        layout.add("Subsystem", this);
-        layout.add("Current Position", new SendableMeasure<>(curPos));
-        layout.add("Current Velocity", new SendableMeasure<>(curVel));
-        layout.add("Current Voltage", new SendableMeasure<>(curVolt));
-        layout.add("Target Position", new SendableMeasure<>(targetPos));
-        layout.add("Target Velocity", new SendableMeasure<>(targetVel));
-        layout.add("Target Voltage", new SendableMeasure<>(targetVolt));
+        controller.addToUI(config.name + " Controller", tab);
+        tab.add(config.name + " Subsystem", this);
+        tab.add(config.name + " Status", getStatusSendable());
+    }
+
+    /**
+     * Creates a sendable with the mechanism status
+     * 
+     * @return sendable with the mechanism status
+     */
+    public Sendable getStatusSendable() {
+        return new Sendable() {
+
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.addStringProperty("Current Position", () -> getPosition().toShortString(), null);
+                builder.addStringProperty("Current Velocity", () -> getVelocity().toShortString(), null);
+                builder.addStringProperty("Current Voltage", () -> getVoltage().toShortString(), null);
+                builder.addStringProperty("Target Position", () -> targetPos.toShortString(), null);
+                builder.addStringProperty("Target Velocity", () -> targetVel.toShortString(), null);
+                builder.addStringProperty("Target Voltage", () -> targetVolt.toShortString(), null);
+            }
+
+        };
     }
 
     /**
@@ -192,6 +206,39 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @param volts output voltage for all the motors
      */
     public abstract void setMotorVoltage(Voltage volts);
+
+    /**
+     * Gets the current position of the mechanism.
+     * 
+     * @Position current position of the mechanism.
+     */
+    public Distance getPosition() {
+        MutDistance result = Meters.mutable(0);
+        getPosition(result);
+        return result;
+    }
+
+    /**
+     * Gets the current velocity of the mechanism.
+     * 
+     * @Position current velocity of the mechanism.
+     */
+    public LinearVelocity getVelocity() {
+        MutLinearVelocity result = MetersPerSecond.mutable(0);
+        getVelocity(result);
+        return result;
+    }
+
+    /**
+     * Gets the current voltage of the mechanism.
+     * 
+     * @Position current voltage of the mechanism.
+     */
+    public Voltage getVoltage() {
+        MutVoltage result = Volts.mutable(0);
+        getVoltage(result);
+        return result;
+    }
 
     /**
      * Gets the current position of the mechanism.

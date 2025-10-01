@@ -32,7 +32,6 @@ public class SendableChassisSpeeds implements Sendable {
      */
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("ChassisSpeeds");
         builder.addStringProperty("X",
                 () -> xVel.mut_replace(speeds.vxMetersPerSecond, MetersPerSecond).toShortString(), null);
         builder.addStringProperty("Y",
