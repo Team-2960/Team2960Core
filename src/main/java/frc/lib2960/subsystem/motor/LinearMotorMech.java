@@ -98,10 +98,10 @@ public abstract class LinearMotorMech extends SubsystemBase {
                         this));
 
         // Configure telemetry
-        layout =  Shuffleboard.getTab(config.uiTabName)
-            .getLayout(config.name, BuiltInLayouts.kList)
-            .withSize(2,6); // TODO Optimize
-        
+        layout = Shuffleboard.getTab(config.uiTabName)
+                .getLayout(config.name, BuiltInLayouts.kList)
+                .withSize(2, 6); // TODO Optimize
+
         layout.add("Controller", controller);
         layout.add("Subsystem", this);
         layout.add("Current Position", new SendableMeasure<>(curPos));
@@ -174,7 +174,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * Sets the motor voltage. If the current position is at a limit, the voltage is
      * trimmed so the mechanism won't exceed the limit.
      * 
-     * @param volts sets the target voltage
+     * @param volts  sets the target voltage
      * @param curPos current mechanism position
      */
     public void setVoltage(Voltage volts, Distance curPos) {
@@ -224,7 +224,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command to move to a target position
      */
     public Command getPositionCmd(Distance target) {
-        return this.run(() -> this.gotoPosition(target));
+        Command cmd = this.run(() -> this.gotoPosition(target));
+        cmd.setName(String.format("Pos Cmd: %.0f\u00B0C", target.in(Meters)));
+        return cmd;
     }
 
     /**
@@ -237,9 +239,13 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command to move to a target position
      */
     public Command getPositionCmd(Distance target, Distance tolerance) {
-        return Commands.deadline(
+        Command cmd = Commands.deadline(
                 getAtTargetCmd(target, tolerance),
                 getPositionCmd(target));
+
+        cmd.setName(String.format("Pos and End Cmd: %.0f\u00B0C", target.in(Meters)));
+
+        return cmd;
     }
 
     /**
@@ -249,7 +255,11 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command to move to a target velocity
      */
     public Command getVelocityCmd(Supplier<LinearVelocity> target) {
-        return this.run(() -> this.gotoVelocity(target.get()));
+        Command cmd = this.run(() -> this.gotoVelocity(target.get()));
+
+        cmd.setName("Vel Control Cmd");
+
+        return cmd;
     }
 
     /**
@@ -259,7 +269,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command to move to a target velocity
      */
     public Command getVelocityCmd(LinearVelocity target) {
-        return this.run(() -> this.gotoVelocity(target));
+        Command cmd = this.run(() -> this.gotoVelocity(target));
+        cmd.setName(String.format("Vel Cmd: %.0f\u00B0C/s", target.in(MetersPerSecond)));
+        return cmd;
     }
 
     /**
@@ -272,9 +284,13 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command to move to a target velocity
      */
     public Command getVelocityCmd(LinearVelocity target, LinearVelocity tolerance) {
-        return Commands.deadline(
+        Command cmd = Commands.deadline(
                 getAtTargetCmd(target, tolerance),
                 getVelocityCmd(target));
+
+        cmd.setName(String.format("Vel and End Cmd: %.0f\u00B0C/s", target.in(MetersPerSecond)));
+
+        return cmd;
     }
 
     /**
@@ -284,7 +300,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command to move to a target voltage
      */
     public Command getVoltageCmd(Supplier<Voltage> target) {
-        return this.run(() -> this.setVoltage(target.get()));
+        Command cmd = this.run(() -> this.setVoltage(target.get()));
+        cmd.setName("Volt Ctrl Cmd");
+        return cmd;
     }
 
     /**
@@ -294,7 +312,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command to move to a target voltage
      */
     public Command getVoltageCmd(Voltage target) {
-        return this.run(() -> this.setVoltage(target));
+        Command cmd = this.run(() -> this.setVoltage(target));
+        cmd.setName(String.format("Volt Cmd: %.0fV", target.in(Volts)));
+        return cmd;
     }
 
     /**
@@ -315,11 +335,13 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command
      */
     public Command getAtTargetCmd(Distance target, Distance tolerance) {
-        return Commands.waitUntil(
+        Command cmd = Commands.waitUntil(
                 () -> {
                     getPosition(curPos);
                     return target.isNear(curPos, tolerance);
                 });
+        cmd.setName("At Target Pos Cmd");
+        return cmd;
     }
 
     /**
@@ -331,11 +353,15 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command
      */
     public Command getAtTargetCmd(LinearVelocity target, LinearVelocity tolerance) {
-        return Commands.waitUntil(
+        Command cmd = Commands.waitUntil(
                 () -> {
                     getVelocity(curVel);
                     return target.isNear(curVel, tolerance);
                 });
+
+        cmd.setName("At Target Vel Cmd");
+
+        return cmd;
     }
 
     /**
@@ -344,11 +370,15 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command
      */
     public Command getAtMinCmd() {
-        return Commands.waitUntil(() -> {
+        Command cmd = Commands.waitUntil(() -> {
             MutDistance dist = Meters.mutable(0);
             getPosition(dist);
             return !controller.aboveMin(dist);
         });
+
+        cmd.setName("At Min Pos Cmd");
+
+        return cmd;
     }
 
     /**
@@ -357,11 +387,15 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new command
      */
     public Command getAtMaxCmd() {
-        return Commands.waitUntil(() -> {
+        Command cmd = Commands.waitUntil(() -> {
             MutDistance dist = Meters.mutable(0);
             getPosition(dist);
             return !controller.belowMax(dist);
         });
+
+        cmd.setName("At Max Pos Cmd");
+
+        return cmd;
     }
 
     /**
@@ -374,7 +408,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      */
     public Command getPosPresetCmd(String name) {
         if (config.presetPos.containsKey(name)) {
-            return getPositionCmd(config.presetPos.get(name));
+            Command cmd = getPositionCmd(config.presetPos.get(name));
+            cmd.setName(String.format("Preset Pos Cmd: %s", name));
+            return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
         }
@@ -392,7 +428,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      */
     public Command getPosPresetCmd(String name, Distance tolerance) {
         if (config.presetPos.containsKey(name)) {
-            return getPositionCmd(config.presetPos.get(name), tolerance);
+            Command cmd = getPositionCmd(config.presetPos.get(name), tolerance);
+            cmd.setName(String.format("Preset Pos and End Cmd: %s", name));
+            return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
         }
@@ -408,7 +446,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      */
     public Command getVelPresetCmd(String name) {
         if (config.presetVel.containsKey(name)) {
-            return getVelocityCmd(config.presetVel.get(name));
+            Command cmd = getVelocityCmd(config.presetVel.get(name));
+            cmd.setName(String.format("Preset Vel Cmd: %s", name));
+            return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
         }
@@ -426,7 +466,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
      */
     public Command getVelPresetCmd(String name, LinearVelocity tolerance) {
         if (config.presetVel.containsKey(name)) {
-            return getVelocityCmd(config.presetVel.get(name), tolerance);
+            Command cmd = getVelocityCmd(config.presetVel.get(name), tolerance);
+            cmd.setName(String.format("Preset Vel Cmd: %s", name));
+            return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
         }
@@ -471,7 +513,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
      * @return new full sysID command sequence
      */
     public Command getTurnSysIdSequence(BooleanSupplier nextTrigger) {
-        return Commands.sequence(
+        Command cmd = Commands.sequence(
                 Commands.deadline(
                         Commands.race(
                                 Commands.waitUntil(nextTrigger),
@@ -495,5 +537,9 @@ public abstract class LinearMotorMech extends SubsystemBase {
                                 Commands.waitUntil(nextTrigger),
                                 getAtMinCmd()),
                         getSysIdCmd(SysIdRoutine.Direction.kReverse, false)));
+
+        cmd.setName("SysID Full Sequence Cmd");
+
+        return cmd;
     }
 }
