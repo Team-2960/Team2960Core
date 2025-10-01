@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.helper.AngleUtil;
+import frc.lib2960.telemetry.SendableMeasure;
 
 public abstract class SwerveModuleBase {
     /**********************/
@@ -78,14 +79,14 @@ public abstract class SwerveModuleBase {
 
         layout.add("Drive Control", driveCtrl);
         layout.add("Angle Control", angleCtrl);
-        layout.add("Drive Current Velocity", driveCurVel.toString());
-        layout.add("Drive Target Velocity", driveTarget.toString());
-        layout.add("Drive Target Voltage", driveVoltCalc.toString());
-        layout.add("Angle Current Position", angleCurPos.toString());
-        layout.add("Angle Current Velocity", angleCurVel.toString());
-        layout.add("Angle Target Position", angleTarget.toString());
-        layout.add("Angle Target Velocity", angleVelCalc.toString());
-        layout.add("Angle Target Voltage", angleVoltCalc.toString());
+        layout.add("Drive Current Velocity", new SendableMeasure<>(driveCurVel));
+        layout.add("Drive Target Velocity", new SendableMeasure<>(driveTarget));
+        layout.add("Drive Target Voltage", new SendableMeasure<>(driveVoltCalc));
+        layout.add("Angle Current Position",  new SendableMeasure<>(angleCurPos));
+        layout.add("Angle Current Velocity", new SendableMeasure<>(angleCurVel));
+        layout.add("Angle Target Position", new SendableMeasure<>(angleTarget));
+        layout.add("Angle Target Velocity",  new SendableMeasure<>(angleVelCalc));
+        layout.add("Angle Target Voltage", new SendableMeasure<>(angleVoltCalc));
 
     }
 
