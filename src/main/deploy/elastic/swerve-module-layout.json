@@ -3,680 +3,6 @@
   "grid_size": 64,
   "tabs": [
     {
-      "name": "Drivetrain",
-      "grid_layout": {
-        "layouts": [
-          {
-            "title": "Left Front",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 64.0,
-            "height": 320.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Drive Ctrl PID",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 384.0,
-                "type": "PIDController",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl PID",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Drive Ctrl FeedForward",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Drive Ctrl Profile",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Ctrl PID",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 384.0,
-                "type": "PIDController",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl PID",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Ctrl FeedForward",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Ctrl Profile",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Drive Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Drive Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Drive Target Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Current Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Target Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Angle Target Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              }
-            ]
-          }
-        ],
-        "containers": []
-      }
-    },
-    {
-      "name": "Coral",
-      "grid_layout": {
-        "layouts": [
-          {
-            "title": "Coral Arm",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 128.0,
-            "height": 384.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Controller PID",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 384.0,
-                "type": "PIDController",
-                "properties": {
-                  "topic": "/Shuffleboard/Coral/Coral Arm/Controller PID",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Controller FeedForward",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Controller Profile",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Subsystem",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 128.0,
-                "type": "Subsystem",
-                "properties": {
-                  "topic": "/Shuffleboard/Coral/Coral Arm/Subsystem",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              }
-            ]
-          }
-        ],
-        "containers": []
-      }
-    },
-    {
-      "name": "Algae",
-      "grid_layout": {
-        "layouts": [
-          {
-            "title": "Algae Arm",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 128.0,
-            "height": 384.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Controller PID",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 384.0,
-                "type": "PIDController",
-                "properties": {
-                  "topic": "/Shuffleboard/Algae/Algae Arm/Controller PID",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Controller FeedForward",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Controller Profile",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Subsystem",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 128.0,
-                "type": "Subsystem",
-                "properties": {
-                  "topic": "/Shuffleboard/Algae/Algae Arm/Subsystem",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              }
-            ]
-          }
-        ],
-        "containers": []
-      }
-    },
-    {
-      "name": "Climber",
-      "grid_layout": {
-        "layouts": [
-          {
-            "title": "Climber",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 128.0,
-            "height": 384.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Controller PID",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 384.0,
-                "type": "PIDController",
-                "properties": {
-                  "topic": "/Shuffleboard/Climber/Climber/Controller PID",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Controller FeedForward",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Controller Profile",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Subsystem",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 256.0,
-                "height": 128.0,
-                "type": "Subsystem",
-                "properties": {
-                  "topic": "/Shuffleboard/Climber/Climber/Subsystem",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Current Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Position",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Target Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              }
-            ]
-          }
-        ],
-        "containers": []
-      }
-    },
-    {
-      "name": "AprilTags",
-      "grid_layout": {
-        "layouts": [
-          {
-            "title": "Camera03",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 64.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "PoseCamera03",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Last TimestampCamera03",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 64.0,
-                "height": 64.0,
-                "type": "",
-                "properties": {
-                  "topic": "",
-                  "period": 0.06
-                }
-              },
-              {
-                "title": "Camera03 April Tag Read",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Boolean Box",
-                "properties": {
-                  "topic": "/Shuffleboard/AprilTags/Camera03/Camera03 April Tag Read",
-                  "period": 0.06,
-                  "data_type": "boolean",
-                  "true_color": 4283215696,
-                  "false_color": 4294198070,
-                  "true_icon": "None",
-                  "false_icon": "None"
-                }
-              }
-            ]
-          }
-        ],
-        "containers": []
-      }
-    },
-    {
       "name": "Left Front Swerve",
       "grid_layout": {
         "layouts": [
@@ -699,7 +25,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -713,7 +39,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -727,7 +53,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -741,7 +67,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -768,7 +94,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -782,7 +108,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -796,7 +122,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1065,33 +391,6 @@
                 }
               }
             ]
-          },
-          {
-            "title": "Angle Target Position",
-            "x": 1664.0,
-            "y": 384.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Value",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Position/Value",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              }
-            ]
           }
         ],
         "containers": [
@@ -1103,7 +402,7 @@
             "height": 384.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl PID",
+              "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl PID",
               "period": 0.06
             }
           },
@@ -1145,7 +444,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1159,7 +458,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1173,7 +472,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1187,7 +486,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1214,7 +513,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1228,7 +527,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1242,7 +541,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1269,7 +568,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1283,7 +582,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1297,7 +596,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1311,7 +610,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1338,7 +637,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1352,7 +651,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1366,7 +665,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1393,7 +692,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Current Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Current Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1407,7 +706,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Target Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Target Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1421,7 +720,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Target Voltage/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Target Voltage/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1448,7 +747,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Current Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Current Position/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1462,7 +761,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Target Position/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1476,7 +775,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Current Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Current Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1490,7 +789,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Target Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1504,34 +803,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Voltage/Value",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Angle Target Position",
-            "x": 1664.0,
-            "y": 384.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Value",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Target Voltage/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1549,7 +821,7 @@
             "height": 384.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl PID",
+              "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl PID",
               "period": 0.06
             }
           },
@@ -1561,7 +833,7 @@
             "height": 384.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl PID",
+              "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl PID",
               "period": 0.06
             }
           }
@@ -1715,7 +987,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1729,7 +1001,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1743,7 +1015,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1757,7 +1029,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1784,7 +1056,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1798,7 +1070,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1812,7 +1084,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -1839,7 +1111,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Current Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Current Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1853,7 +1125,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Target Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Target Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1867,7 +1139,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Target Voltage/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Target Voltage/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1894,7 +1166,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Current Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Current Position/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1908,7 +1180,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Target Position/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1922,7 +1194,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Current Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Current Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1936,7 +1208,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Target Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1950,34 +1222,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Voltage/Value",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Angle Target Position",
-            "x": 1664.0,
-            "y": 384.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Value",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Target Voltage/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2007,7 +1252,7 @@
             "height": 384.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl PID",
+              "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl PID",
               "period": 0.06
             }
           }
@@ -2037,7 +1282,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2051,7 +1296,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2065,7 +1310,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2079,7 +1324,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2106,7 +1351,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2120,7 +1365,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2134,7 +1379,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2161,7 +1406,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2175,7 +1420,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2189,7 +1434,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2203,7 +1448,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2230,7 +1475,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2244,7 +1489,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2258,7 +1503,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
                   "show_submit_button": true
@@ -2285,7 +1530,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Current Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Current Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2299,7 +1544,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Target Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Target Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2313,7 +1558,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Target Voltage/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Target Voltage/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2340,7 +1585,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Current Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Current Position/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2354,7 +1599,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Target Position/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2368,7 +1613,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Current Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Current Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2382,7 +1627,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Velocity/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Target Velocity/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2396,34 +1641,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Voltage/Value",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Angle Target Position",
-            "x": 1664.0,
-            "y": 384.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": [
-              {
-                "title": "Value",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Target Position/Value",
+                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Target Voltage/Value",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -2441,7 +1659,7 @@
             "height": 384.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl PID",
+              "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl PID",
               "period": 0.06
             }
           },
@@ -2453,7 +1671,7 @@
             "height": 384.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl PID",
+              "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl PID",
               "period": 0.06
             }
           }

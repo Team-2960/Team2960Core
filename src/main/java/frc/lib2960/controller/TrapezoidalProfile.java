@@ -59,9 +59,9 @@ public class TrapezoidalProfile implements Sendable {
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("lib2960 Trapezoidal Profile");
-        builder.addDoubleProperty("Max Velocity", () -> this.maxVel, (maxVel) -> this.maxVel = maxVel);
-        builder.addDoubleProperty("Max Acceleration", () -> this.maxAccel, (maxAccel) -> this.maxAccel = maxAccel);
-        builder.addDoubleProperty("Max Deceleration", () -> this.maxDecel, (maxDecel) -> this.maxDecel = maxDecel);
+        builder.addDoubleProperty("Max Velocity", this::getMaxVel, this::setMaxVel);
+        builder.addDoubleProperty("Max Acceleration", this::getMaxAccel, this::setMaxAccel);
+        builder.addDoubleProperty("Max Deceleration", this::getMaxDecel, this::setMaxDecel);
     }
 
 
@@ -71,7 +71,7 @@ public class TrapezoidalProfile implements Sendable {
 
 
     public void setMaxAccel(double maxAccel) {
-        this.maxVel = maxAccel;
+        this.maxAccel = maxAccel;
     }
 
 

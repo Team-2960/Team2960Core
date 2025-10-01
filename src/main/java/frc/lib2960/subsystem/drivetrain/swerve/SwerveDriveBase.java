@@ -83,8 +83,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
                 .withSize(1, 6);
 
         layout.add("Subsystem", this);
-        layout.add("Linear Controller", linearCtrl);
-        layout.add("Angular Controller", angleCtrl);
+        linearCtrl.addToLayout("Linear Controller", layout);
+        angleCtrl.addToLayout("Angular Controller", layout);
         layout.add("Position Error", new SendableMeasure<>(posErrorCalc));
         layout.add("Target Velocity Magnitude", new SendableMeasure<>(velMagCalc));
         layout.add("X Target Velocity", new SendableMeasure<>(xVelCalc));

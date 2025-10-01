@@ -12,11 +12,11 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.lib2960.config.controller.LinearControllerConfig;
+import frc.lib2960.telemetry.SendableElevatorFeedForward;
 
-public class LinearController implements Sendable {
+public class LinearController {
     public final LinearControllerConfig config;
     private final TrapezoidalProfile trapProfile;
     private final PIDController pid;
@@ -39,21 +39,14 @@ public class LinearController implements Sendable {
     }
 
     /**
-     * Implements sendable initialization
+     * Adds controller objects to a ShuffleboardLayout
+     * @param name      name of the controller for shuffleboard
+     * @param layout    shuffle board layout to add controller objects to
      */
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("LinearController");
-        builder.addDoubleProperty("Max Velocity", trapProfile::getMaxVel, trapProfile::setMaxVel);
-        builder.addDoubleProperty("Max Acceleration", trapProfile::getMaxAccel, trapProfile::setMaxAccel);
-        builder.addDoubleProperty("Max Deceleration", trapProfile::getMaxDecel, trapProfile::setMaxDecel);
-        builder.addDoubleProperty("PID kP", pid::getP, pid::setP);
-        builder.addDoubleProperty("PID kI", pid::getI, pid::setI);
-        builder.addDoubleProperty("PID kP", pid::getD, pid::setD);
-        builder.addDoubleProperty("FeedForward kS", ff::getKs, ff::setKs);
-        builder.addDoubleProperty("FeedForward kV", ff::getKv, ff::setKv);
-        builder.addDoubleProperty("FeedForward kG", ff::getKg, ff::setKg);
-        builder.addDoubleProperty("FeedForward kA", ff::getKa, ff::setKa);
+    public void addToLayout(String name, ShuffleboardLayout layout) {
+        layout.add(name + " PID", pid);
+        layout.add(name + " FeedForward", new SendableElevatorFeedForward(ff));
+        layout.add(name + " Profile", trapProfile);
     }
 
     /**

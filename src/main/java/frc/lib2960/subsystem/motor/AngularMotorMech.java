@@ -103,7 +103,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
             .getLayout(config.name, BuiltInLayouts.kList)
             .withSize(2,6); // TODO Optimize
         
-        layout.add("Controller", controller);
+        controller.addToLayout("Controller", layout);
         layout.add("Subsystem", this);
         layout.add("Current Position", new SendableMeasure<>(curPos));
         layout.add("Current Velocity", new SendableMeasure<>(curVel));

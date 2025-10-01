@@ -73,19 +73,22 @@ public abstract class SwerveModuleBase {
         this.driveCtrl = commonConfig.driveCtrlConfig.getController();
         this.angleCtrl = commonConfig.angleCtrlConfig.getController();
 
-        layout = Shuffleboard.getTab(config.uiTabName)
-            .getLayout(config.name, BuiltInLayouts.kList)
-            .withSize(1,5);
 
-        layout.add("Drive Control", driveCtrl);
-        layout.add("Angle Control", angleCtrl);
+        
+        layout = Shuffleboard.getTab(config.uiTabName)
+                .getLayout(config.name, BuiltInLayouts.kList)
+                .withSize(1, 5);
+
+        driveCtrl.addToLayout("Drive Ctrl", layout);
+        angleCtrl.addToLayout("Angle Ctrl", layout);
+
         layout.add("Drive Current Velocity", new SendableMeasure<>(driveCurVel));
         layout.add("Drive Target Velocity", new SendableMeasure<>(driveTarget));
         layout.add("Drive Target Voltage", new SendableMeasure<>(driveVoltCalc));
-        layout.add("Angle Current Position",  new SendableMeasure<>(angleCurPos));
+        layout.add("Angle Current Position", new SendableMeasure<>(angleCurPos));
         layout.add("Angle Current Velocity", new SendableMeasure<>(angleCurVel));
         layout.add("Angle Target Position", new SendableMeasure<>(angleTarget));
-        layout.add("Angle Target Velocity",  new SendableMeasure<>(angleVelCalc));
+        layout.add("Angle Target Velocity", new SendableMeasure<>(angleVelCalc));
         layout.add("Angle Target Voltage", new SendableMeasure<>(angleVoltCalc));
 
     }
