@@ -20,6 +20,7 @@ import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -85,6 +86,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
         layout.add("Subsystem", this);
         linearCtrl.addToLayout("Linear Controller", layout);
         angleCtrl.addToLayout("Angular Controller", layout);
+        layout.add("Swerve Drive", getSwerveSendable());
         layout.add("Position Error", new SendableMeasure<>(posErrorCalc));
         layout.add("Target Velocity Magnitude", new SendableMeasure<>(velMagCalc));
         layout.add("X Target Velocity", new SendableMeasure<>(xVelCalc));
@@ -96,6 +98,17 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
         // TODO Enable telemetry for when methods are overloaded
 
     }
+
+    /*********************/
+    /* Telemetry Methods */
+    /*********************/
+
+    /**
+     * Generates a sendable to for showing the current status of the swerve drive
+     * 
+     * @return sendable to for showing the current status of the swerve drive
+     */
+    public abstract Sendable getSwerveSendable();
 
     /*******************/
     /* Control Methods */

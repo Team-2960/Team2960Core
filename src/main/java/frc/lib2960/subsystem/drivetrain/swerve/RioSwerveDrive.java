@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
@@ -21,6 +22,8 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
@@ -61,7 +64,8 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
      * Constructor
      * 
      * @param config  swerve drive config
-     * @param modules list of swerve modules
+     * @param modules list of swerve modules. By convention, the order should be
+     *                [Left Front, Right Front, Left Rear, Right Rear].
      */
     public RioSwerveDrive(
             SwerveDriveCommonConfig config,
@@ -116,6 +120,36 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
                         (volts) -> this.setChassisSpeeds(new ChassisSpeeds(0, 0, volts.in(Volts) * Math.PI / 6)),
                         this::sysidTurnMotorsLog,
                         this));
+    }
+
+
+    /**
+     * Generates a sendable to for showing the current status of the swerve drive
+     * 
+     * @return sendable to for showing the current status of the swerve drive
+     */
+    @Override
+    public Sendable getSwerveSendable() {
+        return new Sendable() {
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.setSmartDashboardType("SwerveDrive");
+
+                builder.addDoubleProperty("Front Left Angle", () -> modules[0].getAnglePos().in(Radians), null);
+                builder.addDoubleProperty("Front Left Velocity", () -> modules[0].getDriveVel().in(MetersPerSecond), null);
+
+                builder.addDoubleProperty("Front Right Angle", () -> modules[1].getAnglePos().in(Radians), null);
+                builder.addDoubleProperty("Front Right Velocity", () -> modules[1].getDriveVel().in(MetersPerSecond), null);
+
+                builder.addDoubleProperty("Rear Left Angle", () -> modules[2].getAnglePos().in(Radians), null);
+                builder.addDoubleProperty("Rear Left Velocity", () -> modules[2].getDriveVel().in(MetersPerSecond), null);
+
+                builder.addDoubleProperty("Rear Right Angle", () -> modules[3].getAnglePos().in(Radians), null);
+                builder.addDoubleProperty("Rear Right Velocity", () -> modules[3].getDriveVel().in(MetersPerSecond), null);
+
+                builder.addDoubleProperty("Robot Angle", () -> getRotation().getRadians(), null);
+            }
+        };
     }
 
     /**

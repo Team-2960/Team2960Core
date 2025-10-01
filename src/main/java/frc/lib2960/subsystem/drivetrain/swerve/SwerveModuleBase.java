@@ -136,7 +136,7 @@ public abstract class SwerveModuleBase {
         getDriveVel(driveCurVel);
         driveTarget.mut_replace(metersPerSecond, MetersPerSecond);
 
-        driveCtrl.updateVoltage(getDriveVelocity(), driveTarget, driveVoltCalc);
+        driveCtrl.updateVoltage(getDriveVel(), driveTarget, driveVoltCalc);
     }
 
     /**
@@ -163,8 +163,8 @@ public abstract class SwerveModuleBase {
      */
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-                getDriveVelocity(),
-                Rotation2d.fromDegrees(getAnglePosition().in(Degrees)));
+                getDriveVel(),
+                Rotation2d.fromDegrees(getAnglePos().in(Degrees)));
     }
 
     /**
@@ -174,8 +174,8 @@ public abstract class SwerveModuleBase {
      */
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                getDrivePosition(),
-                Rotation2d.fromDegrees(getAnglePosition().in(Degrees)));
+                getDrivePos(),
+                Rotation2d.fromDegrees(getAnglePos().in(Degrees)));
     }
 
     /**
@@ -183,7 +183,7 @@ public abstract class SwerveModuleBase {
      * 
      * @return current drive position
      */
-    public Distance getDrivePosition() {
+    public Distance getDrivePos() {
         var result = Meters.mutable(0);
         getDrivePos(result);
         return result;
@@ -194,9 +194,20 @@ public abstract class SwerveModuleBase {
      * 
      * @return current drive velocity
      */
-    public LinearVelocity getDriveVelocity() {
+    public LinearVelocity getDriveVel() {
         var result = MetersPerSecond.mutable(0);
         getDriveVel(result);
+        return result;
+    }
+
+    /**
+     * Gets the current drive voltage
+     * 
+     * @return current drive voltage
+     */
+    public Voltage getDriveVolt() {
+        var result = Volts.mutable(0);
+        getDriveVolt(result);
         return result;
     }
 
@@ -205,7 +216,7 @@ public abstract class SwerveModuleBase {
      * 
      * @return current angle position
      */
-    public Angle getAnglePosition() {
+    public Angle getAnglePos() {
         var result = Degrees.mutable(0);
         getAnglePos(result);
         return result;
@@ -216,9 +227,20 @@ public abstract class SwerveModuleBase {
      * 
      * @return current angle velocity
      */
-    public AngularVelocity getAngleVelocity() {
+    public AngularVelocity getAngleVel() {
         var result = DegreesPerSecond.mutable(0);
         getAngleVel(result);
+        return result;
+    }
+
+    /**
+     * Gets the current angle voltage
+     * 
+     * @return current angle voltage
+     */
+    public Voltage getAngleVolt() {
+        var result = Volts.mutable(0);
+        getAngleVolt(result);
         return result;
     }
 

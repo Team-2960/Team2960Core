@@ -7,6 +7,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -129,6 +131,36 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                         },
                         null,
                         this));
+    }
+
+
+    /**
+     * Generates a sendable to for showing the current status of the swerve drive
+     * 
+     * @return sendable to for showing the current status of the swerve drive
+     */
+    @Override
+    public Sendable getSwerveSendable() {
+        return new Sendable() {
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.setSmartDashboardType("SwerveDrive");
+
+                builder.addDoubleProperty("Front Left Angle", () -> drivetrain.getModule(0).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Front Left Velocity", () -> drivetrain.getModule(0).getCurrentState().speedMetersPerSecond, null);
+
+                builder.addDoubleProperty("Front Right Angle", () -> drivetrain.getModule(1).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Front Right Velocity", () -> drivetrain.getModule(1).getCurrentState().speedMetersPerSecond, null);
+
+                builder.addDoubleProperty("Rear Left Angle", () -> drivetrain.getModule(2).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Rear Left Velocity", () -> drivetrain.getModule(2).getCurrentState().speedMetersPerSecond, null);
+
+                builder.addDoubleProperty("Rear Right Angle", () -> drivetrain.getModule(3).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Rear Right Velocity", () -> drivetrain.getModule(3).getCurrentState().speedMetersPerSecond, null);
+
+                builder.addDoubleProperty("Robot Angle", () -> drivetrain.getState().Pose.getRotation().getRadians(), null);
+            }
+        };
     }
 
     /**
