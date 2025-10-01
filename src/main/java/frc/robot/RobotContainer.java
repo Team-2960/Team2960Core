@@ -12,6 +12,7 @@ import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.lib2960.helper.Elastic;
 import frc.lib2960.helper.PathPlanner;
 import frc.lib2960.subsystem.drivetrain.swerve.RevFlexMaxSwerveModule;
 import frc.lib2960.subsystem.vision.AprilTagPipeline;
@@ -71,11 +72,16 @@ public class RobotContainer {
      * Constructor
      */
     public RobotContainer() {
+        // Initialize Elastic Layout server
+        Elastic.startLayoutServer();
+        
         // Init Driver Controls
         initDrivetrainCtrl();
         initCoralCtrl();
         initAlgaeCtrl();
         initClimberCtrl();
+
+
 
         // Init PathPlanner
         initNamedCommands();
