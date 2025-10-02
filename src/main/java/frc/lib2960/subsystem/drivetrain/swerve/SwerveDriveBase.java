@@ -105,6 +105,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
 
     /**
      * Generates a sendable with swerve drive status
+     * 
      * @return
      */
     public Sendable getStatusSendable() {
@@ -710,7 +711,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
 
         Command cmd = this.run(() -> setChassisSpeeds(xVel, yVel, rVel, xOffset, yOffset));
 
-        cmd.setName(String.format("Velocity Cmd w/ (%.2f m, %.2f m)", xOffset.in(Meters), yOffset.in(Meters)));
+        cmd.setName(String.format("VelocityCmd O:(%.2f m, %.2f m)", xOffset.in(Meters), yOffset.in(Meters)));
 
         return cmd;
     }
@@ -751,7 +752,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
 
         Command cmd = this.run(() -> setChassisSpeeds(xVel.get(), yVel.get(), rVel.get(), xOffset, yOffset));
 
-        cmd.setName(String.format("Velocity Ctrl Cmd w/ (%.2f m, %.2f m)", xOffset.in(Meters), yOffset.in(Meters)));
+        cmd.setName(String.format("VelocityCtrlCmd O:(%.2f m, %.2f m)", xOffset.in(Meters), yOffset.in(Meters)));
 
         return cmd;
     }
@@ -838,8 +839,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
                 yOffset,
                 rOffset));
 
-        cmd.setName(String.format("Turn to Angle Cmd w/ (%.2f m, %.2f m, %.0f\u00B0C)",
-                xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToAngleCmd T: %.0f\u00B0C O:(%.2f m, %.2f m, %.0f\u00B0C)",
+                target.in(Degrees), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
 
         return cmd;
     }
@@ -915,8 +916,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
                 getAtTargetCmd(target, tolerance, rOffset),
                 getTurnToAngleCmd(xVel, yVel, target, xOffset, yOffset, rOffset));
 
-        cmd.setName(String.format("Turn to Angle And End Cmd w/ (%.2f m, %.2f m, %.0f\u00B0C)",
-                xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToAngleCmd and End T: %.0f\u00B0C O:(%.2f m, %.2f m, %.0f\u00B0C)",
+                target.in(Degrees), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
 
         return cmd;
     }
@@ -997,8 +998,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
         Command cmd = this.run(
                 () -> this.turnToPoint(xVel.get(), yVel.get(), target, xOffset, yOffset, rOffset));
 
-        cmd.setName(String.format("Turn to Point Cmd w/ (%.2f m, %.2f m, %.0f\u00B0C)",
-                xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToPointCmd T: (%.2f m, %.2f m) O:(%.2f m, %.2f m, %.0f\u00B0C)",
+                target.getX(), target.getY(), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
 
         return cmd;
     }
@@ -1070,8 +1071,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
                 getAtTargetCmd(target, tolerance, rOffset),
                 this.getTurnToPointCmd(xVel, yVel, target, xOffset, yOffset, rOffset));
 
-        cmd.setName(String.format("Turn to Point and End Cmd w/ (%.2f m, %.2f m, %.0f\u00B0C)",
-                xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToPointCmd and End T: (%.2f m, %.2f m) O:(%.2f m, %.2f m, %.0f\u00B0C)",
+                target.getX(), target.getY(), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
 
         return cmd;
     }
@@ -1139,7 +1140,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
 
         Command cmd = this.run(() -> gotoPose(target, xOffset, yOffset, rOffset));
 
-        cmd.setName(String.format("Goto Pose Cmd w/ (%.2f m, %.2f m, %.0f\u00B0C)",
+        cmd.setName(String.format("GotoPoseCmd T:(%.2f m, %.2f m, %.0f\u00B0C) O:(%.2f m, %.2f m, %.0f\u00B0C)",
+                target.getX(), target.getY(), target.getRotation().getDegrees(),
                 xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
 
         return cmd;
@@ -1172,8 +1174,10 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
                         getAtTargetCmd(AngleUtil.toUnits(target.getRotation()), angleTol, rOffset)),
                 getGotoPoseCmd(target, xOffset, yOffset, rOffset));
 
-        cmd.setName(String.format("Goto Pose and End Cmd w/ (%.2f m, %.2f m, %.0f\u00B0C)",
-                xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(
+                String.format("GotoPoseCmd and End T:(%.2f m, %.2f m, %.0f\u00B0C) O:(%.2f m, %.2f m, %.0f\u00B0C)",
+                        target.getX(), target.getY(), target.getRotation().getDegrees(),
+                        xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
 
         return cmd;
     }
@@ -1187,7 +1191,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      */
     public Command getAtTargetCmd(Angle target, Angle tolerance) {
         Command cmd = Commands.waitUntil(() -> atTarget(target, tolerance));
-        cmd.setName("At Angle Target Cmd");
+        cmd.setName(String.format("AtTargetCmd TurnToAngle T: %.2f\u00B0C", target.in(Degrees)));
         return cmd;
     }
 
@@ -1201,7 +1205,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      */
     public Command getAtTargetCmd(Angle target, Angle tolerance, Angle offset) {
         Command cmd = Commands.waitUntil(() -> atTarget(target, tolerance, offset));
-        cmd.setName("At Angle Target /w Offset Cmd");
+        cmd.setName(String.format("AtTargetCmd TurnToAngle T: %.2f\u00B0C O: %.2f\u00B0C",
+                target.in(Degrees), offset.in(Degrees)));
         return cmd;
     }
 
@@ -1214,7 +1219,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      */
     public Command getAtTargetCmd(Translation2d target, Angle tolerance) {
         Command cmd = Commands.waitUntil(() -> atTarget(target, tolerance));
-        cmd.setName("Looking at Point Target Cmd");
+        cmd.setName(String.format("AtTargetCmd LookAtPoint T:(%.02f m, %.02f m)",
+                target.getX(), target.getY()));
         return cmd;
     }
 
@@ -1228,7 +1234,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      */
     public Command getAtTargetCmd(Translation2d target, Angle tolerance, Angle offset) {
         Command cmd = Commands.waitUntil(() -> atTarget(target, tolerance, offset));
-        cmd.setName("Looking at Point Target /w Offset Cmd");
+        cmd.setName(String.format("AtTargetCmd LookAtPoint T:(%.02f m, %.02f m) O: %.2f\u00B0C",
+                target.getX(), target.getY(), offset.in(Degrees)));
         return cmd;
     }
 
@@ -1242,7 +1249,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      */
     public Command getAtTargetCmd(Translation2d target, Distance tolerance) {
         Command cmd = Commands.waitUntil(() -> atTarget(target, tolerance));
-        cmd.setName("At Position Cmd");
+        cmd.setName(String.format("AtTargetCmd GotoPose T: T:(%.02f m, %.02f m) ",
+                target.getX(), target.getY()));
         return cmd;
     }
 }

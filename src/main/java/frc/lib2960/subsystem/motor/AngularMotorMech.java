@@ -58,7 +58,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
          * Constructor
          */
         public HoldPosCmd() {
-            setName("Hold Position Cmd");
+            setName("HoldPosCmd");
             addRequirements(AngularMotorMech.this);
         }
 
@@ -273,7 +273,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      */
     public Command getPositionCmd(Angle target) {
         Command cmd = this.run(() -> this.gotoPosition(target));
-        cmd.setName(String.format("Pos Cmd: %.0f\u00B0C", target.in(Degrees)));
+        cmd.setName(String.format("PosCmd: %.0f\u00B0C", target.in(Degrees)));
         return cmd;
     }
 
@@ -291,7 +291,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
                 getAtTargetCmd(target, tolerance),
                 getPositionCmd(target));
 
-        cmd.setName(String.format("Pos and End Cmd: %.0f\u00B0C", target.in(Degrees)));
+        cmd.setName(String.format("PosCmd and End: %.0f\u00B0C", target.in(Degrees)));
 
         return cmd;
     }
@@ -305,7 +305,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
     public Command getVelocityCmd(Supplier<AngularVelocity> target) {
         Command cmd = this.run(() -> this.gotoVelocity(target.get()));
 
-        cmd.setName("Vel Control Cmd");
+        cmd.setName("VelCtrlCmd");
 
         return cmd;
     }
@@ -318,7 +318,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      */
     public Command getVelocityCmd(AngularVelocity target) {
         Command cmd = this.run(() -> this.gotoVelocity(target));
-        cmd.setName(String.format("Vel Cmd: %.0f\u00B0C/s", target.in(DegreesPerSecond)));
+        cmd.setName(String.format("VelCmd: %.0f\u00B0C/s", target.in(DegreesPerSecond)));
         return cmd;
     }
 
@@ -336,7 +336,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
                 getAtTargetCmd(target, tolerance),
                 getVelocityCmd(target));
 
-        cmd.setName(String.format("Vel and End Cmd: %.0f\u00B0C/s", target.in(DegreesPerSecond)));
+        cmd.setName(String.format("VelCmd and End: %.0f\u00B0C/s", target.in(DegreesPerSecond)));
 
         return cmd;
     }
@@ -349,7 +349,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      */
     public Command getVoltageCmd(Supplier<Voltage> target) {
         Command cmd = this.run(() -> this.setVoltage(target.get()));
-        cmd.setName("Volt Ctrl Cmd");
+        cmd.setName("VoltCtrlCmd");
         return cmd;
     }
 
@@ -361,7 +361,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      */
     public Command getVoltageCmd(Voltage target) {
         Command cmd = this.run(() -> this.setVoltage(target));
-        cmd.setName(String.format("Volt Cmd: %.0fV", target.in(Volts)));
+        cmd.setName(String.format("VoltCmd: %.0fV", target.in(Volts)));
         return cmd;
     }
 
@@ -388,7 +388,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
                     getPosition(curPos);
                     return target.isNear(curPos, tolerance);
                 });
-        cmd.setName("At Target Pos Cmd");
+        cmd.setName(String.format("AtTargetCmd Pos: %.2f\u00B0C", target.in(Degrees)));
         return cmd;
     }
 
@@ -407,7 +407,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
                     return target.isNear(curVel, tolerance);
                 });
 
-        cmd.setName("At Target Vel Cmd");
+        cmd.setName(String.format("AtTargetCmd Vel: %.2f\u00B0C/s", target.in(DegreesPerSecond)));
 
         return cmd;
     }
@@ -424,7 +424,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
             return !controller.aboveMin(dist);
         });
 
-        cmd.setName("At Min Pos Cmd");
+        cmd.setName("AtMinCmd");
 
         return cmd;
     }
@@ -441,7 +441,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
             return !controller.belowMax(dist);
         });
 
-        cmd.setName("At Max Pos Cmd");
+        cmd.setName("AtMaxCmd");
 
         return cmd;
     }
@@ -457,7 +457,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
     public Command getPosPresetCmd(String name) {
         if (config.presetPos.containsKey(name)) {
             Command cmd = getPositionCmd(config.presetPos.get(name));
-            cmd.setName(String.format("Preset Pos Cmd: %s", name));
+            cmd.setName(String.format("PosPresetCmd: %s", name));
             return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
@@ -477,7 +477,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
     public Command getPosPresetCmd(String name, Angle tolerance) {
         if (config.presetPos.containsKey(name)) {
             Command cmd = getPositionCmd(config.presetPos.get(name), tolerance);
-            cmd.setName(String.format("Preset Pos and End Cmd: %s", name));
+            cmd.setName(String.format("PosPresetCmd and End: %s", name));
             return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No position preset with name \"%s\" found.", name));
@@ -495,7 +495,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
     public Command getVelPresetCmd(String name) {
         if (config.presetVel.containsKey(name)) {
             Command cmd = getVelocityCmd(config.presetVel.get(name));
-            cmd.setName(String.format("Preset Vel Cmd: %s", name));
+            cmd.setName(String.format("VelPresetCmd: %s", name));
             return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
@@ -515,7 +515,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
     public Command getVelPresetCmd(String name, AngularVelocity tolerance) {
         if (config.presetVel.containsKey(name)) {
             Command cmd = getVelocityCmd(config.presetVel.get(name), tolerance);
-            cmd.setName(String.format("Preset Vel Cmd: %s", name));
+            cmd.setName(String.format("VelPresetCmd and End: %s", name));
             return cmd;
         } else {
             throw new IllegalArgumentException(String.format("No velocity preset with name \"%s\" found.", name));
