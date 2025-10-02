@@ -113,9 +113,10 @@ public class AngularTalonFXMech extends AngularMotorMech {
      * @param config      Motor Mechanism Configuration
      * @param motorConfig Motor Configruration
      */
-    public AngularTalonFXMech(AngularMotorMechConfig config, MotorConfig motorConfig, EncoderConfig encoderConfig, FeedbackSensorSourceValue sensorSourceType) {
+    public AngularTalonFXMech(AngularMotorMechConfig config, MotorConfig motorConfig, EncoderConfig encoderConfig,
+            FeedbackSensorSourceValue sensorSourceType) {
         this(config, motorConfig);
-
+        // TODO: Allow other encoder types
         encoder = Optional.of(new CANcoder(encoderConfig.id, encoderConfig.CANBusName));
 
         CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
@@ -129,6 +130,8 @@ public class AngularTalonFXMech extends AngularMotorMech {
                 .withFeedbackRemoteSensorID(encoderConfig.id)
                 .withFeedbackSensorSource(sensorSourceType)
                 .withSensorToMechanismRatio(encoderConfig.gearRatio);
+
+        motor.getConfigurator().apply(feedbackConfigs);
     }
 
     /**
