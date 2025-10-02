@@ -52,14 +52,14 @@ public class RobotContainer {
     private final AlgaeRoller algaeRoller = new AlgaeRoller(Constants.algaeRollerConfig);
     private final Climber climber = new Climber(Constants.climberConfig);
 
-    /*
+    
     @SuppressWarnings("unused")
     private final AprilTagPipeline leftCamera = new AprilTagPipeline(Constants.leftCameraConfig, drivetrain);
     @SuppressWarnings("unused")
     private final AprilTagPipeline frontCamera = new AprilTagPipeline(Constants.frontCameraConfig, drivetrain);
     @SuppressWarnings("unused")
     private final AprilTagPipeline rightCamera = new AprilTagPipeline(Constants.rightCameraConfig, drivetrain);
-    */
+    
     // Joysticks
     private final CommandXboxController driveCtrl = new CommandXboxController(Constants.driverCtrlID);
     private final CommandXboxController opCtrl = new CommandXboxController(Constants.opCtrlID);
