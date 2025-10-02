@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib2960.helper.Elastic;
 
 public class Robot extends TimedRobot {
     private Command autonCmd = null;
@@ -21,6 +22,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        Elastic.selectTab("Auton");
     }
 
     @Override
@@ -42,6 +44,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Elastic.selectTab("Auton");
         autonCmd = robotContainer.getSelectedAuton();
         if(autonCmd != null) autonCmd.schedule();
     }
@@ -56,6 +59,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        Elastic.selectTab("Teleop");
         if (autonCmd != null) autonCmd.cancel();
     }
 
