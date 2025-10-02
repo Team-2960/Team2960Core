@@ -7,10 +7,10 @@
       "grid_layout": {
         "layouts": [
           {
-            "title": "Angle Ctrl FeedForward",
-            "x": 768.0,
-            "y": 256.0,
-            "width": 256.0,
+            "title": "Drive Status",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
             "height": 256.0,
             "type": "List Layout",
             "properties": {
@@ -18,59 +18,100 @@
             },
             "children": [
               {
-                "title": "kS",
+                "title": "Current Velocity",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Left Front Swerve/Drive Status/Current Velocity",
                   "period": 0.06,
-                  "data_type": "double",
+                  "data_type": "string",
                   "show_submit_button": false
                 }
               },
               {
-                "title": "kV",
+                "title": "Current Voltage",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Left Front Swerve/Drive Status/Current Voltage",
                   "period": 0.06,
-                  "data_type": "double",
+                  "data_type": "string",
                   "show_submit_button": false
                 }
               },
               {
-                "title": "kG",
+                "title": "Target Velocity",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Left Front Swerve/Drive Status/Target Velocity",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl Profile",
+            "x": 256.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 192.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "Max Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Front Swerve/Drive Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
-                "title": "kA",
+                "title": "Max Acceleration",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Left Front Swerve/Drive Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Max Deceleration",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Front Swerve/Drive Ctrl Profile/Max Deceleration",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
                 }
               }
             ]
@@ -94,7 +135,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Status/Current Position",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Status/Current Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -108,7 +149,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Status/Current Velocity",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Status/Current Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -122,7 +163,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Status/Current Voltage",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Status/Current Voltage",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -136,7 +177,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Status/Target Position",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Status/Target Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -150,7 +191,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Status/Target Velocity",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Status/Target Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -159,56 +200,70 @@
             ]
           },
           {
-            "title": "Drive Ctrl Profile",
-            "x": 256.0,
-            "y": 448.0,
+            "title": "Angle Ctrl FeedForward",
+            "x": 768.0,
+            "y": 256.0,
             "width": 256.0,
-            "height": 192.0,
+            "height": 256.0,
             "type": "List Layout",
             "properties": {
               "label_position": "LEFT"
             },
             "children": [
               {
-                "title": "Max Velocity",
+                "title": "kS",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
-                "title": "Max Acceleration",
+                "title": "kV",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
-                "title": "Max Deceleration",
+                "title": "kG",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kA",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kA",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
                 }
               }
             ]
@@ -232,10 +287,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -246,10 +301,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -260,73 +315,18 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               }
             ]
           },
           {
-            "title": "Drive Status",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 512.0,
-            "height": 192.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Status/Current Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Current Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Status/Current Voltage",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Status/Target Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Ctrl FeedForward",
+            "title": "Angle Ctrl FeedForward",
             "x": 256.0,
-            "y": 192.0,
+            "y": 256.0,
             "width": 256.0,
             "height": 256.0,
             "type": "List Layout",
@@ -342,10 +342,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -356,10 +356,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -370,10 +370,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -384,16 +384,28 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               }
             ]
           }
         ],
         "containers": [
+          {
+            "title": "Drive Ctrl PID",
+            "x": 0.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 448.0,
+            "type": "PIDController",
+            "properties": {
+              "topic": "/Shuffleboard/Left Front Swerve/Drive Ctrl PID",
+              "period": 0.06
+            }
+          },
           {
             "title": "Angle Ctrl PID",
             "x": 512.0,
@@ -402,19 +414,7 @@
             "height": 448.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Front/Angle Ctrl PID",
-              "period": 0.06
-            }
-          },
-          {
-            "title": "Drive Ctrl PID",
-            "x": 0.0,
-            "y": 192.0,
-            "width": 256.0,
-            "height": 448.0,
-            "type": "PIDController",
-            "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Front/Drive Ctrl PID",
+              "topic": "/Shuffleboard/Left Front Swerve/Angle Ctrl PID",
               "period": 0.06
             }
           }
@@ -426,6 +426,185 @@
       "grid_layout": {
         "layouts": [
           {
+            "title": "Drive Status",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "Current Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Status/Current Velocity",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "Current Voltage",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Status/Current Voltage",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "Target Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Status/Target Velocity",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl FeedForward",
+            "x": 256.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "kS",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kS",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kV",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kV",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kG",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kG",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kA",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kA",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl Profile",
+            "x": 256.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 192.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "Max Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl Profile/Max Velocity",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Max Acceleration",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl Profile/Max Acceleration",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Max Deceleration",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl Profile/Max Deceleration",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              }
+            ]
+          },
+          {
             "title": "Angle Status",
             "x": 512.0,
             "y": 0.0,
@@ -444,7 +623,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Status/Current Position",
+                  "topic": "/Shuffleboard/Right Front Swerve/Angle Status/Current Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -458,7 +637,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Status/Current Velocity",
+                  "topic": "/Shuffleboard/Right Front Swerve/Angle Status/Current Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -472,7 +651,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Status/Current Voltage",
+                  "topic": "/Shuffleboard/Right Front Swerve/Angle Status/Current Voltage",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -486,7 +665,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Status/Target Position",
+                  "topic": "/Shuffleboard/Right Front Swerve/Angle Status/Target Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -500,7 +679,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Status/Target Velocity",
+                  "topic": "/Shuffleboard/Right Front Swerve/Angle Status/Target Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -509,7 +688,76 @@
             ]
           },
           {
-            "title": "Angle Ctrl Profile",
+            "title": "Drive Ctrl FeedForward",
+            "x": 768.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "kS",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kS",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kV",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kV",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kG",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kG",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kA",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl FeedForward/kA",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl Profile",
             "x": 768.0,
             "y": 512.0,
             "width": 256.0,
@@ -527,10 +775,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -541,10 +789,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -555,258 +803,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Angle Ctrl FeedForward",
-            "x": 768.0,
-            "y": 256.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "kS",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kS",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kV",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kV",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kG",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kG",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kA",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl FeedForward/kA",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Status",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 512.0,
-            "height": 192.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Status/Current Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Current Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Status/Current Voltage",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Status/Target Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Ctrl Profile",
-            "x": 256.0,
-            "y": 448.0,
-            "width": 256.0,
-            "height": 192.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "Max Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl Profile/Max Velocity",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Max Acceleration",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl Profile/Max Acceleration",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Max Deceleration",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl Profile/Max Deceleration",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Ctrl FeedForward",
-            "x": 256.0,
-            "y": 192.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "kS",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kS",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kV",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kV",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kG",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kG",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kA",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl FeedForward/kA",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               }
             ]
@@ -814,26 +814,26 @@
         ],
         "containers": [
           {
-            "title": "Angle Ctrl PID",
+            "title": "Drive Ctrl PID",
+            "x": 0.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 448.0,
+            "type": "PIDController",
+            "properties": {
+              "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl PID",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Drive Ctrl PID",
             "x": 512.0,
             "y": 256.0,
             "width": 256.0,
             "height": 448.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Right Front/Angle Ctrl PID",
-              "period": 0.06
-            }
-          },
-          {
-            "title": "Drive Ctrl PID",
-            "x": 0.0,
-            "y": 192.0,
-            "width": 256.0,
-            "height": 448.0,
-            "type": "PIDController",
-            "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Right Front/Drive Ctrl PID",
+              "topic": "/Shuffleboard/Right Front Swerve/Drive Ctrl PID",
               "period": 0.06
             }
           }
@@ -845,6 +845,185 @@
       "grid_layout": {
         "layouts": [
           {
+            "title": "Drive Status",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "Current Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Status/Current Velocity",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Current Voltage",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Status/Current Voltage",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "Target Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Status/Target Velocity",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl FeedForward",
+            "x": 256.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "kS",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kS",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kV",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kV",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kG",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kG",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kA",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kA",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl Profile",
+            "x": 256.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 192.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "Max Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl Profile/Max Velocity",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Max Acceleration",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl Profile/Max Acceleration",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Max Deceleration",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl Profile/Max Deceleration",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              }
+            ]
+          },
+          {
             "title": "Angle Status",
             "x": 512.0,
             "y": 0.0,
@@ -863,7 +1042,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Status/Current Position",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Current Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -877,7 +1056,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Status/Current Velocity",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Current Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -891,7 +1070,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Status/Current Voltage",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Current Voltage",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -905,7 +1084,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Status/Target Position",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Target Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -919,7 +1098,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Status/Target Velocity",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Target Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -946,10 +1125,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -960,10 +1139,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -974,10 +1153,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -988,10 +1167,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               }
             ]
@@ -1015,10 +1194,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -1029,10 +1208,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -1043,195 +1222,28 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Status",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 512.0,
-            "height": 192.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Status/Current Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Current Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Status/Current Voltage",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Status/Target Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Ctrl FeedForward",
-            "x": 256.0,
-            "y": 192.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "kS",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kS",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kV",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kV",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kG",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kG",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kA",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl FeedForward/kA",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Ctrl Profile",
-            "x": 256.0,
-            "y": 448.0,
-            "width": 256.0,
-            "height": 192.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "Max Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl Profile/Max Velocity",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Max Acceleration",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl Profile/Max Acceleration",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Max Deceleration",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl Profile/Max Deceleration",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               }
             ]
           }
         ],
         "containers": [
+          {
+            "title": "Drive Ctrl PID",
+            "x": 0.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 448.0,
+            "type": "PIDController",
+            "properties": {
+              "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl PID",
+              "period": 0.06
+            }
+          },
           {
             "title": "Angle Ctrl PID",
             "x": 512.0,
@@ -1240,19 +1252,7 @@
             "height": 448.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Rear/Angle Ctrl PID",
-              "period": 0.06
-            }
-          },
-          {
-            "title": "Drive Ctrl PID",
-            "x": 0.0,
-            "y": 192.0,
-            "width": 256.0,
-            "height": 448.0,
-            "type": "PIDController",
-            "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Left Rear/Drive Ctrl PID",
+              "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl PID",
               "period": 0.06
             }
           }
@@ -1264,6 +1264,185 @@
       "grid_layout": {
         "layouts": [
           {
+            "title": "Drive Status",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "TOP"
+            },
+            "children": [
+              {
+                "title": "Current Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Status/Current Velocity",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "Current Voltage",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Status/Current Voltage",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "Target Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Status/Target Velocity",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl FeedForward",
+            "x": 256.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "kS",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kS",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kV",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kV",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kG",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kG",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "kA",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl FeedForward/kA",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              }
+            ]
+          },
+          {
+            "title": "Drive Ctrl Profile",
+            "x": 256.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 192.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "LEFT"
+            },
+            "children": [
+              {
+                "title": "Max Velocity",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl Profile/Max Velocity",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Max Acceleration",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl Profile/Max Acceleration",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              },
+              {
+                "title": "Max Deceleration",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Shuffleboard/Left Rear Swerve/Drive Ctrl Profile/Max Deceleration",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "show_submit_button": true
+                }
+              }
+            ]
+          },
+          {
             "title": "Angle Status",
             "x": 512.0,
             "y": 0.0,
@@ -1282,7 +1461,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Status/Current Position",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Current Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1296,7 +1475,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Status/Current Velocity",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Current Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1310,7 +1489,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Status/Current Voltage",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Current Voltage",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1324,7 +1503,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Status/Target Position",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Target Position",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1338,7 +1517,7 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Status/Target Velocity",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Status/Target Velocity",
                   "period": 0.06,
                   "data_type": "string",
                   "show_submit_button": false
@@ -1365,10 +1544,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kS",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kS",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -1379,10 +1558,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kV",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kV",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -1393,10 +1572,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kG",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kG",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -1407,10 +1586,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl FeedForward/kA",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl FeedForward/kA",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               }
             ]
@@ -1434,10 +1613,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl Profile/Max Velocity",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl Profile/Max Velocity",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -1448,10 +1627,10 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl Profile/Max Acceleration",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl Profile/Max Acceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               },
               {
@@ -1462,195 +1641,28 @@
                 "height": 128.0,
                 "type": "Text Display",
                 "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl Profile/Max Deceleration",
+                  "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl Profile/Max Deceleration",
                   "period": 0.06,
                   "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Ctrl FeedForward",
-            "x": 256.0,
-            "y": 192.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "kS",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kS",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kV",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kV",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kG",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kG",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "kA",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl FeedForward/kA",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Ctrl Profile",
-            "x": 256.0,
-            "y": 448.0,
-            "width": 256.0,
-            "height": 192.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "Max Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl Profile/Max Velocity",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Max Acceleration",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl Profile/Max Acceleration",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Max Deceleration",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl Profile/Max Deceleration",
-                  "period": 0.06,
-                  "data_type": "double",
-                  "show_submit_button": false
-                }
-              }
-            ]
-          },
-          {
-            "title": "Drive Status",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 512.0,
-            "height": 192.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "LEFT"
-            },
-            "children": [
-              {
-                "title": "Current Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Status/Current Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Current Voltage",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Status/Current Voltage",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
-                }
-              },
-              {
-                "title": "Target Velocity",
-                "x": 0.0,
-                "y": 0.0,
-                "width": 128.0,
-                "height": 128.0,
-                "type": "Text Display",
-                "properties": {
-                  "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Status/Target Velocity",
-                  "period": 0.06,
-                  "data_type": "string",
-                  "show_submit_button": false
+                  "show_submit_button": true
                 }
               }
             ]
           }
         ],
         "containers": [
+          {
+            "title": "Drive Ctrl PID",
+            "x": 0.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 448.0,
+            "type": "PIDController",
+            "properties": {
+              "topic": "/Shuffleboard/Right Rear Swerve/Drive Ctrl PID",
+              "period": 0.06
+            }
+          },
           {
             "title": "Angle Ctrl PID",
             "x": 512.0,
@@ -1659,19 +1671,7 @@
             "height": 448.0,
             "type": "PIDController",
             "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Right Rear/Angle Ctrl PID",
-              "period": 0.06
-            }
-          },
-          {
-            "title": "Drive Ctrl PID",
-            "x": 0.0,
-            "y": 192.0,
-            "width": 256.0,
-            "height": 448.0,
-            "type": "PIDController",
-            "properties": {
-              "topic": "/Shuffleboard/Drivetrain/Right Rear/Drive Ctrl PID",
+              "topic": "/Shuffleboard/Left Rear Swerve/Angle Ctrl PID",
               "period": 0.06
             }
           }

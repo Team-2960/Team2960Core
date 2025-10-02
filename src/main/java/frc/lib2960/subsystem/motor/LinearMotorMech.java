@@ -45,7 +45,7 @@ public abstract class LinearMotorMech extends SubsystemBase {
     private final MutDistance sysIdPos = Meters.mutable(0);
     private final MutLinearVelocity sysIdVel = MetersPerSecond.mutable(0);
 
-    private final ShuffleboardTab tab;
+    protected final ShuffleboardTab tab;
 
     /**
      * Command to hold position the mechanism is at when the command is scheduled

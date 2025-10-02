@@ -180,7 +180,8 @@ public class Constants {
             moduleXOffset,
             moduleYOffset)
             .setInvertDriveMotor(true)
-            .setInvertAngleMotor(true);
+            .setInvertAngleMotor(true)
+            .setUITabName("Left Front Swerve");
 
     public static final SwerveModuleBaseConfig rfConfig = new SwerveModuleBaseConfig(
             "Right Front",
@@ -190,7 +191,8 @@ public class Constants {
             moduleXOffset,
             moduleYOffset.unaryMinus())
             .setInvertDriveMotor(false)
-            .setInvertAngleMotor(true);
+            .setInvertAngleMotor(true)
+            .setUITabName("Right Front Swerve");
 
     public static final SwerveModuleBaseConfig lrConfig = new SwerveModuleBaseConfig(
             "Left Rear",
@@ -200,7 +202,8 @@ public class Constants {
             moduleXOffset,
             moduleYOffset.unaryMinus())
             .setInvertDriveMotor(true)
-            .setInvertAngleMotor(true);
+            .setInvertAngleMotor(true)
+            .setUITabName("Left Rear Swerve");
 
     public static final SwerveModuleBaseConfig rrConfig = new SwerveModuleBaseConfig(
             "Right Rear",
@@ -210,7 +213,8 @@ public class Constants {
             moduleXOffset,
             moduleYOffset.unaryMinus())
             .setInvertDriveMotor(false)
-            .setInvertAngleMotor(true);
+            .setInvertAngleMotor(true)
+            .setUITabName("Right Rear Swerve");
 
     /*********************/
     /* Coral Arm Configs */

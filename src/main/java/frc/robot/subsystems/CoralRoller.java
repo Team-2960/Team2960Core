@@ -17,6 +17,8 @@ import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -64,8 +66,28 @@ public class CoralRoller extends LinearMotorMech {
         intakeTrigger = new Trigger(this::coralAtIntake);
         intakeTrigger.onTrue(getAutoIntakeCmd(Meters.zero()));
 
-        // Set Default Command 
+        // Set Default Command
         setDefaultCommand(getHoldPosCmd());
+
+        tab.add("Coral Sensor Status", getCoralRollerStatusSendable());
+
+    }
+
+    /**
+     * Gets sendable status for the Coral roller
+     * 
+     * @return sendable status for the Coral roller
+     */
+    public Sendable getCoralRollerStatusSendable() {
+        return new Sendable() {
+
+            @Override
+            public void initSendable(SendableBuilder builder) {
+                builder.addBooleanProperty("Intake Sensor", () -> intakeSensor.get(), null);
+                builder.addBooleanProperty("Gripper Sensor", () -> grippedSensor.isPressed(), null);
+            }
+
+        };
     }
 
     /**
@@ -179,8 +201,8 @@ public class CoralRoller extends LinearMotorMech {
      */
     public Command getIntakeCmd() {
         return this.runEnd(
-            () -> setVoltage(config.intakeVolt),
-            () -> setVoltage(Volts.zero()));
+                () -> setVoltage(config.intakeVolt),
+                () -> setVoltage(Volts.zero()));
     }
 
     /**
@@ -203,8 +225,8 @@ public class CoralRoller extends LinearMotorMech {
      */
     public Command getReverseCmd() {
         return this.runEnd(
-            () -> setVoltage(config.reverseVolt),
-            () -> setVoltage(Volts.zero()));
+                () -> setVoltage(config.reverseVolt),
+                () -> setVoltage(Volts.zero()));
     }
 
     /**
