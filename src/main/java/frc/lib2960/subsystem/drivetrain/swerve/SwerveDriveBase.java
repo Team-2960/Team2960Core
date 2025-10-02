@@ -24,6 +24,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -62,6 +63,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
     private final ChassisSpeeds targetSpeeds = new ChassisSpeeds();
 
     protected final ShuffleboardTab tab;
+    protected final Field2d field = new Field2d();
 
     /****************/
     /* Constructors */
@@ -84,6 +86,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
         angleCtrl.addToUI("Angular Controller", tab);
         tab.add("Swerve Drive", getSwerveSendable());
         tab.add("Status", getStatusSendable());
+        tab.add("Field", field);
 
         // TODO Enable telemetry for when methods are overloaded
 
@@ -117,6 +120,12 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
 
             }
         };
+    }
+
+    @Override
+    public void periodic() {
+        // Update Telemetry
+        field.setRobotPose(getPoseEst());
     }
 
     /*******************/
