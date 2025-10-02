@@ -1,0 +1,139 @@
+{
+  "version": 1.0,
+  "grid_size": 64,
+  "tabs": [
+    {
+      "name": "Auton",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "FMSInfo",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 384.0,
+            "height": 128.0,
+            "type": "FMSInfo",
+            "properties": {
+              "topic": "/FMSInfo",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Field",
+            "x": 0.0,
+            "y": 256.0,
+            "width": 1472.0,
+            "height": 640.0,
+            "type": "Field",
+            "properties": {
+              "topic": "/Shuffleboard/Drivetrain/Field",
+              "period": 0.06,
+              "field_game": "Reefscape",
+              "robot_width": 0.85,
+              "robot_length": 0.85,
+              "show_other_objects": true,
+              "show_trajectories": true,
+              "field_rotation": 0.0,
+              "robot_color": 4294198070,
+              "trajectory_color": 4294967295
+            }
+          },
+          {
+            "title": "Swerve Drive",
+            "x": 1472.0,
+            "y": 256.0,
+            "width": 448.0,
+            "height": 384.0,
+            "type": "SwerveDrive",
+            "properties": {
+              "topic": "/Shuffleboard/Drivetrain/Swerve Drive",
+              "period": 0.06,
+              "show_robot_rotation": true,
+              "rotation_unit": "Radians"
+            }
+          },
+          {
+            "title": "Drivetrain Subsystem",
+            "x": 0.0,
+            "y": 128.0,
+            "width": 384.0,
+            "height": 128.0,
+            "type": "Subsystem",
+            "properties": {
+              "topic": "/Shuffleboard/Drivetrain/Subsystem",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Auton Selector",
+            "x": 1472.0,
+            "y": 0.0,
+            "width": 448.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Auton Selector",
+              "period": 0.06,
+              "sort_options": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Teleop",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "FMSInfo",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 384.0,
+            "height": 128.0,
+            "type": "FMSInfo",
+            "properties": {
+              "topic": "/FMSInfo",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Gripper Sensor",
+            "x": 0.0,
+            "y": 128.0,
+            "width": 384.0,
+            "height": 320.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Shuffleboard/Coral/Coral Sensor Status/Gripper Sensor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Intake Sensor",
+            "x": 0.0,
+            "y": 448.0,
+            "width": 384.0,
+            "height": 320.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Shuffleboard/Coral/Coral Sensor Status/Intake Sensor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

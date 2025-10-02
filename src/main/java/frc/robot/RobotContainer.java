@@ -10,6 +10,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib2960.helper.Elastic;
@@ -81,8 +82,6 @@ public class RobotContainer {
         initCoralCtrl();
         initAlgaeCtrl();
         initClimberCtrl();
-
-
 
         // Init PathPlanner
         initNamedCommands();
@@ -234,6 +233,8 @@ public class RobotContainer {
         // Coral Arm Named Commands
         NamedCommands.registerCommand("armHoldCommand", coralArm.getHoldPosCmd());
         NamedCommands.registerCommand("armIntakeAngle", coralArm.getPosPresetCmd("Intake"));
+
+
     }
 
     /**
@@ -241,7 +242,7 @@ public class RobotContainer {
      */
     private void initPathPlanner() {
         PathPlanner.initPathPlanner(drivetrain);
-        // TODO Put auto chooser on driver station
+        SmartDashboard.putData("Auton Selector", PathPlanner.getAutoChooser());
     }
 
     /**
