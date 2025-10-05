@@ -366,6 +366,38 @@ public abstract class AngularMotorMech extends SubsystemBase {
     }
 
     /**
+     * Gets a command that moves to a target voltage
+     * 
+     * @param target target voltage
+     * @return new command to move to a target voltage
+     */
+    public Command getVoltageCmd(Voltage target, Angle pos) {
+        Command cmd;
+        cmd = Commands.deadline(
+                target.gte(Volts.zero()) ? getIsAboveCmd(pos) : getIsBelowCmd(pos),
+                getVoltageCmd(target));
+
+        cmd.setName(String.format("VoltToPosCmd: %.0fV %.2f\u00B0", target.in(Volts), pos.in(Degrees)));
+        return cmd;
+    }
+
+    /**
+     * Gets a command that moves to a target voltage
+     * 
+     * @param target target voltage
+     * @return new command to move to a target voltage
+     */
+    public Command getVoltageCmd(Voltage target, AngularVelocity vel) {
+        Command cmd;
+        cmd = Commands.deadline(
+                target.gte(Volts.zero()) ? getIsAboveCmd(vel) : getIsBelowCmd(vel),
+                getVoltageCmd(target));
+
+        cmd.setName(String.format("VoltToPosCmd: %.0fV %.2f\u00B0/s", target.in(Volts), vel.in(DegreesPerSecond)));
+        return cmd;
+    }
+
+    /**
      * Gets a new hold position command
      * 
      * @return new hold position command
@@ -413,16 +445,68 @@ public abstract class AngularMotorMech extends SubsystemBase {
     }
 
     /**
+     * Gets a command that waits until the mechanism is above a target position
+     * 
+     * @param pos target position
+     * @return new command
+     */
+    public Command getIsAboveCmd(Angle pos) {
+        Command cmd = Commands.waitUntil(() -> getPosition().gte(pos));
+
+        cmd.setName("IsAboveCmd Pos: %.2f\u00b0");
+
+        return cmd;
+    }
+
+    /**
+     * Gets a command that waits until the mechanism is below a target position
+     * 
+     * @param pos target position
+     * @return new command
+     */
+    public Command getIsBelowCmd(Angle pos) {
+        Command cmd = Commands.waitUntil(() -> getPosition().lte(pos));
+
+        cmd.setName("IsBelowCmd Pos: %.2f\u00b0");
+
+        return cmd;
+    }
+
+    /**
+     * Gets a command that waits until the mechanism is above a target velocity
+     * 
+     * @param pos target velocity
+     * @return new command
+     */
+    public Command getIsAboveCmd(AngularVelocity pos) {
+        Command cmd = Commands.waitUntil(() -> getVelocity().gte(pos));
+
+        cmd.setName("IsAboveCmd Vel: %.2f\u00b0/s");
+
+        return cmd;
+    }
+
+    /**
+     * Gets a command that waits until the mechanism is below a target velocity
+     * 
+     * @param pos target velocity
+     * @return new command
+     */
+    public Command getIsBelowCmd(AngularVelocity pos) {
+        Command cmd = Commands.waitUntil(() -> getVelocity().lte(pos));
+
+        cmd.setName("IsBelowCmd Vel: %.2f\u00b0/s");
+
+        return cmd;
+    }
+
+    /**
      * Gets a command that ends when the mechanism is at or below its minimum limit
      * 
      * @return new command
      */
     public Command getAtMinCmd() {
-        Command cmd = Commands.waitUntil(() -> {
-            MutAngle dist = Degrees.mutable(0);
-            getPosition(dist);
-            return !controller.aboveMin(dist);
-        });
+        Command cmd = Commands.waitUntil(() -> !controller.aboveMin(getPosition()));
 
         cmd.setName("AtMinCmd");
 
@@ -435,11 +519,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @return new command
      */
     public Command getAtMaxCmd() {
-        Command cmd = Commands.waitUntil(() -> {
-            MutAngle dist = Degrees.mutable(0);
-            getPosition(dist);
-            return !controller.belowMax(dist);
-        });
+        Command cmd = Commands.waitUntil(() -> !controller.belowMax(getPosition()));
 
         cmd.setName("AtMaxCmd");
 
@@ -540,7 +620,57 @@ public abstract class AngularMotorMech extends SubsystemBase {
         }
     }
 
-    // TODO Add voltage with ending position and velocity commands
+    /**
+     * Gets a new command for moving to a named preset voltage ending at a preset
+     * position
+     * 
+     * @param voltPreset name of the voltage preset
+     * @param posPreset  name of the position preset
+     * @return new command for moving to a named preset voltage and ending at a
+     *         preset position
+     * @exception IllegalArgumentException Thrown if the named voltage preset does
+     *                                     not exist.
+     */
+    public Command getVoltPosPresetCmd(String voltPreset, String posPreset) {
+        if (config.presetVolt.containsKey(voltPreset)) {
+            if (config.presetPos.containsKey(posPreset)) {
+                Command cmd = getVoltageCmd(config.presetVolt.get(voltPreset), config.presetPos.get(posPreset));
+                cmd.setName(String.format("VoltPosPresetCmd: V-%s P-%s", voltPreset, posPreset));
+                return cmd;
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("No position preset with name \"%s\" found.", posPreset));
+            }
+        } else {
+            throw new IllegalArgumentException(String.format("No voltage preset with name \"%s\" found.", voltPreset));
+        }
+    }
+
+    /**
+     * Gets a new command for moving to a named preset voltage ending at a preset
+     * velocity
+     * 
+     * @param voltPreset name of the voltage preset
+     * @param velPreset  name of the velocity preset
+     * @return new command for moving to a named preset voltage and ending at a
+     *         preset velocity
+     * @exception IllegalArgumentException Thrown if the named voltage preset does
+     *                                     not exist.
+     */
+    public Command getVoltVelPresetCmd(String voltPreset, String velPreset) {
+        if (config.presetVolt.containsKey(voltPreset)) {
+            if (config.presetVel.containsKey(velPreset)) {
+                Command cmd = getVoltageCmd(config.presetVolt.get(voltPreset), config.presetVel.get(velPreset));
+                cmd.setName(String.format("VoltVelPresetCmd: V-%s P-%s", voltPreset, velPreset));
+                return cmd;
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("No velocity preset with name \"%s\" found.", velPreset));
+            }
+        } else {
+            throw new IllegalArgumentException(String.format("No voltage preset with name \"%s\" found.", voltPreset));
+        }
+    }
 
     /***************************/
     /* SysID Command Factories */
