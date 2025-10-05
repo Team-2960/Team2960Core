@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.config.controller.LinearControllerConfig;
 import frc.lib2960.helper.LimitTrim;
 
@@ -32,6 +33,9 @@ public class LinearMotorMechConfig {
 
     /** Preset velocity list */
     public final HashMap<String, LinearVelocity> presetVel = new HashMap<>();
+
+    /** Preset voltage list */
+    public final HashMap<String, Voltage> presetVolt = new HashMap<>();
 
     /**
      * Constructor
@@ -78,7 +82,7 @@ public class LinearMotorMechConfig {
      * @param controlConfig LinearControllerConfig object
      * @return current configuration object
      */
-    public LinearMotorMechConfig setLinearMotorMechConfig(LinearControllerConfig controlConfig) {
+    public LinearMotorMechConfig setController(LinearControllerConfig controlConfig) {
         this.controlConfig = controlConfig;
         return this;
     }
@@ -86,8 +90,8 @@ public class LinearMotorMechConfig {
     /**
      * Adds a named preset position.
      * 
-     * @param name     name of the preset.
-     * @param position target position
+     * @param name   name of the preset.
+     * @param preset target position
      * @return current configuration object
      */
     public LinearMotorMechConfig addPreset(String name, Distance preset) {
@@ -98,12 +102,24 @@ public class LinearMotorMechConfig {
     /**
      * Adds a named preset velocity.
      * 
-     * @param name     name of the preset.
-     * @param position target position
+     * @param name   name of the preset.
+     * @param preset target velocity
      * @return current configuration object
      */
     public LinearMotorMechConfig addPreset(String name, LinearVelocity preset) {
         presetVel.put(name, preset);
+        return this;
+    }
+
+    /**
+     * Adds a named preset voltage.
+     * 
+     * @param name   name of the preset.
+     * @param preset target voltage
+     * @return current configuration object
+     */
+    public LinearMotorMechConfig addPreset(String name, Voltage preset) {
+        presetVolt.put(name, preset);
         return this;
     }
 }

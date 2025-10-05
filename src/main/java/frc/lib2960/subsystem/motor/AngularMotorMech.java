@@ -522,6 +522,26 @@ public abstract class AngularMotorMech extends SubsystemBase {
         }
     }
 
+    /**
+     * Gets a new command for moving to a named preset voltage
+     * 
+     * @param name name of the preset
+     * @return new command for moving to a named preset voltage
+     * @exception IllegalArgumentException Thrown if the named voltage preset does
+     *                                     not exist.
+     */
+    public Command getVoltPresetCmd(String name) {
+        if (config.presetVolt.containsKey(name)) {
+            Command cmd = getVoltageCmd(config.presetVolt.get(name));
+            cmd.setName(String.format("VoltPresetCmd: %s", name));
+            return cmd;
+        } else {
+            throw new IllegalArgumentException(String.format("No voltage preset with name \"%s\" found.", name));
+        }
+    }
+
+    // TODO Add voltage with ending position and velocity commands
+
     /***************************/
     /* SysID Command Factories */
     /***************************/

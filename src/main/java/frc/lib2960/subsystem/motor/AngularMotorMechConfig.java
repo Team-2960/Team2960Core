@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Voltage;
 import frc.lib2960.config.controller.AngularControllerConfig;
 import frc.lib2960.helper.LimitTrim;
 
@@ -29,6 +30,9 @@ public class AngularMotorMechConfig {
 
     /** Preset velocity list */
     public final HashMap<String, AngularVelocity> presetVel = new HashMap<>();
+
+    /** Preset voltage list */
+    public final HashMap<String, Voltage> presetVolt = new HashMap<>();
 
     /**
      * Constructor
@@ -73,7 +77,7 @@ public class AngularMotorMechConfig {
      * @param controlConfig AngularControllerConfig object
      * @return current configuration object
      */
-    public AngularMotorMechConfig setAngularControllerConfig(AngularControllerConfig controlConfig) {
+    public AngularMotorMechConfig setController(AngularControllerConfig controlConfig) {
         this.controlConfig = controlConfig;
         return this;
     }
@@ -81,8 +85,8 @@ public class AngularMotorMechConfig {
     /**
      * Adds a named preset position.
      * 
-     * @param name     name of the preset.
-     * @param position target position
+     * @param name   name of the preset.
+     * @param preset target position
      * @return current configuration object
      */
     public AngularMotorMechConfig addPreset(String name, Angle preset) {
@@ -93,12 +97,24 @@ public class AngularMotorMechConfig {
     /**
      * Adds a named preset velocity.
      * 
-     * @param name     name of the preset.
-     * @param position target position
+     * @param name   name of the preset.
+     * @param preset target velocity
      * @return current configuration object
      */
     public AngularMotorMechConfig addPreset(String name, AngularVelocity preset) {
         presetVel.put(name, preset);
+        return this;
+    }
+
+    /**
+     * Adds a named preset voltage.
+     * 
+     * @param name   name of the preset.
+     * @param preset target voltage
+     * @return current configuration object
+     */
+    public AngularMotorMechConfig addPreset(String name, Voltage preset) {
+        presetVolt.put(name, preset);
         return this;
     }
 }
