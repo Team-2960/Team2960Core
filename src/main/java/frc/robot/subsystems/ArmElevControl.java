@@ -4,10 +4,12 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib2960.subsystem.motor.AngularSparkFlexMech;
+import frc.lib2960.subsystem.motor.LinearSparkFlexMech;
 
 public class ArmElevControl {
-    private final CoralArm arm;
-    private final Elevator elevator;
+    private final AngularSparkFlexMech arm;
+    private final LinearSparkFlexMech elevator;
     private final Angle armTol;
     private final Distance elevTol;
 
@@ -16,7 +18,7 @@ public class ArmElevControl {
      * @param arm       Coral Arm Subsystem
      * @param elevator  Elevator subsystem
      */
-    public ArmElevControl(CoralArm arm, Elevator elevator, Angle armTol, Distance elevTol) {
+    public ArmElevControl(AngularSparkFlexMech arm, LinearSparkFlexMech elevator, Angle armTol, Distance elevTol) {
         this.arm = arm;
         this.elevator = elevator;
         this.armTol = armTol;

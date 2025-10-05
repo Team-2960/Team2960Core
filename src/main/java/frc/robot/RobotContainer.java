@@ -16,16 +16,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib2960.helper.Elastic;
 import frc.lib2960.helper.PathPlanner;
 import frc.lib2960.subsystem.drivetrain.swerve.RevFlexMaxSwerveModule;
+import frc.lib2960.subsystem.motor.AngularSparkMaxMech;
+import frc.lib2960.subsystem.motor.LinearSparkFlexMech;
+import frc.lib2960.subsystem.motor.AngularSparkFlexMech;
 import frc.lib2960.subsystem.vision.AprilTagPipeline;
 import frc.robot.FieldLayout.ReefBranchOffset;
-import frc.robot.subsystems.AlgaeArm;
-import frc.robot.subsystems.AlgaeRoller;
 import frc.robot.subsystems.ArmElevControl;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.CoralArm;
 import frc.robot.subsystems.CoralRoller;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
 
 /**
  * Class to contain all the robot subsystems and items that are not specific to
@@ -43,14 +42,14 @@ public class RobotContainer {
 
     private final Drivetrain drivetrain = new Drivetrain(Constants.swerveDriveConfig,
             swerveModules);
-    private final CoralArm coralArm = new CoralArm(Constants.coralArmConfig, Constants.coralArmMotorConfig);
+    private final AngularSparkFlexMech coralArm = new AngularSparkFlexMech(Constants.coralArmConfig, Constants.coralArmMotorConfig);
     private final CoralRoller coralRoller = new CoralRoller(Constants.coralRollerConfig);
-    private final Elevator elevator = new Elevator(Constants.elevatorConfig, Constants.elevatorMotorConfig);
+    private final LinearSparkFlexMech elevator = new LinearSparkFlexMech(Constants.elevatorConfig, Constants.elevatorMotorConfig);
     private final ArmElevControl armElevCtrl = new ArmElevControl(coralArm, elevator,
             Constants.coralArmPosTol,
             Constants.elevatorPosTol);
-    private final AlgaeArm algaeArm = new AlgaeArm(Constants.algaeArmConfig, Constants.algaeArmMotorConfig);
-    private final AlgaeRoller algaeRoller = new AlgaeRoller(Constants.algaeRollerConfig);
+    private final AngularSparkMaxMech algaeArm = new AngularSparkMaxMech(Constants.algaeArmConfig, Constants.algaeArmMotorConfig);
+    private final AngularSparkFlexMech algaeRoller = new AngularSparkFlexMech(Constants.algaeRollerConfig, Constants.algaeRollerMotorConfig);
     private final Climber climber = new Climber(Constants.climberConfig);
 
     
@@ -140,11 +139,11 @@ public class RobotContainer {
         opCtrl.pov(270).onTrue(armElevCtrl.getGotoHighAlgae());
 
         // Map Coral Gripper Controls
-        opCtrl.leftTrigger().or(driveCtrl.rightBumper()).whileTrue(coralRoller.getEjectCmd());
+        opCtrl.leftTrigger().or(driveCtrl.rightBumper()).whileTrue(coralRoller.getVoltPresetCmd("Eject"));
 
-        opCtrl.rightTrigger().whileTrue(coralRoller.getReverseCmd());
+        opCtrl.rightTrigger().whileTrue(coralRoller.getVoltPresetCmd("Reverse"));
 
-        driveCtrl.leftTrigger().whileTrue(coralRoller.getIntakeCmd());
+        driveCtrl.leftTrigger().whileTrue(coralRoller.getVoltPresetCmd("Intake"));
 
     }
 
@@ -157,8 +156,8 @@ public class RobotContainer {
         opCtrl.pov(180).onTrue(algaeArm.getPosPresetCmd("Home"));
 
         // Map Algae Roller Controls
-        opCtrl.rightBumper().whileTrue(algaeRoller.getEjectCmd());
-        opCtrl.leftBumper().whileTrue(algaeRoller.getIntakeCmd());
+        opCtrl.rightBumper().whileTrue(algaeRoller.getVoltPresetCmd("Eject"));
+        opCtrl.leftBumper().whileTrue(algaeRoller.getVoltPresetCmd("Intake"));
     }
 
     /**
