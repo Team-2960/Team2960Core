@@ -142,6 +142,21 @@ public class AngularTalonFXMech extends AngularMotorMech {
     public void setPosition(Angle position) {
         motor.setPosition(position);
     }
+    
+
+    /**
+     * Resets the current position to a known value
+     * 
+     * @param value known value
+     */
+    @Override
+    public void resetPosition(Angle value) {
+        if(encoder.isPresent()) {
+            encoder.get().setPosition(value);
+        } else {
+            motor.setPosition(value);
+        }
+    }
 
     /**
      * Updates the motor outputs to move to a target position

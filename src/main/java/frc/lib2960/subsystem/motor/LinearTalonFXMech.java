@@ -131,6 +131,18 @@ public class LinearTalonFXMech extends LinearMotorMech {
         linToAng(position, angleCalc);
         motor.setPosition(angleCalc);
     }
+    
+
+    /**
+     * Resets the current position to a known value
+     * 
+     * @param value known value
+     */
+    @Override
+    public void resetPosition(Distance value) {
+        linToAng(value, angleCalc);
+        motor.setPosition(angleCalc);
+    }
 
     /**
      * Updates the motor outputs to move to a target position

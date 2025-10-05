@@ -45,7 +45,7 @@ public abstract class AngularMotorMech extends SubsystemBase {
     private final MutAngle sysIdPos = Degrees.mutable(0);
     private final MutAngularVelocity sysIdVel = DegreesPerSecond.mutable(0);
 
-    private final ShuffleboardTab tab;
+    protected final ShuffleboardTab tab;
 
     /**
      * Command to hold position the mechanism is at when the command is scheduled
@@ -247,6 +247,13 @@ public abstract class AngularMotorMech extends SubsystemBase {
      * @param result mutable object to store the result
      */
     public abstract void getPosition(MutAngle result);
+
+    /**
+     * Resets the current position to a known value
+     * 
+     * @param value known value
+     */
+    public abstract void resetPosition(Angle value);
 
     /**
      * Gets the current velocity of the mechanism.

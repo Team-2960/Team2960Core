@@ -1,70 +1,35 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Volts;
-
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLimitSwitch;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MutDistance;
-import edu.wpi.first.units.measure.MutLinearVelocity;
-import edu.wpi.first.units.measure.MutVoltage;
-import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.lib2960.subsystem.motor.LinearMotorMech;
+import frc.lib2960.config.device.MotorConfig;
+import frc.lib2960.subsystem.motor.LinearSparkFlexMech;
+import frc.lib2960.subsystem.motor.LinearSparkMechConfig;
 
-public class CoralRoller extends LinearMotorMech {
-    private final CoralRollerConfig config;
-
-    private final SparkFlex motor;
-
-    private final RelativeEncoder encoder;
+public class CoralRoller extends LinearSparkFlexMech {
     private final DigitalInput intakeSensor;
     private final SparkLimitSwitch grippedSensor;
-
-    private final Trigger intakeTrigger;
 
     /**
      * Constructor
      * 
      * @param config Linear motor mechanism configuration
      */
-    public CoralRoller(CoralRollerConfig config) {
-        super(config.motorMechConfig);
-        this.config = config;
-
-        // Create motor controller
-        motor = new SparkFlex(config.motorConfig.id, MotorType.kBrushless);
-
-        // Configure motor controller
-        SparkFlexConfig flexConfig = new SparkFlexConfig();
-        flexConfig.inverted(config.motorConfig.invert);
-        flexConfig.externalEncoder.velocityConversionFactor(1 / 60);
-
-        motor.configure(flexConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-
-        // Get encoders
-        encoder = motor.getEncoder();
+    public CoralRoller(LinearSparkMechConfig config, int intakeSensorID, MotorConfig motorConfig) {
+        super(config, motorConfig);
 
         // Get Sensors
-        intakeSensor = new DigitalInput(config.intakeSensorID);
+        intakeSensor = new DigitalInput(intakeSensorID);
         grippedSensor = motor.getForwardLimitSwitch();
-
-        // Setup Triggers
-        intakeTrigger = new Trigger(this::coralAtIntake);
-        intakeTrigger.onTrue(getAutoIntakeCmd(Meters.zero()));
 
         // Set Default Command
         setDefaultCommand(getHoldPosCmd());
@@ -91,61 +56,21 @@ public class CoralRoller extends LinearMotorMech {
     }
 
     /**
-     * Sets the output voltage for all the motors
+     * Creates trigger for the intake sensor
      * 
-     * @param volts output voltage for all the motors
+     * @return trigger for the intake sensor
      */
-    @Override
-    public void setMotorVoltage(Voltage volts) {
-        motor.setVoltage(volts);
+    public Trigger getIntakeTrigger() {
+        return new Trigger(this::coralAtIntake);
     }
 
     /**
-     * Gets the current position of the mechanism.
+     * Creates trigger for the gripper sensor
      * 
-     * @param result mutable object to store the result
+     * @return trigger for the gripper sensor
      */
-    @Override
-    public void getPosition(MutDistance result) {
-        result.mut_replace(encoder.getPosition(), Meters);
-    }
-
-    /**
-     * Gets the current position of the mechanism.
-     * 
-     * @return current position of the mechanism.
-     */
-    public Distance getPosition() {
-        return Meters.of(encoder.getPosition());
-    }
-
-    /**
-     * Resets the position of the encoder.
-     * 
-     * @param position new position of the encoder.
-     */
-    public void resetPosition(Distance position) {
-        encoder.setPosition(position.in(Meters));
-    }
-
-    /**
-     * Gets the current velocity of the mechanism.
-     * 
-     * @param result mutable object to store the result
-     */
-    @Override
-    public void getVelocity(MutLinearVelocity result) {
-        result.mut_replace(encoder.getVelocity(), MetersPerSecond);
-    }
-
-    /**
-     * Gets the current voltage applied to each motor on the mechanism
-     * 
-     * @param result mutable object to store the result
-     */
-    @Override
-    public void getVoltage(MutVoltage result) {
-        result.mut_replace(motor.getAppliedOutput() * motor.getBusVoltage(), Volts);
+    public Trigger getGripperTrigger() {
+        return new Trigger(this::coralInGripper);
     }
 
     /**
@@ -169,65 +94,6 @@ public class CoralRoller extends LinearMotorMech {
     /*********************/
     /* Command Factories */
     /*********************/
-
-    /**
-     * Gets a new command to eject coral from the gripper
-     * 
-     * @return new command to eject coral from the gripper
-     */
-    public Command getEjectCmd() {
-        return this.runEnd(
-                () -> setVoltage(config.ejectVolt),
-                () -> setVoltage(Volts.zero()));
-    }
-
-    /**
-     * Ejects coral from the gripper until a specific time has elapsed
-     * 
-     * @param distance distance to run after coral is no longer in the gripper
-     * @return new command to eject coral from the gripper until a specific time has
-     *         elapsed
-     */
-    public Command getAutoEjectCmd(Distance distance) {
-        return Commands.deadline(
-                getWaitForCoralInGripperCmd(distance),
-                getEjectCmd());
-    }
-
-    /**
-     * Gets a new command to intake coral into the gripper
-     * 
-     * @return new command to intake coral into the gripper
-     */
-    public Command getIntakeCmd() {
-        return this.runEnd(
-                () -> setVoltage(config.intakeVolt),
-                () -> setVoltage(Volts.zero()));
-    }
-
-    /**
-     * Gets a new command to intake coral into the gripper until no coral is present
-     * at the intake
-     * 
-     * @return new command to intake coral into the gripper until no coral is
-     *         present at the intake
-     */
-    public Command getAutoIntakeCmd(Distance distance) {
-        return Commands.deadline(
-                getWaitForCoralNotAtIntakeCmd(distance),
-                getIntakeCmd());
-    }
-
-    /**
-     * Gets a new command to reverse the coral gripper
-     * 
-     * @return new command to reverse the coral gripper
-     */
-    public Command getReverseCmd() {
-        return this.runEnd(
-                () -> setVoltage(config.reverseVolt),
-                () -> setVoltage(Volts.zero()));
-    }
 
     /**
      * Gets a new command to reset the mechanism position

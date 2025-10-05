@@ -15,6 +15,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
@@ -23,7 +24,7 @@ import frc.lib2960.config.device.MotorConfig;
 
 public class AngularSparkFlexMech extends AngularMotorMech {
 
-    private final SparkFlex motor;
+    protected final SparkFlex motor;
 
     private Optional<AbsoluteEncoder> posAbsEncoder = Optional.empty();
     private Optional<RelativeEncoder> posRelEncoder = Optional.empty();
@@ -109,6 +110,13 @@ public class AngularSparkFlexMech extends AngularMotorMech {
             result.mut_replace(posRelEncoder.get().getPosition(), Rotations);
         } else {
             result.mut_replace(Rotations.zero());
+        }
+    }
+
+    @Override
+    public void resetPosition(Angle value) {
+        if(posRelEncoder.isPresent()) {
+            posRelEncoder.get().setPosition(value.in(Rotations));
         }
     }
 

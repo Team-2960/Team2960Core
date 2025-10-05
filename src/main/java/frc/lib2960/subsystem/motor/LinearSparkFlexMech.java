@@ -15,6 +15,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
@@ -23,7 +24,7 @@ import frc.lib2960.config.device.MotorConfig;
 
 public class LinearSparkFlexMech extends LinearMotorMech {
 
-    private final SparkFlex motor;
+    protected final SparkFlex motor;
 
     private Optional<AbsoluteEncoder> posAbsEncoder = Optional.empty();
     private Optional<RelativeEncoder> posRelEncoder = Optional.empty();
@@ -109,6 +110,13 @@ public class LinearSparkFlexMech extends LinearMotorMech {
             result.mut_replace(posRelEncoder.get().getPosition(), Meters);
         } else {
             result.mut_replace(Meters.zero());
+        }
+    }
+
+    @Override
+    public void resetPosition(Distance value) {
+        if(posRelEncoder.isPresent()) {
+            posRelEncoder.get().setPosition(value.in(Meters));
         }
     }
 

@@ -249,6 +249,13 @@ public abstract class LinearMotorMech extends SubsystemBase {
     public abstract void getPosition(MutDistance result);
 
     /**
+     * Resets the current position to a known value
+     * 
+     * @param value known value
+     */
+    public abstract void resetPosition(Distance value);
+
+    /**
      * Gets the current velocity of the mechanism.
      * 
      * @param result mutable object to store the result
