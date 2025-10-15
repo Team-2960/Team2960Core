@@ -5,8 +5,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.lib2960.helper.RobotFeature;
+import edu.wpi.first.wpilibj2.command.Subsystem;import frc.lib2960.config.basic.RobotFeature;
 
 public interface Drivetrain extends Subsystem {
     /**

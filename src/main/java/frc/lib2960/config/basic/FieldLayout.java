@@ -1,4 +1,4 @@
-package frc.lib2960.helper;
+package frc.lib2960.config.basic;
 
 import java.util.HashMap;
 import java.util.Map;

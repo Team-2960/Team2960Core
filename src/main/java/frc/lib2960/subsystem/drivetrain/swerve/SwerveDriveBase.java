@@ -34,7 +34,7 @@ import frc.lib2960.controller.LinearController;
 import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
 import frc.lib2960.config.controller.PIDConfig;
 import frc.lib2960.helper.AngleUtil;
-import frc.lib2960.helper.RobotFeature;
+import frc.lib2960.config.basic.RobotFeature;
 
 /**
  * Defines core capabilities of a swerve drive

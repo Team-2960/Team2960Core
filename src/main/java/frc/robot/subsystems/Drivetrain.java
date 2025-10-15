@@ -7,7 +7,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib2960.helper.AngleUtil;
-import frc.lib2960.helper.RobotFeature;
+import frc.lib2960.config.basic.RobotFeature;
 import frc.lib2960.subsystem.drivetrain.swerve.NavXSwerveDrive;
 import frc.lib2960.subsystem.drivetrain.swerve.NavXSwerveDriveConfig;
 import frc.lib2960.subsystem.drivetrain.swerve.SwerveModuleBase;

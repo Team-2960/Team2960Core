@@ -1,5 +1,4 @@
-package frc.lib2960.helper;
-
+package frc.lib2960.config.basic;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 

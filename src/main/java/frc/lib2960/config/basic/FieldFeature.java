@@ -1,4 +1,4 @@
-package frc.lib2960.helper;
+package frc.lib2960.config.basic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,7 @@ import java.util.Optional;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.lib2960.helper.FieldUtil;
 
 public class FieldFeature {
     /** Name of the feature */

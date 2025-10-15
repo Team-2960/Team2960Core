@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
-import frc.lib2960.helper.RobotFeature;
 
 public class RobotCommonConfig {
     /** Update period for the robot. Defaults to 20ms */
