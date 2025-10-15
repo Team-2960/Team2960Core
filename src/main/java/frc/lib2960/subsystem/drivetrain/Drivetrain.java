@@ -1,14 +1,12 @@
 package frc.lib2960.subsystem.drivetrain;
 
-import static edu.wpi.first.units.Units.Meters;
-
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.lib2960.helper.RobotFeature;
 
 public interface Drivetrain extends Subsystem {
     /**
@@ -59,7 +57,7 @@ public interface Drivetrain extends Subsystem {
      * @param speeds
      */
     public default void setPathPlannerSpeeds(ChassisSpeeds speeds) {
-        setChassisSpeeds(speeds, false, Meters.zero(), Meters.zero());
+        setChassisSpeeds(speeds, false, RobotFeature.origin);
     }
 
     /**
@@ -68,8 +66,7 @@ public interface Drivetrain extends Subsystem {
      * @param speeds          Chassis speeds for the drivetrain
      * @param isFieldRelative Sets if the chassis speeds should be field relative or
      *                        robot relative
-     * @param xOffset         X offset for the center of rotation
-     * @param yOffset         Y Offset for the center of rotation
+     * @param feature Robot feature offset
      */
-    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset, Distance yOffset);
+    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, RobotFeature feature);
 }

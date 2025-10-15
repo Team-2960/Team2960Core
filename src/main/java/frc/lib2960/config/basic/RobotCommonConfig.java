@@ -3,8 +3,13 @@ package frc.lib2960.config.basic;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.Seconds;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
+import frc.lib2960.helper.RobotFeature;
 
 public class RobotCommonConfig {
     /** Update period for the robot. Defaults to 20ms */
@@ -19,6 +24,8 @@ public class RobotCommonConfig {
 
     /** Robot's mass with bumpers and battery. */
     public Mass totalMass = Pounds.of(robotMass.in(Pounds) + bumperMass.in(Pounds) + batteryMass.in(Pounds));
+
+    private final Map<String, RobotFeature> features = new HashMap<>();
 
     /**
      * Sets the configured update period. Default is 20ms.
@@ -65,6 +72,26 @@ public class RobotCommonConfig {
         this.batteryMass = mass;
         updateTotalMass();
         return this;
+    }
+
+    /**
+     * Adds robot features
+     * @param features robot features to add
+     * @return current config object
+     */
+    public RobotCommonConfig addFeatures(RobotFeature... features) {
+        for(var feature: features) this.features.put(feature.name, feature);
+        return this;
+    }
+
+    /**
+     * Gets a robot feature
+     * 
+     * @param name  name of the feature
+     * @return  Requested feature if it exists. Optional.empty() otherwise
+     */
+    public Optional<RobotFeature> getFeature(String name) {
+        return features.containsKey(name) ? Optional.of(features.get(name)) : Optional.empty();
     }
 
     /**

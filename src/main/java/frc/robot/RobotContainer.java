@@ -111,23 +111,17 @@ public class RobotContainer {
         driveCtrl.y().whileTrue(
                 drivetrain.getGotoReefCmd(
                         "middle",
-                        Constants.coralXOffset,
-                        Constants.coralYOffset,
-                        Constants.coralROffset));
+                        Constants.coralGripper));
 
         driveCtrl.y().and(driveCtrl.rightBumper()).whileTrue(
                 drivetrain.getGotoReefCmd(
                         "right",
-                        Constants.coralXOffset,
-                        Constants.coralYOffset,
-                        Constants.coralROffset));
+                        Constants.coralGripper));
 
         driveCtrl.y().and(driveCtrl.leftBumper()).whileTrue(
                 drivetrain.getGotoReefCmd(
                         "left",
-                        Constants.coralXOffset,
-                        Constants.coralYOffset,
-                        Constants.coralROffset));
+                        Constants.coralGripper));
     }
 
     /**
@@ -182,32 +176,24 @@ public class RobotContainer {
                         "right",
                         Constants.autoAlignLinTol,
                         Constants.autoAlignAngTol,
-                        Constants.coralXOffset,
-                        Constants.coralYOffset,
-                        Constants.coralROffset));
+                        Constants.coralGripper));
         NamedCommands.registerCommand("leftBranchAlign",
                 drivetrain.getGotoReefCmd(
                         "left",
                         Constants.autoAlignLinTol,
                         Constants.autoAlignAngTol,
-                        Constants.coralXOffset,
-                        Constants.coralYOffset,
-                        Constants.coralROffset));
+                        Constants.coralGripper));
         NamedCommands.registerCommand("driveDoNothing",
                 drivetrain.getVelocityCmd(MetersPerSecond.zero(), MetersPerSecond.zero(),
                         DegreesPerSecond.zero()));
         NamedCommands.registerCommand("rightBranchNoFinish",
                 drivetrain.getGotoReefCmd(
                         "right",
-                        Constants.coralXOffset,
-                        Constants.coralYOffset,
-                        Constants.coralROffset));
+                        Constants.coralGripper));
         NamedCommands.registerCommand("leftBranchNoFinish",
                 drivetrain.getGotoReefCmd(
                         "left",
-                        Constants.coralXOffset,
-                        Constants.coralYOffset,
-                        Constants.coralROffset));
+                        Constants.coralGripper));
 
         // ArmElev named Commands
         NamedCommands.registerCommand("goToIntakeCommand", armElevCtrl.getGotoIntakeCmd());

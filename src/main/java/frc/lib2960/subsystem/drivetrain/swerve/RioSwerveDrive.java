@@ -19,7 +19,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.util.sendable.Sendable;
@@ -33,6 +32,7 @@ import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.helper.AngleUtil;
+import frc.lib2960.helper.RobotFeature;
 
 /**
  * Defines a swerve drive that is managed on the main robot controller
@@ -162,9 +162,9 @@ public abstract class RioSwerveDrive extends SwerveDriveBase {
      * @param yOffset         Y Offset for the center of rotation
      */
     @Override
-    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset, Distance yOffset) {
+    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, RobotFeature feature) {
         // Get offset for center of rotation
-        Translation2d offset = new Translation2d(xOffset, yOffset);
+        Translation2d offset = feature.getTranslation();
 
         // Convert speeds to robot relative speeds if they are field relative
         if (isFieldRelative) {

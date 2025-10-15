@@ -2,16 +2,15 @@ package frc.lib2960.subsystem.drivetrain.swerve;
 
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.lib2960.helper.RobotFeature;
 
 import static edu.wpi.first.units.Units.Hertz;
 import static edu.wpi.first.units.Units.Second;
@@ -133,7 +132,6 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                         this));
     }
 
-
     /**
      * Generates a sendable to for showing the current status of the swerve drive
      * 
@@ -146,19 +144,28 @@ public class CTRESwerveDrive extends SwerveDriveBase {
             public void initSendable(SendableBuilder builder) {
                 builder.setSmartDashboardType("SwerveDrive");
 
-                builder.addDoubleProperty("Front Left Angle", () -> drivetrain.getModule(0).getCurrentState().angle.getRadians(), null);
-                builder.addDoubleProperty("Front Left Velocity", () -> drivetrain.getModule(0).getCurrentState().speedMetersPerSecond, null);
+                builder.addDoubleProperty("Front Left Angle",
+                        () -> drivetrain.getModule(0).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Front Left Velocity",
+                        () -> drivetrain.getModule(0).getCurrentState().speedMetersPerSecond, null);
 
-                builder.addDoubleProperty("Front Right Angle", () -> drivetrain.getModule(1).getCurrentState().angle.getRadians(), null);
-                builder.addDoubleProperty("Front Right Velocity", () -> drivetrain.getModule(1).getCurrentState().speedMetersPerSecond, null);
+                builder.addDoubleProperty("Front Right Angle",
+                        () -> drivetrain.getModule(1).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Front Right Velocity",
+                        () -> drivetrain.getModule(1).getCurrentState().speedMetersPerSecond, null);
 
-                builder.addDoubleProperty("Rear Left Angle", () -> drivetrain.getModule(2).getCurrentState().angle.getRadians(), null);
-                builder.addDoubleProperty("Rear Left Velocity", () -> drivetrain.getModule(2).getCurrentState().speedMetersPerSecond, null);
+                builder.addDoubleProperty("Rear Left Angle",
+                        () -> drivetrain.getModule(2).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Rear Left Velocity",
+                        () -> drivetrain.getModule(2).getCurrentState().speedMetersPerSecond, null);
 
-                builder.addDoubleProperty("Rear Right Angle", () -> drivetrain.getModule(3).getCurrentState().angle.getRadians(), null);
-                builder.addDoubleProperty("Rear Right Velocity", () -> drivetrain.getModule(3).getCurrentState().speedMetersPerSecond, null);
+                builder.addDoubleProperty("Rear Right Angle",
+                        () -> drivetrain.getModule(3).getCurrentState().angle.getRadians(), null);
+                builder.addDoubleProperty("Rear Right Velocity",
+                        () -> drivetrain.getModule(3).getCurrentState().speedMetersPerSecond, null);
 
-                builder.addDoubleProperty("Robot Angle", () -> drivetrain.getState().Pose.getRotation().getRadians(), null);
+                builder.addDoubleProperty("Robot Angle", () -> drivetrain.getState().Pose.getRotation().getRadians(),
+                        null);
             }
         };
     }
@@ -166,15 +173,13 @@ public class CTRESwerveDrive extends SwerveDriveBase {
     /**
      * Sets the chassis speeds for the drivetrain
      * 
-     * @param speeds      Chassis speeds for the drivetrain
+     * @param speeds          Chassis speeds for the drivetrain
      * @param isFieldRelative Sets if the chassis speeds should be field relative or
-     *            robot relative
-     * @param xOffset     X offset for the center of rotation
-     * @param yOffset     Y Offset for the center of rotation
+     *                        robot relative
+     * @param feature         Robot feature offset
      */
     @Override
-    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, Distance xOffset,
-            Distance yOffset) {
+    public void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative, RobotFeature feature) {
 
         SwerveRequest driveRequest;
 
@@ -183,13 +188,13 @@ public class CTRESwerveDrive extends SwerveDriveBase {
                     .withVelocityX(speeds.vxMetersPerSecond)
                     .withVelocityY(speeds.vyMetersPerSecond)
                     .withRotationalRate(speeds.omegaRadiansPerSecond)
-                    .withCenterOfRotation(new Translation2d(xOffset, yOffset));
+                    .withCenterOfRotation(feature.getTranslation());
         } else {
             driveRequest = robotCentricDrive
                     .withVelocityX(speeds.vxMetersPerSecond)
                     .withVelocityY(speeds.vyMetersPerSecond)
                     .withRotationalRate(speeds.omegaRadiansPerSecond)
-                    .withCenterOfRotation(new Translation2d(xOffset, yOffset));
+                    .withCenterOfRotation(feature.getTranslation());
         }
 
         drivetrain.setControl(driveRequest);
@@ -254,7 +259,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
      * 
      * @param commonConfig SwerveModuleBaseConfig object
      * @return SwerveModuleConstantsFactory object generated for the supplied
-     *     SwerveModuleBaseConfig
+     *         SwerveModuleBaseConfig
      */
     private static SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> getConstCreator(
             SwerveModuleCommonConfig commonConfig) {
@@ -371,7 +376,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
      * Identification on the linear drive motors
      * 
      * @param nextTrigger Trigger for the sequence to move onto the next operation
-     *            in the sequence
+     *                    in the sequence
      * @return new command sequence
      */
     public Command getLinearSysIdSequence(BooleanSupplier nextTrigger) {
@@ -386,7 +391,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
      * Identification on the angle motors
      * 
      * @param nextTrigger Trigger for the sequence to move onto the next operation
-     *            in the sequence
+     *                    in the sequence
      * @return new command sequence
      */
     public Command getAngleSysIdSequence(BooleanSupplier nextTrigger) {
@@ -401,7 +406,7 @@ public class CTRESwerveDrive extends SwerveDriveBase {
      * Identification on the robot turning
      * 
      * @param nextTrigger Trigger for the sequence to move onto the next operation
-     *            in the sequence
+     *                    in the sequence
      * @return new command sequence
      */
     public Command getTurnSysIdSequence(BooleanSupplier nextTrigger) {

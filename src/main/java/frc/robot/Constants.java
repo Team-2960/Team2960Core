@@ -40,6 +40,7 @@ import frc.lib2960.helper.FieldFeature;
 import frc.lib2960.helper.FieldFeatureType;
 import frc.lib2960.helper.FieldLayout;
 import frc.lib2960.helper.LimitTrim;
+import frc.lib2960.helper.RobotFeature;
 import frc.lib2960.subsystem.drivetrain.swerve.NavXSwerveDriveConfig;
 import frc.lib2960.subsystem.drivetrain.swerve.SwerveDriveCommonConfig;
 import frc.lib2960.subsystem.drivetrain.swerve.SwerveModuleBaseConfig;
@@ -57,7 +58,17 @@ import edu.wpi.first.math.Vector;
  * Defines all the robot constants
  */
 public class Constants {
-    public static final RobotCommonConfig commonConfig = new RobotCommonConfig();
+
+    /******************/
+    /* Robot Features */
+    /******************/
+    public static final RobotFeature coralGripper = new RobotFeature(
+            "coralGripper",
+            Meters.of(.474),
+            Meters.of(.275));
+            
+    public static final RobotCommonConfig commonConfig = new RobotCommonConfig()
+        .addFeatures(coralGripper);
 
     /*******************/
     /* Driver Controls */
@@ -74,13 +85,6 @@ public class Constants {
     public static final Distance autoClearance = Inches.of(3);
     public static final Distance autoAlignLinTol = Meters.of(.05);
     public static final Angle autoAlignAngTol = Degrees.of(3);
-
-    /*******************/
-    /* Robot Constants */
-    /*******************/
-    public static final Distance coralXOffset = Meters.of(.474);
-    public static final Distance coralYOffset = Meters.of(.275);
-    public static final Angle coralROffset = Degrees.of(0);
 
     /**************/
     /* Device IDs */

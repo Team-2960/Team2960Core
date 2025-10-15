@@ -34,6 +34,7 @@ import frc.lib2960.controller.LinearController;
 import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
 import frc.lib2960.config.controller.PIDConfig;
 import frc.lib2960.helper.AngleUtil;
+import frc.lib2960.helper.RobotFeature;
 
 /**
  * Defines core capabilities of a swerve drive
@@ -139,42 +140,19 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param target target pose
      */
     public final void gotoPose(Pose2d target) {
-        gotoPose(target, Meters.zero(), Meters.zero(), Radians.zero());
+        gotoPose(target, RobotFeature.origin);
     }
 
     /**
      * Updates the swerve drive base to the given target pose
      * 
      * @param target  target pose
-     * @param rOffset Robot angle offset
+     * @param feature Robot feature offset
      */
-    public final void gotoPose(Pose2d target, Angle rOffset) {
-        gotoPose(target, Meters.zero(), Meters.zero(), rOffset);
-    }
-
-    /**
-     * Updates the swerve drive base to the given target pose
-     * 
-     * @param target  target pose
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
-     */
-    public final void gotoPose(Pose2d target, Distance xOffset, Distance yOffset) {
-        gotoPose(target, xOffset, xOffset, Radians.zero());
-    }
-
-    /**
-     * Updates the swerve drive base to the given target pose
-     * 
-     * @param target  target pose
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
-     * @param rOffset Robot angle offset
-     */
-    public void gotoPose(Pose2d target, Distance xOffset, Distance yOffset, Angle rOffset) {
+    public void gotoPose(Pose2d target, RobotFeature feature) {
         calcVelToPosition(target.getTranslation(), xVelCalc, yVelCalc);
         angleTarget.mut_replace(target.getRotation().getRadians(), Radians);
-        turnToAngle(xVelCalc, yVelCalc, angleTarget, xOffset, yOffset, rOffset);
+        turnToAngle(xVelCalc, yVelCalc, angleTarget, feature);
     }
 
     /**
@@ -185,7 +163,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param target Target point
      */
     public final void turnToPoint(LinearVelocity xVel, LinearVelocity yVel, Translation2d target) {
-        turnToPoint(xVel, yVel, target, Meters.zero(), Meters.zero(), Radians.zero());
+        turnToPoint(xVel, yVel, target, RobotFeature.origin);
     }
 
     /**
@@ -194,41 +172,11 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param xVel    Target x velocity
      * @param yVel    Target y velocity
      * @param target  Target point
-     * @param rOffset Robot angle offset
+     * @param feature Robot feature offset
      */
-    public final void turnToPoint(LinearVelocity xVel, LinearVelocity yVel, Translation2d target, Angle rOffset) {
-        turnToPoint(xVel, yVel, target, Meters.zero(), Meters.zero(), rOffset);
-    }
-
-    /**
-     * Updates the swerve drive base to point towarwd a given target
-     * 
-     * @param xVel    Target x velocity
-     * @param yVel    Target y velocity
-     * @param target  Target point
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
-     */
-    public final void turnToPoint(LinearVelocity xVel, LinearVelocity yVel, Translation2d target, Distance xOffset,
-            Distance yOffset) {
-        turnToPoint(xVel, yVel, target, xOffset, yOffset, Radians.zero());
-    }
-
-    /**
-     * Updates the swerve drive base to point towarwd a given target
-     * 
-     * @param xVel    Target x velocity
-     * @param yVel    Target y velocity
-     * @param target  Target point
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
-     * @param rOffset Robot angle offset
-     */
-    public void turnToPoint(LinearVelocity xVel, LinearVelocity yVel, Translation2d target, Distance xOffset,
-            Distance yOffset, Angle rOffset) {
-
+    public void turnToPoint(LinearVelocity xVel, LinearVelocity yVel, Translation2d target, RobotFeature feature) {
         calcAngleToPoint(target, angleTarget);
-        turnToAngle(xVel, yVel, angleTarget, xOffset, yOffset, rOffset);
+        turnToAngle(xVel, yVel, angleTarget, feature);
     }
 
     /**
@@ -239,7 +187,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param target Target angle
      */
     public final void turnToAngle(LinearVelocity xVel, LinearVelocity yVel, Angle target) {
-        turnToAngle(xVel, yVel, target, Meters.zero(), Meters.zero(), Radians.zero());
+        turnToAngle(xVel, yVel, target, RobotFeature.origin);
     }
 
     /**
@@ -248,43 +196,16 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param xVel    Target x velocity
      * @param yVel    Target y velocity
      * @param target  Target angle
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
+     * @param feature Robot feature offset
      */
-    public final void turnToAngle(LinearVelocity xVel, LinearVelocity yVel, Angle target, Distance xOffset,
-            Distance yOffset) {
-        turnToAngle(xVel, yVel, target, xOffset, yOffset, Radians.zero());
-    }
-
-    /**
-     * Updates the swerve drive base to turn to a given angle
-     * 
-     * @param xVel    Target x velocity
-     * @param yVel    Target y velocity
-     * @param target  Target angle
-     * @param rOffset Robot angle offset
-     */
-    public final void turnToAngle(LinearVelocity xVel, LinearVelocity yVel, Angle target, Angle rOffset) {
-        turnToAngle(xVel, yVel, target, Meters.zero(), Meters.zero(), rOffset);
-    }
-
-    /**
-     * Updates the swerve drive base to turn to a given angle
-     * 
-     * @param xVel    Target x velocity
-     * @param yVel    Target y velocity
-     * @param target  Target angle
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
-     * @param rOffset Robot angle offset
-     */
-    public void turnToAngle(LinearVelocity xVel, LinearVelocity yVel, Angle target, Distance xOffset,
-            Distance yOffset, Angle rOffset) {
+    public void turnToAngle(LinearVelocity xVel, LinearVelocity yVel, Angle target, RobotFeature feature) {
 
         calcVelToAngle(target, angleVelCalc);
         targetSpeeds.vxMetersPerSecond = xVel.in(MetersPerSecond);
         targetSpeeds.vyMetersPerSecond = yVel.in(MetersPerSecond);
         targetSpeeds.omegaRadiansPerSecond = angleVelCalc.in(RadiansPerSecond);
+
+        setChassisSpeeds(targetSpeeds, feature);
     }
 
     /**
@@ -297,7 +218,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param rVel target rotation velocity
      */
     public final void setChassisSpeeds(LinearVelocity xVel, LinearVelocity yVel, AngularVelocity rVel) {
-        setChassisSpeeds(xVel, yVel, rVel, this.isFieldRelative, Meters.zero(), Meters.zero());
+        setChassisSpeeds(xVel, yVel, rVel, this.isFieldRelative, RobotFeature.origin);
     }
 
     /**
@@ -311,7 +232,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      */
     public final void setChassisSpeeds(LinearVelocity xVel, LinearVelocity yVel, AngularVelocity rVel,
             boolean isFieldRelative) {
-        setChassisSpeeds(xVel, yVel, rVel, isFieldRelative, Meters.zero(), Meters.zero());
+        setChassisSpeeds(xVel, yVel, rVel, isFieldRelative, RobotFeature.origin);
     }
 
     /**
@@ -321,34 +242,31 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param xVel    target x velocity
      * @param yVel    target y velocity
      * @param rVel    target rotation velocity
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
-     */
-    public final void setChassisSpeeds(LinearVelocity xVel, LinearVelocity yVel, AngularVelocity rVel, Distance xOffset,
-            Distance yOffset) {
-        setChassisSpeeds(xVel, yVel, rVel, this.isFieldRelative, xOffset, yOffset);
-    }
-
-    /**
-     * Sets the target chassis speeds of the robot. isFieldRelative uses the value
-     * set in setFieldRelative method.
-     * 
-     * @param xVel    target x velocity
-     * @param yVel    target y velocity
-     * @param rVel    target rotation velocity
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
+     * @param feature Robot feature offset
      */
     public final void setChassisSpeeds(LinearVelocity xVel, LinearVelocity yVel, AngularVelocity rVel,
-            boolean isFieldRelative, Distance xOffset, Distance yOffset) {
+            RobotFeature feature) {
+        setChassisSpeeds(xVel, yVel, rVel, this.isFieldRelative, feature);
+    }
+
+    /**
+     * Sets the target chassis speeds of the robot. isFieldRelative uses the value
+     * set in setFieldRelative method.
+     * 
+     * @param xVel    target x velocity
+     * @param yVel    target y velocity
+     * @param rVel    target rotation velocity
+     * @param feature Robot feature offset
+     */
+    public final void setChassisSpeeds(LinearVelocity xVel, LinearVelocity yVel, AngularVelocity rVel,
+            boolean isFieldRelative, RobotFeature feature) {
         setChassisSpeeds(
                 new ChassisSpeeds(
                         xVel.in(MetersPerSecond),
                         yVel.in(MetersPerSecond),
                         rVel.in(RadiansPerSecond)),
                 this.isFieldRelative,
-                xOffset,
-                yOffset);
+                feature);
     }
 
     /**
@@ -370,7 +288,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param isFieldRelative overrides the value set in setFieldRelative
      */
     public final void setChassisSpeeds(ChassisSpeeds speeds, boolean isFieldRelative) {
-        setChassisSpeeds(speeds, isFieldRelative, Meters.zero(), Meters.zero());
+        setChassisSpeeds(speeds, isFieldRelative, RobotFeature.origin);
     }
 
     /**
@@ -378,11 +296,10 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * set in setFieldRelative method.
      * 
      * @param speeds  target chassis speeds
-     * @param xOffset Robot coordinate x offset for the center of rotation
-     * @param yOffset Robot coordinate y offset for the center of rotation
+     * @param feature Robot feature offset
      */
-    public final void setChassisSpeeds(ChassisSpeeds speeds, Distance xOffset, Distance yOffset) {
-        setChassisSpeeds(speeds, this.isFieldRelative, xOffset, yOffset);
+    public final void setChassisSpeeds(ChassisSpeeds speeds, RobotFeature feature) {
+        setChassisSpeeds(speeds, this.isFieldRelative, feature);
     }
 
     /**
@@ -686,7 +603,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             LinearVelocity yVel,
             AngularVelocity rVel) {
 
-        Command cmd = getVelocityCmd(xVel, yVel, rVel, Meters.zero(), Meters.zero());
+        Command cmd = getVelocityCmd(xVel, yVel, rVel, RobotFeature.origin);
 
         return cmd;
     }
@@ -697,8 +614,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param xVel    x velocity
      * @param yVel    y velocity
      * @param rVel    angular velocity
-     * @param xOffset robot coordinate x-offset for the center of rotation
-     * @param yOffset robot coordinate y-offset for the center of rotation
+     * @param feature Robot feature offset
      * 
      * @return new velocity command
      */
@@ -706,12 +622,11 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             LinearVelocity xVel,
             LinearVelocity yVel,
             AngularVelocity rVel,
-            Distance xOffset,
-            Distance yOffset) {
+            RobotFeature feature) {
 
-        Command cmd = this.run(() -> setChassisSpeeds(xVel, yVel, rVel, xOffset, yOffset));
+        Command cmd = this.run(() -> setChassisSpeeds(xVel, yVel, rVel, feature));
 
-        cmd.setName(String.format("VelocityCmd O:(%.2f m, %.2f m)", xOffset.in(Meters), yOffset.in(Meters)));
+        cmd.setName(String.format("VelocityCmd F:(%s)", feature.name));
 
         return cmd;
     }
@@ -729,7 +644,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             Supplier<LinearVelocity> yVel,
             Supplier<AngularVelocity> rVel) {
 
-        return getVelocityControlCmd(xVel, yVel, rVel, Meters.zero(), Meters.zero());
+        return getVelocityControlCmd(xVel, yVel, rVel, RobotFeature.origin);
     }
 
     /**
@@ -738,8 +653,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param xVel    Supplier for x velocity
      * @param yVel    Supplier for y velocity
      * @param rVel    Supplier for angular velocity
-     * @param xOffset robot coordinate x-offset for the center of rotation
-     * @param yOffset robot coordinate y-offset for the center of rotation
+     * @param feature Robot feature offset
      * 
      * @return new velocity control command
      */
@@ -747,12 +661,11 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             Supplier<LinearVelocity> xVel,
             Supplier<LinearVelocity> yVel,
             Supplier<AngularVelocity> rVel,
-            Distance xOffset,
-            Distance yOffset) {
+            RobotFeature feature) {
 
-        Command cmd = this.run(() -> setChassisSpeeds(xVel.get(), yVel.get(), rVel.get(), xOffset, yOffset));
+        Command cmd = this.run(() -> setChassisSpeeds(xVel.get(), yVel.get(), rVel.get(), feature));
 
-        cmd.setName(String.format("VelocityCtrlCmd O:(%.2f m, %.2f m)", xOffset.in(Meters), yOffset.in(Meters)));
+        cmd.setName(String.format("VelocityCtrlCmd F:(%s)", feature.name));
 
         return cmd;
     }
@@ -771,45 +684,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             Supplier<LinearVelocity> yVel,
             Angle target) {
 
-        return getTurnToAngleCmd(xVel, yVel, target, Meters.zero(), Meters.zero(), Radians.zero());
-    }
-
-    /**
-     * Generates a turn to angle command
-     * 
-     * @param xVel
-     * @param yVel
-     * @param target
-     * @param rOffset
-     * @return new turn to angle command
-     */
-    public Command getTurnToAngleCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Angle target,
-            Angle rOffset) {
-
-        return getTurnToAngleCmd(xVel, yVel, target, Meters.zero(), Meters.zero(), rOffset);
-    }
-
-    /**
-     * Generates a turn to angle command
-     * 
-     * @param xVel
-     * @param yVel
-     * @param target
-     * @param xOffset
-     * @param yOffset
-     * @return new turn to angle command
-     */
-    public Command getTurnToAngleCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Angle target,
-            Distance xOffset,
-            Distance yOffset) {
-
-        return getTurnToAngleCmd(xVel, yVel, target, xOffset, yOffset, Radians.zero());
+        return getTurnToAngleCmd(xVel, yVel, target, RobotFeature.origin);
     }
 
     /**
@@ -827,20 +702,16 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             Supplier<LinearVelocity> xVel,
             Supplier<LinearVelocity> yVel,
             Angle target,
-            Distance xOffset,
-            Distance yOffset,
-            Angle rOffset) {
+            RobotFeature feature) {
 
         Command cmd = this.run(() -> turnToAngle(
                 xVel.get(),
                 yVel.get(),
                 target,
-                xOffset,
-                yOffset,
-                rOffset));
+                feature));
 
-        cmd.setName(String.format("TurnToAngleCmd T: %.0f\u00B0C O:(%.2f m, %.2f m, %.0f\u00B0C)",
-                target.in(Degrees), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToAngleCmd T: %.0f\u00B0C F:(%s)",
+                target.in(Degrees), feature.name));
 
         return cmd;
     }
@@ -853,7 +724,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param yVel
      * @param target
      * @param tolerance
-     * @param rOffset
+     * @param feature   Robot feature offset
      * @return new turn to angle command
      */
     public Command getTurnToAngleCmd(
@@ -861,63 +732,13 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             Supplier<LinearVelocity> yVel,
             Angle target,
             Angle tolerance,
-            Angle rOffset) {
-
-        return getTurnToAngleCmd(xVel, yVel, target, tolerance, Meters.zero(), Meters.zero(), rOffset);
-    }
-
-    /**
-     * Generates a turn to angle command that will complete when within a tolerance
-     * of the target
-     * 
-     * @param xVel
-     * @param yVel
-     * @param target
-     * @param tolerance
-     * @param xOffset
-     * @param yOffset
-     * @param rOffset
-     * @return new turn to angle command
-     */
-    public Command getTurnToAngleCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Angle target,
-            Angle tolerance,
-            Distance xOffset,
-            Distance yOffset) {
-
-        return getTurnToAngleCmd(xVel, yVel, target, tolerance, xOffset, yOffset, Radians.zero());
-    }
-
-    /**
-     * Generates a turn to angle command that will complete when within a tolerance
-     * of the target
-     * 
-     * @param xVel
-     * @param yVel
-     * @param target
-     * @param tolerance
-     * @param xOffset
-     * @param yOffset
-     * @param rOffset
-     * @return new turn to angle command
-     */
-    public Command getTurnToAngleCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Angle target,
-            Angle tolerance,
-            Distance xOffset,
-            Distance yOffset,
-            Angle rOffset) {
+            RobotFeature feature) {
 
         Command cmd = Commands.deadline(
-                getAtTargetCmd(target, tolerance, rOffset),
-                getTurnToAngleCmd(xVel, yVel, target, xOffset, yOffset, rOffset));
+                getAtTargetCmd(target, tolerance, feature.r),
+                getTurnToAngleCmd(xVel, yVel, target, feature));
 
-        cmd.setName(String.format("TurnToAngleCmd and End T: %.0f\u00B0C O:(%.2f m, %.2f m, %.0f\u00B0C)",
-                target.in(Degrees), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToAngleCmd and End T: %.0f\u00B0C F:(%s)", target.in(Degrees), feature));
 
         return cmd;
     }
@@ -935,7 +756,7 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             Supplier<LinearVelocity> yVel,
             Translation2d target) {
 
-        return getTurnToPointCmd(xVel, yVel, target, Meters.zero(), Meters.zero(), Radians.zero());
+        return getTurnToPointCmd(xVel, yVel, target, RobotFeature.origin);
     }
 
     /**
@@ -945,61 +766,18 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param yVel      Supplier for the target y velocify
      * @param target    target point
      * @param tolerance Tolerance around the target point to end the command
-     * @param rOffset   robot coordinate angle offset
+     * @param feature   Robot feature offset
      */
     public Command getTurnToPointCmd(
             Supplier<LinearVelocity> xVel,
             Supplier<LinearVelocity> yVel,
             Translation2d target,
-            Angle rOffset) {
-
-        return getTurnToPointCmd(xVel, yVel, target, Meters.zero(), Meters.zero(), rOffset);
-    }
-
-    /**
-     * Generates a turn to point command
-     * 
-     * @param xVel      Supplier for the target X velocity
-     * @param yVel      Supplier for the target y velocify
-     * @param target    target point
-     * @param tolerance Tolerance around the target point to end the command
-     * @param xOffset   robot coordinate x-offset for the center of rotation
-     * @param yOffset   robot coordinate y-offset for the center of rotation
-     */
-    public Command getTurnToPointCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Translation2d target,
-            Distance xOffset,
-            Distance yOffset) {
-
-        return getTurnToPointCmd(xVel, yVel, target, xOffset, yOffset, Radians.zero());
-    }
-
-    /**
-     * Generates a turn to point command
-     * 
-     * @param xVel      Supplier for the target X velocity
-     * @param yVel      Supplier for the target y velocify
-     * @param target    target point
-     * @param tolerance Tolerance around the target point to end the command
-     * @param xOffset   robot coordinate x-offset for the center of rotation
-     * @param yOffset   robot coordinate y-offset for the center of rotation
-     * @param rOffset   robot coordinate angle offset
-     */
-    public Command getTurnToPointCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Translation2d target,
-            Distance xOffset,
-            Distance yOffset,
-            Angle rOffset) {
+            RobotFeature feature) {
 
         Command cmd = this.run(
-                () -> this.turnToPoint(xVel.get(), yVel.get(), target, xOffset, yOffset, rOffset));
+                () -> this.turnToPoint(xVel.get(), yVel.get(), target, feature));
 
-        cmd.setName(String.format("TurnToPointCmd T: (%.2f m, %.2f m) O:(%.2f m, %.2f m, %.0f\u00B0C)",
-                target.getX(), target.getY(), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToPointCmd T: (%.2f m, %.2f m) F:(%s)", target.getX(), target.getY(), feature));
 
         return cmd;
     }
@@ -1012,67 +790,21 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @param yVel      Supplier for the target y velocify
      * @param target    target point
      * @param tolerance Tolerance around the target point to end the command
-     * @param rOffset   robot coordinate angle offset
+     * @param feature   Robot feature offset
      */
     public Command getTurnToPointCmd(
             Supplier<LinearVelocity> xVel,
             Supplier<LinearVelocity> yVel,
             Translation2d target,
             Angle tolerance,
-            Angle rOffset) {
-
-        return getTurnToPointCmd(xVel, yVel, target, tolerance, Meters.zero(), Meters.zero(), rOffset);
-    }
-
-    /**
-     * Generates a turn to point command that will complete when within a
-     * tolerance of the target
-     * 
-     * @param xVel      Supplier for the target X velocity
-     * @param yVel      Supplier for the target y velocify
-     * @param target    target point
-     * @param tolerance Tolerance around the target point to end the command
-     * @param xOffset   robot coordinate x-offset for the center of rotation
-     * @param yOffset   robot coordinate y-offset for the center of rotation
-     */
-    public Command getTurnToPointCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Translation2d target,
-            Angle tolerance,
-            Distance xOffset,
-            Distance yOffset) {
-
-        return getTurnToPointCmd(xVel, yVel, target, tolerance, xOffset, yOffset, Radians.zero());
-    }
-
-    /**
-     * Generates a turn to point command that will complete when within a
-     * tolerance of the target
-     * 
-     * @param xVel      Supplier for the target X velocity
-     * @param yVel      Supplier for the target y velocify
-     * @param target    target point
-     * @param tolerance Tolerance around the target point to end the command
-     * @param xOffset   robot coordinate x-offset for the center of rotation
-     * @param yOffset   robot coordinate y-offset for the center of rotation
-     * @param rOffset   robot coordinate angle offset
-     */
-    public Command getTurnToPointCmd(
-            Supplier<LinearVelocity> xVel,
-            Supplier<LinearVelocity> yVel,
-            Translation2d target,
-            Angle tolerance,
-            Distance xOffset,
-            Distance yOffset,
-            Angle rOffset) {
+            RobotFeature feature) {
 
         Command cmd = Commands.deadline(
-                getAtTargetCmd(target, tolerance, rOffset),
-                this.getTurnToPointCmd(xVel, yVel, target, xOffset, yOffset, rOffset));
+                getAtTargetCmd(target, tolerance, feature.r),
+                this.getTurnToPointCmd(xVel, yVel, target, feature));
 
-        cmd.setName(String.format("TurnToPointCmd and End T: (%.2f m, %.2f m) O:(%.2f m, %.2f m, %.0f\u00B0C)",
-                target.getX(), target.getY(), xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("TurnToPointCmd and End T: (%.2f m, %.2f m) F:(%s)",
+                target.getX(), target.getY(), feature.name));
 
         return cmd;
     }
@@ -1085,64 +817,25 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @return new command to move the robot to a pose
      */
     public Command getGotoPoseCmd(Pose2d target) {
-        return getGotoPoseCmd(target, Meters.zero(), Meters.zero(), Radians.zero());
+        return getGotoPoseCmd(target, RobotFeature.origin);
     }
 
     /**
      * Gets a command to move the robot to a pose
      * 
      * @param target  target pose
-     * @param rOffset robot coordinate angle offset
+     * @param feature   Robot feature offset
      * 
      * @return new command to move the robot to a pose
      */
     public Command getGotoPoseCmd(
             Pose2d target,
-            Angle rOffset) {
+            RobotFeature feature) {
 
-        return getGotoPoseCmd(target, Meters.zero(), Meters.zero(), rOffset);
+        Command cmd = this.run(() -> gotoPose(target, feature));
 
-    }
-
-    /**
-     * Gets a command to move the robot to a pose
-     * 
-     * @param target  target pose
-     * @param xOffset robot coordinate x-offset for the center of rotation
-     * @param yOffset robot coordinate y-offset for the center of rotation
-     * 
-     * @return new command to move the robot to a pose
-     */
-    public Command getGotoPoseCmd(
-            Pose2d target,
-            Distance xOffset,
-            Distance yOffset) {
-
-        return getGotoPoseCmd(target, xOffset, yOffset, Radians.zero());
-
-    }
-
-    /**
-     * Gets a command to move the robot to a pose
-     * 
-     * @param target  target pose
-     * @param xOffset robot coordinate x-offset for the center of rotation
-     * @param yOffset robot coordinate y-offset for the center of rotation
-     * @param rOffset robot coordinate angle offset
-     * 
-     * @return new command to move the robot to a pose
-     */
-    public Command getGotoPoseCmd(
-            Pose2d target,
-            Distance xOffset,
-            Distance yOffset,
-            Angle rOffset) {
-
-        Command cmd = this.run(() -> gotoPose(target, xOffset, yOffset, rOffset));
-
-        cmd.setName(String.format("GotoPoseCmd T:(%.2f m, %.2f m, %.0f\u00B0C) O:(%.2f m, %.2f m, %.0f\u00B0C)",
-                target.getX(), target.getY(), target.getRotation().getDegrees(),
-                xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+        cmd.setName(String.format("GotoPoseCmd T:(%.2f m, %.2f m, %.0f\u00B0C) F:(%s)",
+                target.getX(), target.getY(), target.getRotation().getDegrees(), feature.name));
 
         return cmd;
     }
@@ -1153,10 +846,8 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * 
      * @param target    target pose
      * @param linearTol Linear tolerance from the target to end the command
-     * @param angleTol  Anguluar tolerance from the targe to end the command
-     * @param xOffset   robot coordinate x-offset for the center of rotation
-     * @param yOffset   robot coordinate y-offset for the center of rotation
-     * @param rOffset   robot coordinate angle offset
+     * @param angleTol  Angular tolerance from the targe to end the command
+     * @param feature   Robot feature offset
      * 
      * @return new command to move the robot to a pose
      */
@@ -1164,20 +855,17 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
             Pose2d target,
             Distance linearTol,
             Angle angleTol,
-            Distance xOffset,
-            Distance yOffset,
-            Angle rOffset) {
+            RobotFeature feature) {
 
         Command cmd = Commands.deadline(
                 Commands.parallel(
                         getAtTargetCmd(target.getTranslation(), linearTol), // TODO Add xOffset and yOffset
-                        getAtTargetCmd(AngleUtil.toUnits(target.getRotation()), angleTol, rOffset)),
-                getGotoPoseCmd(target, xOffset, yOffset, rOffset));
+                        getAtTargetCmd(AngleUtil.toUnits(target.getRotation()), angleTol, feature.r)),
+                getGotoPoseCmd(target, feature));
 
         cmd.setName(
-                String.format("GotoPoseCmd and End T:(%.2f m, %.2f m, %.0f\u00B0C) O:(%.2f m, %.2f m, %.0f\u00B0C)",
-                        target.getX(), target.getY(), target.getRotation().getDegrees(),
-                        xOffset.in(Meters), yOffset.in(Meters), rOffset.in(Degrees)));
+                String.format("GotoPoseCmd and End T:(%.2f m, %.2f m, %.0f\u00B0C) F:(%s)",
+                        target.getX(), target.getY(), target.getRotation().getDegrees(), feature.name));
 
         return cmd;
     }
