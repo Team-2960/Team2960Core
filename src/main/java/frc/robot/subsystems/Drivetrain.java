@@ -13,13 +13,12 @@ import frc.lib2960.helper.AngleUtil;
 import frc.lib2960.subsystem.drivetrain.swerve.NavXSwerveDrive;
 import frc.lib2960.subsystem.drivetrain.swerve.NavXSwerveDriveConfig;
 import frc.lib2960.subsystem.drivetrain.swerve.SwerveModuleBase;
-import frc.robot.FieldLayout;
-import frc.robot.FieldLayout.ReefBranchOffset;
+import frc.robot.Constants;
 
 public class Drivetrain extends NavXSwerveDrive {
 
     private class GotoReefCmd extends Command {
-        private final ReefBranchOffset offset;
+        private final String faceBranch;
         private final Optional<Distance> linTol;
         private final Optional<Angle> angTol;
         private final Distance xOFfset;
@@ -30,10 +29,10 @@ public class Drivetrain extends NavXSwerveDrive {
         /**
          * Constructor.
          * 
-         * @param offset Reef branch offset
+         * @param faceBranch Reef branch offset
          */
-        public GotoReefCmd(ReefBranchOffset offset) {
-            this.offset = offset;
+        public GotoReefCmd(String faceBranch) {
+            this.faceBranch = faceBranch;
             this.linTol = Optional.empty();
             this.angTol = Optional.empty();
             this.xOFfset = Meters.zero();
@@ -44,13 +43,13 @@ public class Drivetrain extends NavXSwerveDrive {
         /**
          * Constructor
          * 
-         * @param offset  Reef branch offset
-         * @param xOffset Robot center x offset
-         * @param yOffset Robot center y offset
-         * @param rOffset Robot rotation offset;
+         * @param faceBranch Reef branch offset
+         * @param xOffset    Robot center x offset
+         * @param yOffset    Robot center y offset
+         * @param rOffset    Robot rotation offset;
          */
-        public GotoReefCmd(ReefBranchOffset offset, Distance xOFfset, Distance yOffset, Angle rOffset) {
-            this.offset = offset;
+        public GotoReefCmd(String faceBranch, Distance xOFfset, Distance yOffset, Angle rOffset) {
+            this.faceBranch = faceBranch;
             this.linTol = Optional.empty();
             this.angTol = Optional.empty();
             this.xOFfset = xOFfset;
@@ -61,12 +60,12 @@ public class Drivetrain extends NavXSwerveDrive {
         /**
          * Constructor
          * 
-         * @param offset Reef branch offset
-         * @param linTol target pose linear tolerance
-         * @param angTol target pose angular tolerance
+         * @param faceBranch Reef branch offset
+         * @param linTol     target pose linear tolerance
+         * @param angTol     target pose angular tolerance
          */
-        public GotoReefCmd(ReefBranchOffset offset, Distance linTol, Angle angTol) {
-            this.offset = offset;
+        public GotoReefCmd(String faceBranch, Distance linTol, Angle angTol) {
+            this.faceBranch = faceBranch;
             this.linTol = Optional.of(linTol);
             this.angTol = Optional.of(angTol);
             this.xOFfset = Meters.zero();
@@ -77,16 +76,16 @@ public class Drivetrain extends NavXSwerveDrive {
         /**
          * Constructor
          * 
-         * @param offset  Reef branch offset
-         * @param linTol  target pose linear tolerance
-         * @param angTol  target pose angular tolerance
-         * @param xOffset Robot center x offset
-         * @param yOffset Robot center y offset
-         * @param rOffset Robot rotation offset;
+         * @param faceBranch Reef branch offset
+         * @param linTol     target pose linear tolerance
+         * @param angTol     target pose angular tolerance
+         * @param xOffset    Robot center x offset
+         * @param yOffset    Robot center y offset
+         * @param rOffset    Robot rotation offset;
          */
-        public GotoReefCmd(ReefBranchOffset offset, Distance linTol, Angle angTol, Distance xOFfset, Distance yOffset,
+        public GotoReefCmd(String faceBranch, Distance linTol, Angle angTol, Distance xOFfset, Distance yOffset,
                 Angle rOffset) {
-            this.offset = offset;
+            this.faceBranch = faceBranch;
             this.linTol = Optional.of(linTol);
             this.angTol = Optional.of(angTol);
             this.xOFfset = xOFfset;
@@ -99,7 +98,7 @@ public class Drivetrain extends NavXSwerveDrive {
          */
         @Override
         public void initialize() {
-            target = FieldLayout.getNearestReefFaceBranch(getPoseEst()).get(offset);
+            target = Constants.reefFaces.get(faceBranch).get().pose();
         }
 
         /**
@@ -135,42 +134,42 @@ public class Drivetrain extends NavXSwerveDrive {
     /**
      * Gets a new command to goto a position on the nearest reef face
      * 
-     * @param offset Reef branch offset
+     * @param faceBranch  Reef face branch name
      * @return new command to goto a position on the nearest reef face
      */
-    public Command getGotoReefCmd(ReefBranchOffset offset) {
-        return new GotoReefCmd(offset);
+    public Command getGotoReefCmd(String faceBranch) {
+        return new GotoReefCmd(faceBranch);
     }
 
     /**
      * Gets a new command to goto a position on the nearest reef face
      * 
-     * @param offset  Reef branch offset
+     * @param faceBranch  Reef face branch name
      * @param xOffset Robot center x offset
      * @param yOffset Robot center y offset
      * @param rOffset Robot rotation offset;
      * @return new command to goto a position on the nearest reef face
      */
-    public Command getGotoReefCmd(ReefBranchOffset offset, Distance xOFfset, Distance yOffset, Angle rOffset) {
-        return new GotoReefCmd(offset, xOFfset, yOffset, rOffset);
+    public Command getGotoReefCmd(String faceBranch, Distance xOFfset, Distance yOffset, Angle rOffset) {
+        return new GotoReefCmd(faceBranch, xOFfset, yOffset, rOffset);
     }
 
     /**
      * Gets a new command to goto a position on the nearest reef face
      * 
-     * @param offset Reef branch offset
+     * @param faceBranch  Reef face branch name
      * @param linTol target pose linear tolerance
      * @param angTol target pose angular tolerance
      * @return new command to goto a position on the nearest reef face
      */
-    public Command getGotoReefCmd(ReefBranchOffset offset, Distance linTol, Angle angTol) {
-        return new GotoReefCmd(offset, linTol, angTol);
+    public Command getGotoReefCmd(String faceBranch, Distance linTol, Angle angTol) {
+        return new GotoReefCmd(faceBranch, linTol, angTol);
     }
 
     /**
      * Gets a new command to goto a position on the nearest reef face
      * 
-     * @param offset  Reef branch offset
+     * @param faceBranch  Reef face branch name
      * @param linTol  target pose linear tolerance
      * @param angTol  target pose angular tolerance
      * @param xOffset Robot center x offset
@@ -178,8 +177,8 @@ public class Drivetrain extends NavXSwerveDrive {
      * @param rOffset Robot rotation offset;
      * @return new command to goto a position on the nearest reef face
      */
-    public Command getGotoReefCmd(ReefBranchOffset offset, Distance linTol, Angle angTol, Distance xOFfset,
+    public Command getGotoReefCmd(String faceBranch, Distance linTol, Angle angTol, Distance xOFfset,
             Distance yOffset, Angle rOffset) {
-        return new GotoReefCmd(offset, linTol, angTol, xOFfset, yOffset, rOffset);
+        return new GotoReefCmd(faceBranch, linTol, angTol, xOFfset, yOffset, rOffset);
     }
 }

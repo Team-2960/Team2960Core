@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
+import static edu.wpi.first.units.Units.Feet;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -15,8 +16,11 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
@@ -32,6 +36,9 @@ import frc.lib2960.config.controller.FFConfig;
 import frc.lib2960.config.controller.LinearControllerConfig;
 import frc.lib2960.config.controller.PIDConfig;
 import frc.lib2960.config.device.MotorConfig;
+import frc.lib2960.helper.FieldFeature;
+import frc.lib2960.helper.FieldFeatureType;
+import frc.lib2960.helper.FieldLayout;
 import frc.lib2960.helper.LimitTrim;
 import frc.lib2960.subsystem.drivetrain.swerve.NavXSwerveDriveConfig;
 import frc.lib2960.subsystem.drivetrain.swerve.SwerveDriveCommonConfig;
@@ -241,10 +248,10 @@ public class Constants {
             .addPreset("L3", Degrees.of(60.0))
             .addPreset("L4", Degrees.of(60.0))
             .addPreset("Remove Algae", Degrees.of(45));
-    
+
     public static final AngularSparkMechConfig coralArmConfig = new AngularSparkMechConfig(coralArmCommonConfig)
-        .setPosEncoderSource(PosEncoderSource.ABSOLUTE)
-        .setVelEncoderSource(VelEncoderSource.ALT_EXT);
+            .setPosEncoderSource(PosEncoderSource.ABSOLUTE)
+            .setVelEncoderSource(VelEncoderSource.ALT_EXT);
 
     public static final MotorConfig coralArmMotorConfig = new MotorConfig("Coral Arm Motor", coralArmMotorID)
             .setGearRatio(100);
@@ -266,7 +273,6 @@ public class Constants {
             .addPreset("Intake", Volts.of(4.5))
             .addPreset("Eject", Volts.of(12))
             .addPreset("Reverse", Volts.of(-2));
-            
 
     public static final MotorConfig coralRollerMotorConfig = new MotorConfig("Coral Roller Motor",
             coralRollerMotorID)
@@ -443,4 +449,161 @@ public class Constants {
             .setMaxDist(maxTagDist)
             .setAmbiguityThreshold(ambiguityThreshold);
 
+    /****************/
+    /* Field Layout */
+    /****************/
+    public static final FieldFeatureType branches = new FieldFeatureType("branch")
+            .addFeatures(
+                    new FieldFeature(
+                            "A",
+                            new Pose2d(Meters.of(3.643), Meters.of(4.191), Rotation2d.fromDegrees(0.000)),
+                            new Pose2d(Meters.of(13.876), Meters.of(3.861), Rotation2d.fromDegrees(180.000))),
+                    new FieldFeature(
+                            "B",
+                            new Pose2d(Meters.of(13.876), Meters.of(3.861), Rotation2d.fromDegrees(180.000)),
+                            new Pose2d(Meters.of(3.643), Meters.of(3.861), Rotation2d.fromDegrees(0.000))),
+                    new FieldFeature(
+                            "C",
+                            new Pose2d(Meters.of(3.917), Meters.of(3.388), Rotation2d.fromDegrees(60.000)),
+                            new Pose2d(Meters.of(13.603), Meters.of(4.664), Rotation2d.fromDegrees(240.000))),
+                    new FieldFeature(
+                            "D",
+                            new Pose2d(Meters.of(4.202), Meters.of(3.223), Rotation2d.fromDegrees(60.000)),
+                            new Pose2d(Meters.of(13.318), Meters.of(4.828), Rotation2d.fromDegrees(240.000))),
+                    new FieldFeature(
+                            "E",
+                            new Pose2d(Meters.of(4.748), Meters.of(3.223), Rotation2d.fromDegrees(120.000)),
+                            new Pose2d(Meters.of(12.771), Meters.of(4.828), Rotation2d.fromDegrees(300.000))),
+                    new FieldFeature(
+                            "F",
+                            new Pose2d(Meters.of(5.033), Meters.of(3.388), Rotation2d.fromDegrees(120.000)),
+                            new Pose2d(Meters.of(12.486), Meters.of(4.664), Rotation2d.fromDegrees(300.000))),
+                    new FieldFeature(
+                            "G",
+                            new Pose2d(Meters.of(5.307), Meters.of(3.861), Rotation2d.fromDegrees(180.000)),
+                            new Pose2d(Meters.of(12.213), Meters.of(4.191), Rotation2d.fromDegrees(0.000))),
+                    new FieldFeature(
+                            "H",
+                            new Pose2d(Meters.of(5.307), Meters.of(4.191), Rotation2d.fromDegrees(180.000)),
+                            new Pose2d(Meters.of(12.213), Meters.of(3.861), Rotation2d.fromDegrees(0.000))),
+                    new FieldFeature(
+                            "I",
+                            new Pose2d(Meters.of(5.033), Meters.of(4.664), Rotation2d.fromDegrees(240.000)),
+                            new Pose2d(Meters.of(12.486), Meters.of(3.388), Rotation2d.fromDegrees(60.000))),
+                    new FieldFeature(
+                            "J",
+                            new Pose2d(Meters.of(4.748), Meters.of(4.828), Rotation2d.fromDegrees(240.000)),
+                            new Pose2d(Meters.of(12.771), Meters.of(3.223), Rotation2d.fromDegrees(60.000))),
+                    new FieldFeature(
+                            "K",
+                            new Pose2d(Meters.of(4.202), Meters.of(4.828), Rotation2d.fromDegrees(300.000)),
+                            new Pose2d(Meters.of(13.318), Meters.of(3.223), Rotation2d.fromDegrees(120.000))),
+                    new FieldFeature(
+                            "L",
+                            new Pose2d(Meters.of(4.748), Meters.of(4.664), Rotation2d.fromDegrees(300.000)),
+                            new Pose2d(Meters.of(13.603), Meters.of(3.388), Rotation2d.fromDegrees(120.000))));
+
+    public static final FieldFeatureType reefFaces = new FieldFeatureType("reef face")
+            .addFeatures(
+                    new FieldFeature(
+                            "0",
+                            new Pose2d(Meters.of(3.643), Meters.of(4.026), Rotation2d.fromDegrees(0)),
+                            new Pose2d(Meters.of(13.876), Meters.of(4.026), Rotation2d.fromDegrees(180)))
+                            .addSubFeature("left", branches.get("A").get())
+                            .addSubFeature("right", branches.get("B").get()),
+                    new FieldFeature(
+                            "60",
+                            new Pose2d(Meters.of(4.059), Meters.of(3.306), Rotation2d.fromDegrees(60)),
+                            new Pose2d(Meters.of(13.46), Meters.of(4.746), Rotation2d.fromDegrees(-60)))
+                            .addSubFeature("left", branches.get("C").get())
+                            .addSubFeature("right", branches.get("D").get()),
+                    new FieldFeature(
+                            "120",
+                            new Pose2d(Meters.of(4.891), Meters.of(3.306), Rotation2d.fromDegrees(120)),
+                            new Pose2d(Meters.of(12.629), Meters.of(4.746), Rotation2d.fromDegrees(-120)))
+                            .addSubFeature("left", branches.get("E").get())
+                            .addSubFeature("right", branches.get("F").get()),
+                    new FieldFeature(
+                            "180",
+                            new Pose2d(Meters.of(5.662), Meters.of(4.026), Rotation2d.fromDegrees(180)),
+                            new Pose2d(Meters.of(12.213), Meters.of(4.026), Rotation2d.fromDegrees(0)))
+                            .addSubFeature("left", branches.get("G").get())
+                            .addSubFeature("right", branches.get("H").get()),
+                    new FieldFeature(
+                            "240",
+                            new Pose2d(Meters.of(5.096), Meters.of(5.054), Rotation2d.fromDegrees(-120)),
+                            new Pose2d(Meters.of(12.629), Meters.of(3.306), Rotation2d.fromDegrees(60)))
+                            .addSubFeature("left", branches.get("I").get())
+                            .addSubFeature("right", branches.get("J").get()),
+                    new FieldFeature(
+                            "300",
+                            new Pose2d(Meters.of(4.059), Meters.of(4.746), Rotation2d.fromDegrees(-60)),
+                            new Pose2d(Meters.of(13.461), Meters.of(3.306), Rotation2d.fromDegrees(120)))
+                            .addSubFeature("left", branches.get("K").get())
+                            .addSubFeature("right", branches.get("L").get()));
+
+    public static final FieldFeatureType coralStations = new FieldFeatureType("coral station")
+            .addFeatures(
+                    new FieldFeature(
+                            "right",
+                            new Pose2d(Meters.of(0.838), Meters.of(0.657), Rotation2d.fromDegrees(54)),
+                            new Pose2d(Meters.of(16.681), Meters.of(7.395), Rotation2d.fromDegrees(54))),
+                    new FieldFeature(
+                            "left",
+                            new Pose2d(Meters.of(0.838), Meters.of(7.395), Rotation2d.fromDegrees(-54)),
+                            new Pose2d(Meters.of(16.681), Meters.of(0.657), Rotation2d.fromDegrees(-54))));
+
+    public static final FieldFeatureType processors = new FieldFeatureType("processor")
+            .addFeatures(
+                    new FieldFeature(
+                            "processor",
+                            new Pose2d(Meters.of(5.973), Meters.of(0), Rotation2d.fromDegrees(0)),
+                            new Pose2d(Meters.of(11.54), Meters.of(8.051), Rotation2d.fromDegrees(0))));
+
+    public static final FieldFeatureType lollipops = new FieldFeatureType("lollipop")
+            .addFeatures(
+                    new FieldFeature(
+                            "left",
+                            new Translation2d(Meters.of(1.205), Meters.of(2.197)),
+                            new Translation2d(Meters.of(16.315), Meters.of(2.197))),
+                    new FieldFeature(
+                            "middle",
+                            new Translation2d(Meters.of(1.205), Meters.of(4.026)),
+                            new Translation2d(Meters.of(16.315), Meters.of(4.026))),
+                    new FieldFeature(
+                            "right",
+                            new Translation2d(Meters.of(0.838), Meters.of(5.855)),
+                            new Translation2d(Meters.of(16.315), Meters.of(5.855))));
+
+    public static final FieldFeatureType cages = new FieldFeatureType("cage")
+            .addFeatures(
+                    new FieldFeature(
+                            "left",
+                            new Translation2d(
+                                    Meters.of(8.76),
+                                    Meters.of(7.26)),
+                            new Translation2d(
+                                    Meters.of(8.76),
+                                    Meters.of(0.792))),
+                    new FieldFeature(
+                            "middle",
+                            new Translation2d(
+                                    Meters.of(8.76),
+                                    Meters.of(6.169)),
+                            new Translation2d(
+                                    Meters.of(8.76),
+                                    Meters.of(1.883))),
+                    new FieldFeature(
+                            "right",
+                            new Translation2d(
+                                    Meters.of(8.76),
+                                    Meters.of(5.078)),
+                            new Translation2d(
+                                    Meters.of(8.76),
+                                    Meters.of(2.973))));
+
+    public static final FieldLayout fieldLayout = new FieldLayout(
+            Feet.of(57).plus(Inches.of(6.875)),
+            Feet.of(26).plus(Inches.of(5)))
+            .addFeatureTypes(branches, reefFaces, coralStations, processors, lollipops, cages);
 }

@@ -21,7 +21,6 @@ import frc.lib2960.subsystem.motor.AngularSparkMaxMech;
 import frc.lib2960.subsystem.motor.LinearSparkFlexMech;
 import frc.lib2960.subsystem.motor.AngularSparkFlexMech;
 import frc.lib2960.subsystem.vision.AprilTagPipeline;
-import frc.robot.FieldLayout.ReefBranchOffset;
 import frc.robot.subsystems.ArmElevControl;
 import frc.robot.subsystems.CoralRoller;
 import frc.robot.subsystems.Drivetrain;
@@ -111,21 +110,21 @@ public class RobotContainer {
         // Map Auto-Align
         driveCtrl.y().whileTrue(
                 drivetrain.getGotoReefCmd(
-                        ReefBranchOffset.MIDDLE,
+                        "middle",
                         Constants.coralXOffset,
                         Constants.coralYOffset,
                         Constants.coralROffset));
 
         driveCtrl.y().and(driveCtrl.rightBumper()).whileTrue(
                 drivetrain.getGotoReefCmd(
-                        ReefBranchOffset.RIGHT,
+                        "right",
                         Constants.coralXOffset,
                         Constants.coralYOffset,
                         Constants.coralROffset));
 
         driveCtrl.y().and(driveCtrl.leftBumper()).whileTrue(
                 drivetrain.getGotoReefCmd(
-                        ReefBranchOffset.LEFT,
+                        "left",
                         Constants.coralXOffset,
                         Constants.coralYOffset,
                         Constants.coralROffset));
@@ -180,7 +179,7 @@ public class RobotContainer {
         // Drivetrain Named Commands
         NamedCommands.registerCommand("rightBranchAlign",
                 drivetrain.getGotoReefCmd(
-                        ReefBranchOffset.RIGHT,
+                        "right",
                         Constants.autoAlignLinTol,
                         Constants.autoAlignAngTol,
                         Constants.coralXOffset,
@@ -188,7 +187,7 @@ public class RobotContainer {
                         Constants.coralROffset));
         NamedCommands.registerCommand("leftBranchAlign",
                 drivetrain.getGotoReefCmd(
-                        ReefBranchOffset.LEFT,
+                        "left",
                         Constants.autoAlignLinTol,
                         Constants.autoAlignAngTol,
                         Constants.coralXOffset,
@@ -199,13 +198,13 @@ public class RobotContainer {
                         DegreesPerSecond.zero()));
         NamedCommands.registerCommand("rightBranchNoFinish",
                 drivetrain.getGotoReefCmd(
-                        ReefBranchOffset.RIGHT,
+                        "right",
                         Constants.coralXOffset,
                         Constants.coralYOffset,
                         Constants.coralROffset));
         NamedCommands.registerCommand("leftBranchNoFinish",
                 drivetrain.getGotoReefCmd(
-                        ReefBranchOffset.LEFT,
+                        "left",
                         Constants.coralXOffset,
                         Constants.coralYOffset,
                         Constants.coralROffset));
