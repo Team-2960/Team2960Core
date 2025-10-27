@@ -8,6 +8,15 @@ public class TrapezoidalProfile implements Sendable {
     private double maxAccel;
     private double maxDecel;
 
+    private double targetPos = 0;
+    private double currentPos = 0;
+    private double currentVel = 0;
+    private double error = 0;
+    private double sign = 0;
+    private double targetVel = 0;
+    private double maxAccelVel = 0;
+    private double maxDecelVel = 0;
+
     private final double period;
 
     /**
@@ -37,20 +46,25 @@ public class TrapezoidalProfile implements Sendable {
      * @param targetPos  target mechanism position
      */
     public double update(double currentPos, double currentVel, double targetPos) {
-        double error = currentPos - targetPos;
-        double sign = (error > 0 ? 1 : -1);
+        this.currentPos = currentPos;
+        this.currentVel = currentVel;
+        this.targetPos = targetPos;
+
+        error = currentPos - targetPos;
+        sign = (error > 0 ? 1 : -1);
 
         // Set default target speed to max velocity
-        double maxVel = this.maxVel;
-        double targetVel = maxVel;
+        targetVel = maxVel;
+        maxAccelVel = Math.abs(currentVel + maxAccel * period);
+        maxDecelVel = error * maxDecel / (2 * maxVel);
 
         // Check if max acceleration keeps velocity lower than max velocity
-        targetVel = Math.min(Math.abs(currentVel + sign * maxAccel * period), targetVel);
+        targetVel = Math.min(maxAccelVel, targetVel);
 
         // Check if max deceleration keeps the velocity lower than max velocity
-        targetVel = Math.min(maxVel * error / (2 * Math.pow(maxVel, 2) / maxDecel), targetVel);
+        targetVel = Math.min(maxDecelVel, targetVel);
 
-        return targetVel;
+        return sign * targetVel;
     }
 
     /**
@@ -62,6 +76,14 @@ public class TrapezoidalProfile implements Sendable {
         builder.addDoubleProperty("Max Velocity", this::getMaxVel, this::setMaxVel);
         builder.addDoubleProperty("Max Acceleration", this::getMaxAccel, this::setMaxAccel);
         builder.addDoubleProperty("Max Deceleration", this::getMaxDecel, this::setMaxDecel);
+        builder.addDoubleProperty("Current Pos", () -> currentPos, null);
+        builder.addDoubleProperty("Current Vel", () -> currentVel, null);
+        builder.addDoubleProperty("Target Pos", () -> targetPos, null);
+        builder.addDoubleProperty("Error", () -> error, null);
+        builder.addDoubleProperty("Sign", () -> sign, null);
+        builder.addDoubleProperty("Target Vel", () -> targetVel, null);
+        builder.addDoubleProperty("Max Accel Vel", () -> maxAccelVel, null);
+        builder.addDoubleProperty("Max Decel Vel", () -> maxDecelVel, null);
     }
 
     /**

@@ -115,7 +115,7 @@ public class Constants {
 
     public static final int climberMotorID = 14;
 
-    public static final int coralIntakePEID = 15;
+    public static final int coralIntakePEID = 0;
 
     /**********************/
     /* Drivetrain Configs */
@@ -146,6 +146,14 @@ public class Constants {
     public static final AngularVelocity driveAngMaxVel = DegreesPerSecond.of(540);
     public static final AngularAcceleration driveAnglMaxAccel = DegreesPerSecondPerSecond.of(720);
 
+    public static final LinearVelocity moduleDriveMaxVel = MetersPerSecond.of(10);
+    public static final LinearAcceleration moduleDriveMaxAccel = MetersPerSecondPerSecond.of(20);
+    public static final LinearAcceleration moduleDriveMaxDecel = MetersPerSecondPerSecond.of(20);
+
+    public static final AngularVelocity moduleAngleMaxVel = DegreesPerSecond.of(1);
+    public static final AngularAcceleration moduleAngleMaxAccel = DegreesPerSecondPerSecond.of(1);
+    public static final AngularAcceleration moduleAngleMaxDecel = DegreesPerSecondPerSecond.of(1);
+
     public static final LinearControllerConfig swerveLinearConfig = new LinearControllerConfig()
             .setMaxVelocity(driveLinMaxVel)
             .setMaxAccel(driveLinMaxAccel)
@@ -157,11 +165,17 @@ public class Constants {
 
     public static final LinearControllerConfig driveMotorCtrlConfig = new LinearControllerConfig()
             .setPIDConfig(new PIDConfig(1, 0, 0))
-            .setFFConfig(new FFConfig(.08, 2.5));
+            .setFFConfig(new FFConfig(.08, 2.5))
+            .setMaxVelocity(moduleDriveMaxVel)
+            .setMaxAccel(moduleDriveMaxAccel)
+            .setMaxDecel(moduleDriveMaxDecel);
 
     public static final AngularControllerConfig angleMotorCtrlConfig = new AngularControllerConfig()
             .setPIDConfig(new PIDConfig(0.05, 0.0, 0.001))
-            .setFFConfig(new FFConfig(0.1, 0.1, 0));
+            .setFFConfig(new FFConfig(0.1, 0.1, 0))
+            .setMaxVelocity(moduleAngleMaxVel)
+            .setMaxAccel(moduleAngleMaxAccel)
+            .setMaxDecel(moduleAngleMaxDecel);
 
     // TODO Add trapezoidal control parameters
 

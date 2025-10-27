@@ -11,11 +11,13 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.lib2960.config.controller.AngularControllerConfig;
+import frc.lib2960.helper.AngleUtil;
 import frc.lib2960.telemetry.SendableArmFeedForward;
 
 public class AngularController {
@@ -23,6 +25,9 @@ public class AngularController {
     private final TrapezoidalProfile trapProfile;
     private final PIDController pid;
     private final ArmFeedforward ff;
+
+    private MutAngle finalTarget = Degrees.mutable(0);
+    private MutAngle curPosTrim = Degrees.mutable(0);
 
     /**
      * Constructor
@@ -78,11 +83,17 @@ public class AngularController {
             Angle targetPos,
             MutAngularVelocity result) {
 
+        AngleUtil.unwrapAngle(currentPos, curPosTrim);
+
+        if (config.minimum.isEmpty() && config.maximum.isEmpty()) {
+            AngleUtil.nearestRotation(curPosTrim, targetPos, finalTarget);
+        }
+
         result.mut_replace(
                 trapProfile.update(
-                        currentPos.in(Degrees),
+                        curPosTrim.in(Degrees),
                         currentVel.in(DegreesPerSecond),
-                        targetPos.in(Degrees)),
+                        finalTarget.in(Degrees)),
                 DegreesPerSecond);
     }
 
