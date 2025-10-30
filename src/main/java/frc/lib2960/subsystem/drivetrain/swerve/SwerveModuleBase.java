@@ -6,10 +6,16 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.AngularVelocityUnit;
+import edu.wpi.first.units.DistanceUnit;
+import edu.wpi.first.units.LinearVelocityUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -88,12 +94,17 @@ public abstract class SwerveModuleBase {
      * @return sendable for the drive status
      */
     public Sendable getDriveStatusSendable() {
+        DistanceUnit posUnit = commonConfig.drivePosUnit;
+        TimeUnit timeUnit = commonConfig.driveTimeUnit;
+        LinearVelocityUnit velUnit = posUnit.per(timeUnit);
+        String velUnitStr = "(" + posUnit.symbol() + " per " + timeUnit.symbol() + ")";
+
         return new Sendable() {
             @Override
             public void initSendable(SendableBuilder builder) {
-                builder.addStringProperty("Current Velocity", () -> getDriveVel().toShortString(), null);
-                builder.addStringProperty("Target Velocity", () -> driveTarget.toShortString(), null);
-                builder.addStringProperty("Current Voltage", () -> getDriveVolt().toShortString(), null);
+                builder.addDoubleProperty("Current Velocity " + velUnitStr, () -> getDriveVel().in(velUnit), null);
+                builder.addDoubleProperty("Target Velocity " + velUnitStr, () -> driveTarget.in(velUnit), null);
+                builder.addDoubleProperty("Current Voltage (V)", () -> getDriveVolt().in(Volts), null);
             }
         };
     }
@@ -104,14 +115,20 @@ public abstract class SwerveModuleBase {
      * @return sendable for the angle status
      */
     public Sendable getAngleStatusSendable() {
+        AngleUnit posUnit = commonConfig.anglePosUnit;
+        TimeUnit timeUnit = commonConfig.angleTimeUnit;
+        AngularVelocityUnit velUnit = posUnit.per(timeUnit);
+        String posUnitStr = "(" + posUnit.symbol() + ")";
+        String velUnitStr = "(" + posUnit.symbol() + " per " + timeUnit.symbol() + ")";
+
         return new Sendable() {
             @Override
             public void initSendable(SendableBuilder builder) {
-                builder.addStringProperty("Current Position", () -> getAnglePos().toShortString(), null);
-                builder.addStringProperty("Target Position", () -> angleTarget.toShortString(), null);
-                builder.addStringProperty("Current Velocity", () -> getAngleVel().toShortString(), null);
-                builder.addStringProperty("Target Velocity", () -> angleVelCalc.toShortString(), null);
-                builder.addStringProperty("Current Voltage", () -> getAngleVolt().toShortString(), null);
+                builder.addDoubleProperty("Current Position " + posUnitStr, () -> getAnglePos().in(posUnit), null);
+                builder.addDoubleProperty("Target Position " + posUnitStr, () -> angleTarget.in(posUnit), null);
+                builder.addDoubleProperty("Current Velocity " + velUnitStr, () -> getAngleVel().in(velUnit), null);
+                builder.addDoubleProperty("Target Velocity  " + velUnitStr, () -> angleVelCalc.in(velUnit), null);
+                builder.addDoubleProperty("Current Voltage (V)", () -> getAngleVolt().in(Volts), null);
             }
         };
     }

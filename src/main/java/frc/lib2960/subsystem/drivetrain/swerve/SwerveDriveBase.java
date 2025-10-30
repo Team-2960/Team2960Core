@@ -12,6 +12,11 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.AngularVelocityUnit;
+import edu.wpi.first.units.DistanceUnit;
+import edu.wpi.first.units.LinearVelocityUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -110,15 +115,28 @@ public abstract class SwerveDriveBase extends SubsystemBase implements Holonomic
      * @return
      */
     public Sendable getStatusSendable() {
+        DistanceUnit linPosUnit = config.linPosUnit;
+        TimeUnit linTimeUnit = config.linTimeUnit;
+        LinearVelocityUnit linVelUnit = linPosUnit.per(linTimeUnit);
+        String linPosUnitStr = "(" + linPosUnit.symbol() + ")";
+        String linVelUnitStr = "(" + linPosUnit.symbol() + " per " + linTimeUnit.symbol() + ")";
+        
+        AngleUnit angPosUnit = config.angPosUnit;
+        TimeUnit angTimeUnit = config.angTimeUnit;
+        AngularVelocityUnit angVelUnit = angPosUnit.per(angTimeUnit);
+        String angPosUnitStr = "(" + angPosUnit.symbol() + ")";
+        String angVelUnitStr = "(" + angPosUnit.symbol() + " per " + angTimeUnit.symbol() + ")";
+        
+
         return new Sendable() {
             @Override
             public void initSendable(SendableBuilder builder) {
-                builder.addStringProperty("Position Error", () -> posErrorCalc.toShortString(), null);
-                builder.addStringProperty("Target Vel Mag", () -> velMagCalc.toShortString(), null);
-                builder.addStringProperty("Target X Vel", () -> xVelCalc.toShortString(), null);
-                builder.addStringProperty("Target Y Vel", () -> yVelCalc.toShortString(), null);
-                builder.addStringProperty("Target Angle Pos", () -> angleTarget.toShortString(), null);
-                builder.addStringProperty("Target Angle Vel", () -> angleCalc.toShortString(), null);
+                builder.addDoubleProperty("Position Error " + linPosUnitStr, () -> posErrorCalc.in(linPosUnit), null);
+                builder.addDoubleProperty("Target Vel Mag " + linVelUnitStr, () -> velMagCalc.in(linVelUnit), null);
+                builder.addDoubleProperty("Target X Vel " + linVelUnitStr, () -> xVelCalc.in(linVelUnit), null);
+                builder.addDoubleProperty("Target Y Vel " + linVelUnitStr, () -> yVelCalc.in(linVelUnit), null);;
+                builder.addDoubleProperty("Target Angle Pos " + angPosUnitStr, () -> angleTarget.in(angPosUnit), null);
+                builder.addDoubleProperty("Target Angle Vel " + angVelUnitStr, () -> angleVelCalc.in(angVelUnit), null);
 
             }
         };

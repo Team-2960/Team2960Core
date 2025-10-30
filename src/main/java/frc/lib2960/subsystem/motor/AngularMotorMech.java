@@ -7,6 +7,9 @@ import static edu.wpi.first.units.Units.Volts;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.AngularVelocityUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.MutAngle;
@@ -113,15 +116,21 @@ public abstract class AngularMotorMech extends SubsystemBase {
      */
     public Sendable getStatusSendable() {
         return new Sendable() {
+            AngleUnit posUnit = config.posUnit;
+            TimeUnit timeUnit = config.timeUnit;
+            AngularVelocityUnit velUnit = posUnit.per(timeUnit);
+            String posUnitStr = "(" + posUnit.symbol() + ")";
+            String velUnitStr = "(" + posUnit.symbol() + " per " + timeUnit.symbol() + ")";
 
             @Override
             public void initSendable(SendableBuilder builder) {
-                builder.addStringProperty("Current Position", () -> getPosition().toShortString(), null);
-                builder.addStringProperty("Current Velocity", () -> getVelocity().toShortString(), null);
-                builder.addStringProperty("Current Voltage", () -> getVoltage().toShortString(), null);
-                builder.addStringProperty("Target Position", () -> targetPos.toShortString(), null);
-                builder.addStringProperty("Target Velocity", () -> targetVel.toShortString(), null);
-                builder.addStringProperty("Target Voltage", () -> targetVolt.toShortString(), null);
+                builder.addDoubleProperty("Current Position " + posUnitStr, () -> getPosition().in(posUnit), null);
+                builder.addDoubleProperty("Current Velocity " + velUnitStr, () -> getVelocity().in(velUnit),
+                        null);
+                builder.addDoubleProperty("Current Voltage (V)", () -> getVoltage().in(Volts), null);
+                builder.addDoubleProperty("Target Position " + posUnitStr, () -> targetPos.in(posUnit), null);
+                builder.addDoubleProperty("Target Velocity " + velUnitStr, () -> targetVel.in(velUnit), null);
+                builder.addDoubleProperty("Target Voltage (V)", () -> targetVolt.in(Volts), null);
             }
 
         };

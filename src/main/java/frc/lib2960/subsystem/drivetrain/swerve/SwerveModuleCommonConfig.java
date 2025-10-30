@@ -1,7 +1,13 @@
 package frc.lib2960.subsystem.drivetrain.swerve;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Seconds;
 
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.DistanceUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import frc.lib2960.config.controller.AngularControllerConfig;
@@ -37,6 +43,18 @@ public class SwerveModuleCommonConfig {
     /** Module angle controller configuration */
     public AngularControllerConfig angleCtrlConfig = new AngularControllerConfig();
 
+    /** Units to display for drive position unit. Defaults to Meters */
+    public DistanceUnit drivePosUnit = Meters;
+
+    /** Units to display for drive time unit. Defaults to Seconds */
+    public TimeUnit driveTimeUnit = Seconds;
+
+    /** Units to display for angle position unit. Defaults to Degrees */
+    public AngleUnit anglePosUnit = Degrees;
+
+    /** Units to display for angle time unit. Defaults to Seconds */
+    public TimeUnit angleTimeUnit = Seconds;
+
     /**
      * Constructor
      * 
@@ -58,18 +76,22 @@ public class SwerveModuleCommonConfig {
     }
 
     /**
-     * Sets the drive controller configuration. defaults to new LinearControllerConfig().
-     * @param linearCtrlConfig  new linear controller config
+     * Sets the drive controller configuration. defaults to new
+     * LinearControllerConfig().
+     * 
+     * @param linearCtrlConfig new linear controller config
      * @return current configuration object
      */
     public SwerveModuleCommonConfig setDriveControlConfig(LinearControllerConfig linearCtrlConfig) {
         this.driveCtrlConfig = linearCtrlConfig;
         return this;
     }
-    
+
     /**
-     * Sets the angle controller configuration. defaults to new AngularControllerConfig().
-     * @param angularCtrlConfig  new angular controller config
+     * Sets the angle controller configuration. defaults to new
+     * AngularControllerConfig().
+     * 
+     * @param angularCtrlConfig new angular controller config
      * @return current configuration object
      */
     public SwerveModuleCommonConfig setAngleControlConfig(AngularControllerConfig angularCtrlConfig) {
@@ -118,6 +140,50 @@ public class SwerveModuleCommonConfig {
      */
     public SwerveModuleCommonConfig setMaxAngleCurrent(Current current) {
         this.maxAngleCurrent = current;
+        return this;
+    }
+
+    /**
+     * Sets the drive position display units. Defaults to Meters
+     * 
+     * @param unit drive position display units. Defaults to Meters
+     * @return current configuration object
+     */
+    public SwerveModuleCommonConfig setDrivePosUnit(DistanceUnit unit) {
+        this.drivePosUnit = unit;
+        return this;
+    }
+
+    /**
+     * Sets the drive time display units. Defaults to Seconds
+     * 
+     * @param unit drive time display units. Defaults to Seconds
+     * @return current configuration object
+     */
+    public SwerveModuleCommonConfig setDriveTimeUnit(TimeUnit unit) {
+        this.driveTimeUnit = unit;
+        return this;
+    }
+
+    /**
+     * Sets the angle position display units. Defaults to Degrees
+     * 
+     * @param unit angle position display units. Defaults to Degrees
+     * @return current configuration object
+     */
+    public SwerveModuleCommonConfig setAnglePosUnit(AngleUnit unit) {
+        this.anglePosUnit = unit;
+        return this;
+    }
+
+    /**
+     * Sets the angle time display units. Defaults to Seconds
+     * 
+     * @param unit angle time display units. Defaults to Seconds
+     * @return current configuration object
+     */
+    public SwerveModuleCommonConfig setAngleTimeUnit(TimeUnit unit) {
+        this.angleTimeUnit = unit;
         return this;
     }
 }

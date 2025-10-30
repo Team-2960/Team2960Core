@@ -1,7 +1,12 @@
 package frc.lib2960.subsystem.motor;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Seconds;
+
 import java.util.HashMap;
 
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -24,6 +29,12 @@ public class AngularMotorMechConfig {
 
     /** Motion control configuration */
     public AngularControllerConfig controlConfig = new AngularControllerConfig();
+
+    /** Position units for display. Defaults to Degrees */
+    public AngleUnit posUnit = Degrees;
+
+    /** Time units for display. Defaults to Seconds */
+    public TimeUnit timeUnit = Seconds;
 
     /** Preset position list */
     public final HashMap<String, Angle> presetPos = new HashMap<>();
@@ -79,6 +90,30 @@ public class AngularMotorMechConfig {
      */
     public AngularMotorMechConfig setController(AngularControllerConfig controlConfig) {
         this.controlConfig = controlConfig;
+        return this;
+    }
+
+    /**
+     * Sets the position units to be used for displaying the positions. Defaults to
+     * Degrees
+     * 
+     * @param unit position units to be used
+     * @return current configuration object
+     */
+    public AngularMotorMechConfig setPosUnit(AngleUnit unit) {
+        posUnit = unit;
+        return this;
+    }
+
+    /**
+     * Sets the time units to be used for displaying the positions. Defaults to
+     * seconds
+     * 
+     * @param unit time units to be used
+     * @return current configuration object
+     */
+    public AngularMotorMechConfig setTimeUnit(TimeUnit unit) {
+        timeUnit = unit;
         return this;
     }
 

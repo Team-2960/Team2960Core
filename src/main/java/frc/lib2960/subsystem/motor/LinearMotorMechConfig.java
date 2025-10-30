@@ -1,7 +1,12 @@
 package frc.lib2960.subsystem.motor;
 
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Seconds;
+
 import java.util.HashMap;
 
+import edu.wpi.first.units.DistanceUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -24,6 +29,12 @@ public class LinearMotorMechConfig {
      * Defaults to LimitTrim.Voltage.
      */
     public LimitTrim limitTrim = LimitTrim.Voltage;
+
+    /** Position units for display. Defaults to Meters */
+    public DistanceUnit posUnit = Meters;
+
+    /** Time units for display. Defaults to Seconds */
+    public TimeUnit timeUnit = Seconds;
 
     /** Motion control configruation */
     public LinearControllerConfig controlConfig = new LinearControllerConfig();
@@ -84,6 +95,30 @@ public class LinearMotorMechConfig {
      */
     public LinearMotorMechConfig setController(LinearControllerConfig controlConfig) {
         this.controlConfig = controlConfig;
+        return this;
+    }
+
+    /**
+     * Sets the position units to be used for displaying the positions. Defaults to
+     * Meters
+     * 
+     * @param unit position units to be used
+     * @return current configuration object
+     */
+    public LinearMotorMechConfig setPosUnit(DistanceUnit unit) {
+        posUnit = unit;
+        return this;
+    }
+
+    /**
+     * Sets the time units to be used for displaying the positions. Defaults to
+     * seconds
+     * 
+     * @param unit time units to be used
+     * @return current configuration object
+     */
+    public LinearMotorMechConfig setTimeUnit(TimeUnit unit) {
+        timeUnit = unit;
         return this;
     }
 
