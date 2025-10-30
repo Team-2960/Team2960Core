@@ -1,5 +1,8 @@
 package frc.lib2960.controller;
 
+import edu.wpi.first.units.TimeUnit;
+import edu.wpi.first.units.Unit;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
@@ -17,7 +20,10 @@ public class TrapezoidalProfile implements Sendable {
     private double maxAccelVel = 0;
     private double maxDecelVel = 0;
 
-    private final double period;
+    private final Time period;
+
+    private final Unit posUnit;
+    private final TimeUnit timeUnit;
 
     /**
      * Constructor. All values must be in the same distance units (i.e. meters,
@@ -28,12 +34,21 @@ public class TrapezoidalProfile implements Sendable {
      * @param maxAccel Maximum acceleration to get to travel speed
      * @param maxDecel Maximum deceleration to get from travel speed to stop speed
      * @param period   Time period of the controller update
+     * @param posUnit  Unit of measurement for the position of the value being
+     *                 controlled
+     * @param timeUnit Time unit of measurement for the velocity and acceleration of the controller
+     *                 update
      */
-    public TrapezoidalProfile(double maxVel, double maxAccel, double maxDecel, double period) {
+    public TrapezoidalProfile(double maxVel, double maxAccel, double maxDecel, Time period, Unit posUnit,
+            TimeUnit timeUnit) {
+
+        // TODO Improve units library integration
         this.maxVel = maxVel;
         this.maxAccel = maxAccel;
         this.maxDecel = maxDecel;
         this.period = period;
+        this.posUnit = posUnit;
+        this.timeUnit = timeUnit;
     }
 
     /**
@@ -55,7 +70,7 @@ public class TrapezoidalProfile implements Sendable {
 
         // Set default target speed to max velocity
         targetVel = maxVel;
-        maxAccelVel = Math.abs(currentVel + maxAccel * period);
+        maxAccelVel = Math.abs(currentVel + maxAccel * period.in(timeUnit));
         maxDecelVel = error * maxDecel / (2 * maxVel);
 
         // Check if max acceleration keeps velocity lower than max velocity
@@ -72,71 +87,21 @@ public class TrapezoidalProfile implements Sendable {
      */
     @Override
     public void initSendable(SendableBuilder builder) {
+        String posUnitStr = "(" + posUnit.symbol() + ")";
+        String velUnitStr = "(" + posUnit.symbol() + "per" + timeUnit.symbol() + ")";
+        String accelUnitStr = "(" + posUnit.symbol() + "per" + timeUnit.symbol() + "^2)";
+
         builder.setSmartDashboardType("lib2960 Trapezoidal Profile");
-        builder.addDoubleProperty("Max Velocity", this::getMaxVel, this::setMaxVel);
-        builder.addDoubleProperty("Max Acceleration", this::getMaxAccel, this::setMaxAccel);
-        builder.addDoubleProperty("Max Deceleration", this::getMaxDecel, this::setMaxDecel);
-        builder.addDoubleProperty("Current Pos", () -> currentPos, null);
-        builder.addDoubleProperty("Current Vel", () -> currentVel, null);
-        builder.addDoubleProperty("Target Pos", () -> targetPos, null);
-        builder.addDoubleProperty("Error", () -> error, null);
+        builder.addDoubleProperty("Max Velocity " + velUnitStr, () -> maxVel, (value) -> maxVel = value);
+        builder.addDoubleProperty("Max Acceleration " + accelUnitStr, () -> maxAccel, (value) -> maxAccel = value);
+        builder.addDoubleProperty("Max Deceleration " + accelUnitStr, () -> maxDecel, (value) -> maxDecel = value);
+        builder.addDoubleProperty("Current Pos " + posUnitStr, () -> currentPos, null);
+        builder.addDoubleProperty("Current Vel " + velUnitStr, () -> currentVel, null);
+        builder.addDoubleProperty("Target Pos " + posUnitStr, () -> targetPos, null);
+        builder.addDoubleProperty("Error " + posUnitStr, () -> error, null);
         builder.addDoubleProperty("Sign", () -> sign, null);
-        builder.addDoubleProperty("Target Vel", () -> targetVel, null);
-        builder.addDoubleProperty("Max Accel Vel", () -> maxAccelVel, null);
-        builder.addDoubleProperty("Max Decel Vel", () -> maxDecelVel, null);
-    }
-
-    /**
-     * Sets the maximum velocity.
-     * 
-     * @param maxVel Maximum velocity
-     */
-    public void setMaxVel(double maxVel) {
-        this.maxVel = maxVel;
-    }
-
-    /**
-     * Sets the maximum acceleration.
-     * 
-     * @param maxAccel Maximum acceleration
-     */
-    public void setMaxAccel(double maxAccel) {
-        this.maxAccel = maxAccel;
-    }
-
-    /**
-     * Sets the maximum deceleration.
-     * 
-     * @param maxDecel Maximum deceleration
-     */
-    public void setMaxDecel(double maxDecel) {
-        this.maxDecel = maxDecel;
-    }
-
-    /**
-     * Gets the maximum velocity
-     * 
-     * @return maximum velocity
-     */
-    public double getMaxVel() {
-        return maxVel;
-    }
-
-    /**
-     * Gets the maximum acceleration
-     * 
-     * @return maximum acceleration
-     */
-    public double getMaxAccel() {
-        return maxAccel;
-    }
-
-    /**
-     * Gets the maximum deceleration
-     * 
-     * @return maximum deceleration
-     */
-    public double getMaxDecel() {
-        return maxDecel;
+        builder.addDoubleProperty("Target Vel " + velUnitStr, () -> targetVel, null);
+        builder.addDoubleProperty("Max Accel Vel " + velUnitStr, () -> maxAccelVel, null);
+        builder.addDoubleProperty("Max Decel Vel " + velUnitStr, () -> maxDecelVel, null);
     }
 }

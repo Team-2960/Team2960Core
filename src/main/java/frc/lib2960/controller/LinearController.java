@@ -34,7 +34,9 @@ public class LinearController {
                 config.maxVel.in(MetersPerSecond),
                 config.maxAccel.in(MetersPerSecondPerSecond),
                 config.maxDecel.in(MetersPerSecondPerSecond),
-                config.period.in(Seconds));
+                config.period, 
+                Meters, 
+                Seconds);
         pid = config.pidConfig.getPIDController();
         ff = config.ffConfig.getElevatorFF();
     }

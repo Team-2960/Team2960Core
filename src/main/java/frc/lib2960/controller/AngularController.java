@@ -40,7 +40,9 @@ public class AngularController {
                 config.maxVel.in(DegreesPerSecond),
                 config.maxAccel.in(DegreesPerSecondPerSecond),
                 config.maxDecel.in(DegreesPerSecondPerSecond),
-                config.period.in(Seconds));
+                config.period,
+                Degrees,
+                Seconds);
         pid = config.pidConfig.getPIDController();
         ff = config.ffConfig.getArmFF();
     }
