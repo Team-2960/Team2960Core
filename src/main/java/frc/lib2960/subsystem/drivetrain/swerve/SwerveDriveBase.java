@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib2960.controller.AngularController;
 import frc.lib2960.controller.LinearController;
 import frc.lib2960.subsystem.drivetrain.HolonomicDrivetrain;
-import frc.lib2960.config.controller.PIDConfig;
+import frc.lib2960.controller.PIDConfig;
 import frc.lib2960.helper.AngleUtil;
 import frc.lib2960.config.basic.RobotFeature;
 

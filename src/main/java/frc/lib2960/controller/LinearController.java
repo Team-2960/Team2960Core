@@ -14,7 +14,6 @@ import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.lib2960.config.controller.LinearControllerConfig;
 import frc.lib2960.telemetry.SendableElevatorFeedForward;
 
 public class LinearController {

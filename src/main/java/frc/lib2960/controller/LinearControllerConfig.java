@@ -1,18 +1,17 @@
-package frc.lib2960.config.controller;
+package frc.lib2960.controller;
 
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
 import java.util.Optional;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearAcceleration;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
-import frc.lib2960.controller.AngularController;
 
-public class AngularControllerConfig {
+public class LinearControllerConfig {
     /** PID gains for the controller. kP, kI, & kD default to zero. */
     public PIDConfig pidConfig = new PIDConfig(0, 0, 0);
     /** Feed Forward gains for the controller. kS, kV, kG, & kA default to zero. */
@@ -22,31 +21,31 @@ public class AngularControllerConfig {
     public Time period = Seconds.of(0.02);
 
     /**
-     * Maximum velocity of the controller. Defaults to Positive Infinity Radians per
+     * Maximum velocity of the controller. Defaults to Positive Infinity Meters per
      * Second.
      */
-    public AngularVelocity maxVel = RadiansPerSecond.of(Double.POSITIVE_INFINITY);
+    public LinearVelocity maxVel = MetersPerSecond.of(Double.POSITIVE_INFINITY);
     /**
-     * Maximum acceleration of the controller. Defaults to Positive Infinity Radians
+     * Maximum acceleration of the controller. Defaults to Positive Infinity Meters
      * per Second per Second.
      */
-    public AngularAcceleration maxAccel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+    public LinearAcceleration maxAccel = MetersPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
     /**
-     * Maximum deceleration of the controller. Defaults to Positive Infinity Radians
+     * Maximum deceleration of the controller. Defaults to Positive Infinity Meters
      * per Second per Second.
      */
-    public AngularAcceleration maxDecel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+    public LinearAcceleration maxDecel = MetersPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
 
     /**
      * Minimum position of the controller. if empty, system is assumed to be
      * continuous. Defaults to empty.
      */
-    public Optional<Angle> minimum = Optional.empty();
+    public Optional<Distance> minimum = Optional.empty();
     /**
      * Maximum position of the controller. if empty, system is assumed to be
      * continuous. Defaults to empty.
      */
-    public Optional<Angle> maximum = Optional.empty();
+    public Optional<Distance> maximum = Optional.empty();
 
     /**
      * Sets the PIDConfig. Default config is kP, kI, and kD are set to zero.
@@ -54,7 +53,7 @@ public class AngularControllerConfig {
      * @param pidConfig new PID config
      * @return current config object
      */
-    public AngularControllerConfig setPIDConfig(PIDConfig pidConfig) {
+    public LinearControllerConfig setPIDConfig(PIDConfig pidConfig) {
         this.pidConfig = pidConfig;
         return this;
     }
@@ -65,7 +64,7 @@ public class AngularControllerConfig {
      * @param ffConfig new FF config
      * @return current config object
      */
-    public AngularControllerConfig setFFConfig(FFConfig ffConfig) {
+    public LinearControllerConfig setFFConfig(FFConfig ffConfig) {
         this.ffConfig = ffConfig;
         return this;
     }
@@ -76,7 +75,7 @@ public class AngularControllerConfig {
      * @param period update period
      * @return current config object
      */
-    public AngularControllerConfig setPeriod(Time period) {
+    public LinearControllerConfig setPeriod(Time period) {
         this.period = period;
         return this;
     }
@@ -87,7 +86,7 @@ public class AngularControllerConfig {
      * @param maxVel maximum velocity
      * @return current config object
      */
-    public AngularControllerConfig setMaxVelocity(AngularVelocity maxVel) {
+    public LinearControllerConfig setMaxVelocity(LinearVelocity maxVel) {
         this.maxVel = maxVel;
         return this;
     }
@@ -98,7 +97,7 @@ public class AngularControllerConfig {
      * @param maxAccel maximum acceleration
      * @return current config object
      */
-    public AngularControllerConfig setMaxAccel(AngularAcceleration maxAccel) {
+    public LinearControllerConfig setMaxAccel(LinearAcceleration maxAccel) {
         this.maxAccel = maxAccel;
         return this;
     }
@@ -109,7 +108,7 @@ public class AngularControllerConfig {
      * @param maxDecel maximum deceleration
      * @return current config object
      */
-    public AngularControllerConfig setMaxDecel(AngularAcceleration maxDecel) {
+    public LinearControllerConfig setMaxDecel(LinearAcceleration maxDecel) {
         this.maxDecel = maxDecel;
         return this;
     }
@@ -122,7 +121,7 @@ public class AngularControllerConfig {
      * @param maximum maximum position
      * @return current config object
      */
-    public AngularControllerConfig setLimits(Angle minimum, Angle maximum) {
+    public LinearControllerConfig setLimits(Distance minimum, Distance maximum) {
         this.minimum = Optional.of(minimum);
         this.maximum = Optional.of(maximum);
         return this;
@@ -135,7 +134,7 @@ public class AngularControllerConfig {
      * @param maximum maximum position
      * @return current config object
      */
-    public AngularControllerConfig clearLimits() {
+    public LinearControllerConfig clearLimits() {
         this.minimum = Optional.empty();
         this.maximum = Optional.empty();
         return this;
@@ -147,7 +146,7 @@ public class AngularControllerConfig {
      * @param other other config object to copy
      * @return current config object
      */
-    public AngularControllerConfig copyConfig(AngularControllerConfig other) {
+    public LinearControllerConfig copyConfig(LinearControllerConfig other) {
         this.pidConfig = other.pidConfig;
         this.ffConfig = other.ffConfig;
 
@@ -164,11 +163,11 @@ public class AngularControllerConfig {
     }
 
     /**
-     * Generates a new AngularController object from this configuration
+     * Generates a new LinearController object from this configuration
      * 
-     * @return new AngularController object from this configuration
+     * @return new LinearController object from this configuration
      */
-    public AngularController getController() {
-        return new AngularController(this);
+    public LinearController getController() {
+        return new LinearController(this);
     }
 }

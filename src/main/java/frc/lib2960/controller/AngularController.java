@@ -16,7 +16,6 @@ import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.lib2960.config.controller.AngularControllerConfig;
 import frc.lib2960.helper.AngleUtil;
 import frc.lib2960.telemetry.SendableArmFeedForward;
 

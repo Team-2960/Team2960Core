@@ -10,7 +10,7 @@ import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib2960.config.controller.AngularControllerConfig;
+import frc.lib2960.controller.AngularControllerConfig;
 import frc.lib2960.helper.LimitTrim;
 
 public class AngularMotorMechConfig {

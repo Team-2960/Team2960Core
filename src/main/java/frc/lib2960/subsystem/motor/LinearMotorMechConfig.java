@@ -10,7 +10,7 @@ import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Voltage;
-import frc.lib2960.config.controller.LinearControllerConfig;
+import frc.lib2960.controller.LinearControllerConfig;
 import frc.lib2960.helper.LimitTrim;
 
 public class LinearMotorMechConfig {

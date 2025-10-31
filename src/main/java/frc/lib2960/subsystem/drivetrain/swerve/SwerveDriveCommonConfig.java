@@ -12,9 +12,9 @@ import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Time;
-import frc.lib2960.config.controller.AngularControllerConfig;
-import frc.lib2960.config.controller.LinearControllerConfig;
-import frc.lib2960.config.controller.PIDConfig;
+import frc.lib2960.controller.AngularControllerConfig;
+import frc.lib2960.controller.LinearControllerConfig;
+import frc.lib2960.controller.PIDConfig;
 
 public class SwerveDriveCommonConfig {
     /** Name of the mechanism */

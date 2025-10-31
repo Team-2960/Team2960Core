@@ -1,6 +1,6 @@
 package frc.lib2960.subsystem.drivetrain;
 
-import frc.lib2960.config.controller.PIDConfig;
+import frc.lib2960.controller.PIDConfig;
 
 public interface HolonomicDrivetrain extends Drivetrain {
     /**

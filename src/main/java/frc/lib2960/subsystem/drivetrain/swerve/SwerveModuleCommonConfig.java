@@ -10,8 +10,8 @@ import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
-import frc.lib2960.config.controller.AngularControllerConfig;
-import frc.lib2960.config.controller.LinearControllerConfig;
+import frc.lib2960.controller.AngularControllerConfig;
+import frc.lib2960.controller.LinearControllerConfig;
 
 public class SwerveModuleCommonConfig {
     /** Diameter of the drive wheel. */
