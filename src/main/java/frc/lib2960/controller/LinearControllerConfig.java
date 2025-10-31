@@ -1,11 +1,14 @@
 package frc.lib2960.controller;
 
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
 import java.util.Optional;
 
+import edu.wpi.first.units.DistanceUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearAcceleration;
 import edu.wpi.first.units.measure.LinearVelocity;
@@ -25,11 +28,13 @@ public class LinearControllerConfig {
      * Second.
      */
     public LinearVelocity maxVel = MetersPerSecond.of(Double.POSITIVE_INFINITY);
+
     /**
      * Maximum acceleration of the controller. Defaults to Positive Infinity Meters
      * per Second per Second.
      */
     public LinearAcceleration maxAccel = MetersPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+
     /**
      * Maximum deceleration of the controller. Defaults to Positive Infinity Meters
      * per Second per Second.
@@ -41,11 +46,18 @@ public class LinearControllerConfig {
      * continuous. Defaults to empty.
      */
     public Optional<Distance> minimum = Optional.empty();
+
     /**
      * Maximum position of the controller. if empty, system is assumed to be
      * continuous. Defaults to empty.
      */
     public Optional<Distance> maximum = Optional.empty();
+
+    /** Display units for position. Defaults to Degrees. */
+    public DistanceUnit posUnit = Meters;
+
+    /** Display units for time. Defaults to Seconds. */
+    public TimeUnit timeUnit = Seconds;
 
     /**
      * Sets the PIDConfig. Default config is kP, kI, and kD are set to zero.
@@ -137,6 +149,28 @@ public class LinearControllerConfig {
     public LinearControllerConfig clearLimits() {
         this.minimum = Optional.empty();
         this.maximum = Optional.empty();
+        return this;
+    }
+
+    /**
+     * Sets the position display units. Defaults to Meters.
+     * 
+     * @param unit position display units
+     * @return current config object
+     */
+    public LinearControllerConfig setPosUnits(DistanceUnit unit) {
+        posUnit = unit;
+        return this;
+    }
+
+    /**
+     * Sets the position display units. Defaults to Degrees.
+     * 
+     * @param unit position display units
+     * @return current config object
+     */
+    public LinearControllerConfig setTimeUnits(TimeUnit unit) {
+        timeUnit = unit;
         return this;
     }
 

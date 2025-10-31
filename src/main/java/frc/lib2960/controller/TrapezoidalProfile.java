@@ -88,13 +88,13 @@ public class TrapezoidalProfile implements Sendable {
     @Override
     public void initSendable(SendableBuilder builder) {
         String posUnitStr = "(" + posUnit.symbol() + ")";
-        String velUnitStr = "(" + posUnit.symbol() + "per" + timeUnit.symbol() + ")";
-        String accelUnitStr = "(" + posUnit.symbol() + "per" + timeUnit.symbol() + "^2)";
+        String velUnitStr = "(" + posUnit.symbol() + " per " + timeUnit.symbol() + ")";
+        String accelUnitStr = "(" + posUnit.symbol() + " per " + timeUnit.symbol() + "^2)";
 
         builder.setSmartDashboardType("lib2960 Trapezoidal Profile");
-        builder.addDoubleProperty("Max Velocity " + velUnitStr, () -> maxVel, (value) -> maxVel = value);
-        builder.addDoubleProperty("Max Acceleration " + accelUnitStr, () -> maxAccel, (value) -> maxAccel = value);
-        builder.addDoubleProperty("Max Deceleration " + accelUnitStr, () -> maxDecel, (value) -> maxDecel = value);
+        builder.addDoubleProperty("Max Vel " + velUnitStr, () -> maxVel, (value) -> maxVel = value);
+        builder.addDoubleProperty("Max Accel " + accelUnitStr, () -> maxAccel, (value) -> maxAccel = value);
+        builder.addDoubleProperty("Max Decel " + accelUnitStr, () -> maxDecel, (value) -> maxDecel = value);
         builder.addDoubleProperty("Current Pos " + posUnitStr, () -> currentPos, null);
         builder.addDoubleProperty("Current Vel " + velUnitStr, () -> currentVel, null);
         builder.addDoubleProperty("Target Pos " + posUnitStr, () -> targetPos, null);

@@ -1,11 +1,14 @@
 package frc.lib2960.controller;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
 import java.util.Optional;
 
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -25,11 +28,13 @@ public class AngularControllerConfig {
      * Second.
      */
     public AngularVelocity maxVel = RadiansPerSecond.of(Double.POSITIVE_INFINITY);
+    
     /**
      * Maximum acceleration of the controller. Defaults to Positive Infinity Radians
      * per Second per Second.
      */
     public AngularAcceleration maxAccel = RadiansPerSecondPerSecond.of(Double.POSITIVE_INFINITY);
+
     /**
      * Maximum deceleration of the controller. Defaults to Positive Infinity Radians
      * per Second per Second.
@@ -46,6 +51,12 @@ public class AngularControllerConfig {
      * continuous. Defaults to empty.
      */
     public Optional<Angle> maximum = Optional.empty();
+
+    /** Display units for position. Defaults to Degrees. */
+    public AngleUnit posUnit = Degrees;
+
+    /** Display units for time. Defaults to Seconds. */
+    public TimeUnit timeUnit = Seconds;
 
     /**
      * Sets the PIDConfig. Default config is kP, kI, and kD are set to zero.
@@ -137,6 +148,28 @@ public class AngularControllerConfig {
     public AngularControllerConfig clearLimits() {
         this.minimum = Optional.empty();
         this.maximum = Optional.empty();
+        return this;
+    }
+
+    /**
+     * Sets the position display units. Defaults to Degrees.
+     * 
+     * @param unit position display units
+     * @return current config object
+     */
+    public AngularControllerConfig setPosUnits(AngleUnit unit) {
+        posUnit = unit;
+        return this;
+    }
+
+    /**
+     * Sets the position display units. Defaults to Degrees.
+     * 
+     * @param unit position display units
+     * @return current config object
+     */
+    public AngularControllerConfig setTimeUnits(TimeUnit unit) {
+        timeUnit = unit;
         return this;
     }
 

@@ -3,7 +3,6 @@ package frc.lib2960.controller;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -34,8 +33,8 @@ public class LinearController {
                 config.maxAccel.in(MetersPerSecondPerSecond),
                 config.maxDecel.in(MetersPerSecondPerSecond),
                 config.period, 
-                Meters, 
-                Seconds);
+                config.posUnit, 
+                config.timeUnit);
         pid = config.pidConfig.getPIDController();
         ff = config.ffConfig.getElevatorFF();
     }

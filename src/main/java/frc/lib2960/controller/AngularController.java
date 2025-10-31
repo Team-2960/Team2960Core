@@ -4,7 +4,6 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -40,8 +39,8 @@ public class AngularController {
                 config.maxAccel.in(DegreesPerSecondPerSecond),
                 config.maxDecel.in(DegreesPerSecondPerSecond),
                 config.period,
-                Degrees,
-                Seconds);
+                config.posUnit,
+                config.timeUnit);
         pid = config.pidConfig.getPIDController();
         ff = config.ffConfig.getArmFF();
     }
